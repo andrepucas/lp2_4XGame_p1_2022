@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// <c>Game Tile</c> Class.
+/// Contains all the generic info about each individual game tile.
+/// </summary>
 public abstract class GameTile : MonoBehaviour
 {
     /// <summary>
@@ -18,7 +22,8 @@ public abstract class GameTile : MonoBehaviour
     /// <value>Food Production of the game tile.</value>
     public abstract int Food {get;}
 
-    //public abstract IEnumerable<Resources> Resources {get;}
+    public abstract IEnumerable<Resource> Resources {get;}
 
-    //public abstract void AddResource (Resources resource);
+    public abstract void AddResource (Resource resource);
+    public abstract void CreateResources();
 }
