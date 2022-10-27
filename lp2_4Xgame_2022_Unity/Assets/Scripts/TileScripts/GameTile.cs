@@ -17,4 +17,8 @@ public abstract class GameTile : MonoBehaviour
     /// </summary>
     /// <value>Food Production of the game tile.</value>
     public abstract int Food {get;}
+
+    //public abstract IEnumerable<Resources> Resources {get;}
+
+    //public abstract void AddResource (Resources resource);
 }

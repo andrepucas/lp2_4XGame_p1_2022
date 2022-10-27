@@ -17,4 +17,24 @@ public class DesertTile : GameTile
     /// </summary>
     /// <value>Food Production of the game tile.</value>
     public override int Food => 0;
+
+    //public override IEnumerable<Resources> Resources => resourceList;
+
+    private List<Resources> resourceList = new List<Resources>();
+
+    // public override void AddResource(Resources resource)
+    // {
+    //     resourceList.Add(resource);
+    // }
+
+    public DesertTile()
+    {
+        // foreach(Resources resource in resourceList)
+        // {
+        //     if (resource == DesertTile)
+        //     {
+                
+        //     }
+        // }
+    } 
 }
