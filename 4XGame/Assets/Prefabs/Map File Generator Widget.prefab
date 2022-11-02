@@ -2190,7 +2190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7824544393726433327}
   m_Layer: 5
-  m_Name: New Map File Widget
+  m_Name: Map File Generator Widget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

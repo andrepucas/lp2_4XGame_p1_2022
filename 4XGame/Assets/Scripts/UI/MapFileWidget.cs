@@ -15,12 +15,20 @@ public class MapFileWidget : MonoBehaviour
     private readonly Regex ILLEGAL_CHARS = new Regex("[#%&{}\\<>*?/$!'\":@+`|= ]");
 
     // Serialized
+    [Header("Components")]
     [SerializeField] private TMP_InputField _name;
     [SerializeField] private Button _editNameButton;
 
     // Variables
+    private MapData _mapData;
     private ColorBlock _buttonColors;
     private int _editNameToggleIndex;
+
+    public void Initialize(MapData p_mapData)
+    {
+        _mapData = p_mapData;
+        _name.text = _mapData.Name;
+    }
 
     private void Start()
     {
