@@ -30,7 +30,7 @@ MonoBehaviour:
     m_AscentLine: 75.3833
     m_CapLine: 53
     m_MeanLine: 38
-    m_Baseline: 0
+    m_Baseline: 20
     m_DescentLine: 15.415039
     m_SuperscriptOffset: 75.3833
     m_SuperscriptSize: 0.5
