@@ -1,4 +1,3 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
@@ -24,20 +23,15 @@ public static class MapsBrowser
             _mapsList.Add(new MapData{Name = Path.GetFileNameWithoutExtension(file.FullName)});
         }
 
+        _mapsList.Sort();
         return _mapsList;
     }
 
-    public static bool MapFilesExist()
+    public static void RenameFile(string p_oldName, string p_newName)
     {
-        if (!Directory.Exists(_path)) return false;
+        p_oldName += ".map4x";
+        p_newName += ".map4x";
 
-        DirectoryInfo m_info = new DirectoryInfo(_path);
-
-        foreach(FileInfo file in m_info.GetFiles("*.map4x"))
-        {
-            return true;
-        }
-
-        return false;
+        System.IO.File.Move((_path + p_oldName), (_path + p_newName));
     }
 }

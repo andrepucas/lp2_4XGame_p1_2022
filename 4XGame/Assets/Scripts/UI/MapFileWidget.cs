@@ -103,6 +103,10 @@ public class MapFileWidget : MonoBehaviour
         // Fail-proof new name by removing all illegal file characters.
         _nameInput.text = ILLEGAL_CHARS.Replace(_nameInput.text, "_");
 
+        // Update File name and Map Data name.
+        MapsBrowser.RenameFile(_mapData.Name, _nameInput.text);
+        _mapData.Name = _nameInput.text;
+
         // Disable name input field after a short delay.
         _editNameToggleIndex++;
         StartCoroutine(DisableAfterDelay());

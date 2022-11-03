@@ -13,8 +13,8 @@ public class LoadMapPanel : MonoBehaviour
         GameObject m_widget;
 
         // Destroy any existing widgets.
-        // foreach (Transform f_widget in _widgetsFolder)
-        //     GameObject.Destroy(f_widget.gameObject);
+        foreach (Transform f_widget in _widgetsFolder)
+            GameObject.Destroy(f_widget.gameObject);
 
         // If there are map files.
         if (MapsBrowser.GetMapsList() != null)
