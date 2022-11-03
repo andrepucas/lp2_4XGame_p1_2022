@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 /// <summary>
 /// Responsible for each file widget that can be found in the map files
@@ -16,7 +17,7 @@ public class MapFileWidget : MonoBehaviour
 
     // Serialized
     [Header("Components")]
-    [SerializeField] private TMP_InputField _name;
+    [SerializeField] private TMP_InputField _nameInput;
     [SerializeField] private Button _editNameButton;
 
     // Variables
@@ -27,12 +28,12 @@ public class MapFileWidget : MonoBehaviour
     public void Initialize(MapData p_mapData)
     {
         _mapData = p_mapData;
-        _name.text = _mapData.Name;
+        _nameInput.text = _mapData.Name;
     }
 
     private void Start()
     {
-        _name.interactable = false;
+        _nameInput.interactable = false;
         _buttonColors = _editNameButton.colors;
 
         UpdateEditNameButtonColors();
@@ -46,7 +47,7 @@ public class MapFileWidget : MonoBehaviour
     private void UpdateEditNameButtonColors()
     {
         // If the name input field is active.
-        if (_name.interactable)
+        if (_nameInput.interactable)
         {
             _buttonColors.normalColor = SELECTED_COLOR;
             _buttonColors.pressedColor = SELECTED_COLOR;
@@ -75,26 +76,53 @@ public class MapFileWidget : MonoBehaviour
         // If its an odd number.
         if (_editNameToggleIndex % 2 != 0)
         {
+            // If the input field is still enabled.
+            if (_nameInput.interactable)
+            {
+                // Increment again, since it was just incremented on NameEdited()
+                // but the user is disabling edit mode by pressing this button again.
+                _editNameToggleIndex++;
+                return;
+            }
+            
             // Enable.
-            _name.interactable = true;
-            _name.Select();
-        }
-
-        else
-        {
-            // Disable input field.
-            _name.interactable = false;
+            _nameInput.interactable = true;
+            _nameInput.Select();
         }
 
         UpdateEditNameButtonColors();
     }
 
     /// <summary>
-    /// Called when the input field is 
+    /// Called when the input field leaves edit-mode.
+    /// This happens when the player clicks away, escape or enter.
+    /// Disables input-field directly.
     /// </summary>
     public void NameEdited()
     {
         // Fail-proof new name by removing all illegal file characters.
-        _name.text = ILLEGAL_CHARS.Replace(_name.text, "_");
+        _nameInput.text = ILLEGAL_CHARS.Replace(_nameInput.text, "_");
+
+        // Disable name input field after a short delay.
+        _editNameToggleIndex++;
+        StartCoroutine(DisableAfterDelay());
+    }
+
+    /// <summary>
+    /// Waits some time before disabling the input field.
+    /// This prevents:
+    /// 1. An event system conflict when disabling the input and clicking 
+    /// somewhere else at the same time.
+    /// 2. Allows the edit button method to detect it as enabled still, thus
+    /// allowing it to be properly handled when the user tries to leave edit mode
+    /// by pressing the button.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DisableAfterDelay()
+    {
+        yield return new WaitForSeconds(.1f);
+
+        _nameInput.interactable = false;
+        UpdateEditNameButtonColors();
     }
 }

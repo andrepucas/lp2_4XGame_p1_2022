@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 780d62dd45c22a34aa65a3e567a1d562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: {fileID: 4629194049025169244}
+  _nameInput: {fileID: 4629194049025169244}
   _editNameButton: {fileID: 4629194050119556374}
 --- !u!1 &4629194049025169234
 GameObject:
@@ -307,7 +307,7 @@ MonoBehaviour:
       m_Calls: []
   m_CaretColor: {r: 0.9411765, g: 0.9411765, b: 0.9411765, a: 1}
   m_CustomCaretColor: 1
-  m_SelectionColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 1}
+  m_SelectionColor: {r: 1, g: 0.78431374, b: 0.39215687, a: 0.78431374}
   m_Text: my_map_name-10x10
   m_CaretBlinkRate: 1
   m_CaretWidth: 3
