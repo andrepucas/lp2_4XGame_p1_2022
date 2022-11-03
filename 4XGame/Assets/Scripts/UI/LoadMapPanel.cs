@@ -8,11 +8,12 @@ public class LoadMapPanel : MonoBehaviour
     [SerializeField] private GameObject _mapFileWidget;
     [SerializeField] private GameObject _mapFileGeneratorWidget;
 
+    private void OnEnable() => MapFileGeneratorWidget.NewMapFile += CreateNewWidget;
+    private void OnDisable() => MapFileGeneratorWidget.NewMapFile -= CreateNewWidget;
+    
     private void Start()
     {
         InstantiateMapFileWidgets();
-
-        // Instantiate map file generator.
     }
 
     private void InstantiateMapFileWidgets()
@@ -26,6 +27,7 @@ public class LoadMapPanel : MonoBehaviour
         // If there are map files.
         if (MapsBrowser.GetMapsList() != null)
         {
+            // Instantiate all of them as map file widgets.
             foreach (MapData f_map in MapsBrowser.GetMapsList())
             {
                 m_widget = Instantiate(_mapFileWidget, Vector3.zero, Quaternion.identity);
@@ -36,5 +38,16 @@ public class LoadMapPanel : MonoBehaviour
         }
 
         else Debug.Log("No map files.");
+
+        // Instantiate map file generator widget at the end of the list.
+        Instantiate(_mapFileGeneratorWidget, Vector3.zero, 
+            Quaternion.identity).transform.SetParent(_widgetsFolder, false);
+    }
+
+    private void CreateNewWidget(string p_name, int p_sizeX, int p_sizeY, 
+        MapFileGeneratorDataSO p_data)
+    {
+        MapsBrowser.GenerateNewMapFile(p_name, p_sizeX, p_sizeY, p_data);
+        InstantiateMapFileWidgets();
     }
 }

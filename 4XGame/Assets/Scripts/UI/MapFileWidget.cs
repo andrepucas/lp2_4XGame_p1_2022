@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Text.RegularExpressions;
 using System.Collections;
 
 /// <summary>
@@ -13,11 +12,12 @@ public class MapFileWidget : MonoBehaviour
     // Readonly
     private readonly Color32 NORMAL_COLOR = new Color32(255, 50, 100, 255);
     private readonly Color32 SELECTED_COLOR = new Color32(255, 200, 100, 255);
-    private readonly Regex ILLEGAL_CHARS = new Regex("[#%&{}\\<>*?/$!'\":@+`|= ]");
 
     // Serialized
     [Header("Components")]
     [SerializeField] private TMP_InputField _nameInput;
+    [SerializeField] private TMP_InputField _sizeXDisplay;
+    [SerializeField] private TMP_InputField _sizeYDisplay;
     [SerializeField] private Button _editNameButton;
 
     // Variables
@@ -29,6 +29,8 @@ public class MapFileWidget : MonoBehaviour
     {
         _mapData = p_mapData;
         _nameInput.text = _mapData.Name;
+        _sizeXDisplay.text = p_mapData.Dimensions_X.ToString();
+        _sizeYDisplay.text = p_mapData.Dimension_Y.ToString();
     }
 
     private void Start()
@@ -101,10 +103,10 @@ public class MapFileWidget : MonoBehaviour
     public void NameEdited()
     {
         // Fail-proof new name by removing all illegal file characters.
-        _nameInput.text = ILLEGAL_CHARS.Replace(_nameInput.text, "_");
+        _nameInput.text = MapFileNameValidator.Validate(_nameInput.text);
 
         // Update File name and Map Data name.
-        MapsBrowser.RenameFile(_mapData.Name, _nameInput.text);
+        MapsBrowser.RenameMapFile(_mapData.Name, _nameInput.text);
         _mapData.Name = _nameInput.text;
 
         // Disable name input field after a short delay.
@@ -136,7 +138,7 @@ public class MapFileWidget : MonoBehaviour
     /// </summary>
     public void Delete()
     {
-        MapsBrowser.DeleteFile(_mapData.Name);
+        MapsBrowser.DeleteMapFile(_mapData.Name);
         Destroy(this.gameObject, .1f);
     }
 }
