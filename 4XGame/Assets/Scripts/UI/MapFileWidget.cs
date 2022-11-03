@@ -121,12 +121,22 @@ public class MapFileWidget : MonoBehaviour
     /// allowing it to be properly handled when the user tries to leave edit mode
     /// by pressing the button.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>WaitForSeconds(.1f)</returns>
     private IEnumerator DisableAfterDelay()
     {
         yield return new WaitForSeconds(.1f);
 
         _nameInput.interactable = false;
         UpdateEditNameButtonColors();
+    }
+
+    /// <summary>
+    /// Called by delete button.
+    /// Deletes this file widget and it's corresponding map file from the directory.
+    /// </summary>
+    public void Delete()
+    {
+        MapsBrowser.DeleteFile(_mapData.Name);
+        Destroy(this.gameObject, .1f);
     }
 }

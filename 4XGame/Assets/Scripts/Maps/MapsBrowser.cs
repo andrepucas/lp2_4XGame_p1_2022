@@ -34,4 +34,11 @@ public static class MapsBrowser
 
         System.IO.File.Move((_path + p_oldName), (_path + p_newName));
     }
+
+    public static void DeleteFile(string p_fileName)
+    {
+        p_fileName += ".map4x";
+
+        System.IO.File.Delete(_path + p_fileName);
+    }
 }

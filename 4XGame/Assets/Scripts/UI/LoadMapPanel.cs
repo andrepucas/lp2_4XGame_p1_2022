@@ -10,6 +10,13 @@ public class LoadMapPanel : MonoBehaviour
 
     private void Start()
     {
+        InstantiateMapFileWidgets();
+
+        // Instantiate map file generator.
+    }
+
+    private void InstantiateMapFileWidgets()
+    {
         GameObject m_widget;
 
         // Destroy any existing widgets.
@@ -29,7 +36,5 @@ public class LoadMapPanel : MonoBehaviour
         }
 
         else Debug.Log("No map files.");
-
-        // Instantiate map file generator.
     }
 }
