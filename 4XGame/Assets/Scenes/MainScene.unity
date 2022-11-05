@@ -130,6 +130,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1722764176048756750, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
+      propertyPath: hillsCell
+      value: 
+      objectReference: {fileID: 3385000665054096660, guid: 9f48bec7f1526754f9a090937e9f684d, type: 3}
+    - target: {fileID: 1722764176048756750, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
+      propertyPath: waterCell
+      value: 
+      objectReference: {fileID: 8413629958299436420, guid: fe8435e02c75b464c9b137c8cc4cd45b, type: 3}
+    - target: {fileID: 1722764176048756750, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
+      propertyPath: desertCell
+      value: 
+      objectReference: {fileID: 2593993689442763693, guid: a54782160d1ad4944a23c83763393cc5, type: 3}
+    - target: {fileID: 1722764176048756750, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
+      propertyPath: gridParcel
+      value: 
+      objectReference: {fileID: 2593993689442763693, guid: a54782160d1ad4944a23c83763393cc5, type: 3}
+    - target: {fileID: 1722764176048756750, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
+      propertyPath: plainsCell
+      value: 
+      objectReference: {fileID: 6456579360000203887, guid: 1423af00b87db0a479ccfe81cb9faf01, type: 3}
+    - target: {fileID: 1722764176048756750, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
+      propertyPath: mountainCell
+      value: 
+      objectReference: {fileID: 8728305523876289815, guid: f52ab8ab48cdc6a4b8af574e16311c66, type: 3}
     - target: {fileID: 1986835143122364308, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
       propertyPath: m_Name
       value: Grid
@@ -217,6 +241,10 @@ PrefabInstance:
     - target: {fileID: 2786304848781788150, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6145859254126434775, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7289647475820576945, guid: cd77dee0142755449a6649f59c2f7379, type: 3}
       propertyPath: m_SizeDelta.x

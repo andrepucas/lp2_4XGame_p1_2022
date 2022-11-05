@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 public class GridDisplay : MonoBehaviour
 {
-
     private const float MAX_CELL_SIZE = 700f;
-
     private Grid grid;
     private List<GameTile> generatedTiles;
     private GridLayoutGroup gridLayout;
-    [SerializeField] private GameObject gridParcel;
+    [SerializeField] private Button desertCell;
+    [SerializeField] private Button hillsCell;
+    [SerializeField] private Button mountainCell;
+    [SerializeField] private Button plainsCell;
+    [SerializeField] private Button waterCell;
+
 
     // NECESSARY CODE BECAUSE OF MISSING FILE READING FEATURE
     private int random;
@@ -84,26 +87,31 @@ public class GridDisplay : MonoBehaviour
             {
                 case TileType.Desert:
                     Debug.Log("Desert");
+                    Instantiate(desertCell, gameObject.transform);
                     // dNumber++; -> DEBUG CODE
                     break;
 
                 case TileType.Hills:
                     Debug.Log("Hills");
+                    Instantiate(hillsCell, gameObject.transform);
                     // hNumber++; -> DEBUG CODE
                     break;
 
                 case TileType.Mountain:
                     Debug.Log("Mountain");
+                    Instantiate(mountainCell, gameObject.transform);
                     // mNumber++; -> DEBUG CODE
                     break;
 
                 case TileType.Plains:
                     Debug.Log("Plains");
+                    Instantiate(plainsCell, gameObject.transform);
                     // pNumber++; -> DEBUG CODE
                     break;
 
                 case TileType.Water:
                     Debug.Log("Water");
+                    Instantiate(waterCell, gameObject.transform);
                     // wNumber++; -> DEBUG CODE
                     break;
             }
@@ -124,5 +132,13 @@ public class GridDisplay : MonoBehaviour
 
         // Debug.Log("Number of Water Tiles:");
         // Debug.Log(wNumber);
+
+        // DEBUG CODE
+        // Debug.Log(generatedTiles[0]);
+        // Debug.Log(generatedTiles[1]);
+        // Debug.Log(generatedTiles[2]);
+        // Debug.Log(generatedTiles[3]);
+        // Debug.Log(generatedTiles[4]);
+        // Debug.Log(generatedTiles[10]);
     }
 }
