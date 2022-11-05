@@ -9,14 +9,51 @@ public class GridDisplay : MonoBehaviour
     private const float MAX_CELL_SIZE = 700f;
 
     private Grid grid;
-    private List<GameObject> parcels;
+    private List<GameTile> generatedTiles;
     private GridLayoutGroup gridLayout;
     [SerializeField] private GameObject gridParcel;
 
+    // NECESSARY CODE BECAUSE OF MISSING FILE READING FEATURE
+    private int random;
+    // ----------------------------------------------
+
     private void Start()
     {
-        parcels = new List<GameObject>();
+        generatedTiles = new List<GameTile>();
         grid = new Grid(10, 5);
+
+        // NECESSARY CODE BECAUSE OF MISSING FILE READING FEATURE
+        for (int i = 0; i < 50; i++)
+        {
+            random = Random.Range(1, 6);
+
+            switch (random)
+            {
+                case 1:
+                    generatedTiles.Add(new DesertTile());
+                    break;
+
+                case 2:
+                    generatedTiles.Add(new HillsTile());
+                    break;
+
+                case 3:
+                    generatedTiles.Add(new MountainTile());
+                    break;
+
+                case 4:
+                    generatedTiles.Add(new PlainsTile());
+                    break;
+
+                case 5:
+                    generatedTiles.Add(new WaterTile());
+                    break;
+                default:
+                    Debug.Log("You messed up");
+                    break;
+            }
+        }
+        // -----------------------------------------------
 
         gridLayout = GetComponent<GridLayoutGroup>();
 
@@ -25,6 +62,13 @@ public class GridDisplay : MonoBehaviour
 
     private void CreateVisualGrid(Grid grid)
     {
+        // DEBUG CODE
+        // int dNumber = 0;
+        // int hNumber = 0;
+        // int mNumber = 0;
+        // int pNumber = 0;
+        // int wNumber = 0;
+
         Vector2 newCellSize;
         newCellSize.y = MAX_CELL_SIZE / grid.Y;
         newCellSize.x = newCellSize.y;
@@ -34,17 +78,51 @@ public class GridDisplay : MonoBehaviour
         gridLayout.cellSize = newCellSize;
         gridLayout.constraintCount = grid.X;
 
-        for (int i = 0; i < grid.Y; i++)
+        foreach (GameTile tile in generatedTiles)
         {
-
-            for (int d = 0; d < grid.X; d++)
+            switch (tile.Type)
             {
-                Instantiate(gridParcel, gameObject.transform);
+                case TileType.Desert:
+                    Debug.Log("Desert");
+                    // dNumber++; -> DEBUG CODE
+                    break;
 
-                // parcels.Add(currentParcel);
+                case TileType.Hills:
+                    Debug.Log("Hills");
+                    // hNumber++; -> DEBUG CODE
+                    break;
 
+                case TileType.Mountain:
+                    Debug.Log("Mountain");
+                    // mNumber++; -> DEBUG CODE
+                    break;
+
+                case TileType.Plains:
+                    Debug.Log("Plains");
+                    // pNumber++; -> DEBUG CODE
+                    break;
+
+                case TileType.Water:
+                    Debug.Log("Water");
+                    // wNumber++; -> DEBUG CODE
+                    break;
             }
         }
-    }
 
+        // DEBUG CODE
+        // Debug.Log("Number of Desert Tiles:");
+        // Debug.Log(dNumber);
+
+        // Debug.Log("Number of Hills Tiles:");
+        // Debug.Log(hNumber);
+
+        // Debug.Log("Number of Mountain Tiles:");
+        // Debug.Log(mNumber);
+
+        // Debug.Log("Number of Plains Tiles:");
+        // Debug.Log(pNumber);
+
+        // Debug.Log("Number of Water Tiles:");
+        // Debug.Log(wNumber);
+    }
 }
