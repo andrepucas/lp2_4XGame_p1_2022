@@ -23,6 +23,13 @@ public class DesertTile : GameTile
     public override int Food { get; }
 
     /// <summary>
+    /// Read only self implemented propriety that stores the tile type of each
+    /// desert tile.
+    /// </summary>
+    /// <value>Tile type of the game tile.</value>
+    public override TileType Type => TileType.Desert;
+
+    /// <summary>
     /// Overrides IEnumerable<Resource> and stores it in resourceList.
     /// </summary>
     public override IEnumerable<Resource> Resources => resourceList;

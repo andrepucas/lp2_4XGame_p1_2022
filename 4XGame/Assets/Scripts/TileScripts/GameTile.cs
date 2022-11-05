@@ -6,24 +6,31 @@ using UnityEngine;
 /// <c>Game Tile</c> Class.
 /// Contains all the generic info about each individual game tile.
 /// </summary>
-public abstract class GameTile : MonoBehaviour
+public abstract class GameTile
 {
     /// <summary>
     /// Read only self implemented property that stores the monetary value of
     /// each game tile.
     /// </summary>
     /// <value>Monetary value of the game tile.</value>
-    public abstract int Coin {get;}
+    public abstract int Coin { get; }
 
     /// <summary>
     /// Read only self implemented property that stores the food production 
     /// value of each game tile.
     /// </summary>
     /// <value>Food Production of the game tile.</value>
-    public abstract int Food {get;}
+    public abstract int Food { get; }
 
-    public abstract IEnumerable<Resource> Resources {get;}
+    /// <summary>
+    /// Read only self implemented propriety that stores the tile type of each
+    /// game tile.
+    /// </summary>
+    /// <value>Tile type of each game tile.</value>
+    public abstract TileType Type { get; }
 
-    public abstract void AddResource (Resource resource);
+    public abstract IEnumerable<Resource> Resources { get; }
+
+    public abstract void AddResource(Resource resource);
     public abstract void CreateResources();
 }

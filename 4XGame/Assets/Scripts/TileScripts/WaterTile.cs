@@ -13,16 +13,23 @@ public class WaterTile : GameTile
     /// monetary value of each water tile.
     /// </summary>
     /// <value>Monetary value of the game tile.</value>
-    public override int Coin {get;}
+    public override int Coin { get; }
 
     /// <summary>
     /// Read only self implemented property that sets and stores the base
     /// food production value of each water tile.
     /// </summary>
     /// <value>Food Production of the game tile.</value>
-    public override int Food {get;}
+    public override int Food { get; }
 
-     /// <summary>
+    /// <summary>
+    /// Read only self implemented propriety that stores the tile type of each
+    /// water tile.
+    /// </summary>
+    /// <value>Tile type of the game tile.</value>
+    public override TileType Type => TileType.Water;
+
+    /// <summary>
     /// Overrides IEnumerable<Resource> and stores it in resourceList.
     /// </summary>
     public override IEnumerable<Resource> Resources => resourceList;
