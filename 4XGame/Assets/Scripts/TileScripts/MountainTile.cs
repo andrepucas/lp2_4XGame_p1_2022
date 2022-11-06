@@ -171,10 +171,10 @@ public class MountainTile : GameTile
     }
 
     /// <summary>
-    /// Constructor method, instantiates a new Desert Tile.
+    /// Constructor method, instantiates a new Mountain Tile.
     /// </summary>
-    /// <param name="Coin">Desert Tile's monetary value.</param>
-    /// <param name="Food">Desert Tile's food production value.</param>
+    /// <param name="Coin">Mountain Tile's monetary value.</param>
+    /// <param name="Food">Mountain Tile's food production value.</param>
     /// <param name="totalResourceCoin">
     /// Total monetary value of the tile's resources.</param>
     /// <param name="grid">

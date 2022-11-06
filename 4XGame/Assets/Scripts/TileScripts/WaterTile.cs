@@ -171,10 +171,10 @@ public class WaterTile : GameTile
     }
 
     /// <summary>
-    /// Constructor method, instantiates a new Desert Tile.
+    /// Constructor method, instantiates a new Water Tile.
     /// </summary>
-    /// <param name="Coin">Desert Tile's monetary value.</param>
-    /// <param name="Food">Desert Tile's food production value.</param>
+    /// <param name="Coin">Water Tile's monetary value.</param>
+    /// <param name="Food">Water Tile's food production value.</param>
     /// <param name="totalResourceCoin">
     /// Total monetary value of the tile's resources.</param>
     /// <param name="grid">

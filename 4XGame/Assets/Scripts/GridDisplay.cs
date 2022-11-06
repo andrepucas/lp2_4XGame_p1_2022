@@ -5,14 +5,49 @@ using UnityEngine.UI;
 
 public class GridDisplay : MonoBehaviour
 {
+    /// <summary>
+    /// Variable that stores the max cell size.
+    /// </summary>
     private const float MAX_CELL_SIZE = 700f;
+
+    /// <summary>
+    /// Reference to the grid where all the tiles will be visualized. 
+    /// </summary>
     private Grid grid;
-    private List<GameTile> generatedTiles;
+
+    /// <summary>
+    /// Reference to grid layout group component in current object.
+    /// </summary>
     private GridLayoutGroup gridLayout;
+
+    /// <summary>
+    /// A list that stores all the randomly generated game tiles.
+    /// </summary>
+    private List<GameTile> generatedTiles;
+
+    /// <summary>
+    /// Variable that stores the game object that represents a desert cell.
+    /// </summary>
     [SerializeField] private Button desertCell;
+
+    /// <summary>
+    /// Variable that stores the game object that represents a hills cell.
+    /// </summary>
     [SerializeField] private Button hillsCell;
+
+    /// <summary>
+    /// Variable that stores the game object that represents a mountain cell.
+    /// </summary>
     [SerializeField] private Button mountainCell;
+
+    /// <summary>
+    /// Variable that stores the game object that represents a plains cell.
+    /// </summary>
     [SerializeField] private Button plainsCell;
+
+    /// <summary>
+    /// Variable that stores the game object that represents a water cell.
+    /// </summary>
     [SerializeField] private Button waterCell;
 
 
@@ -20,10 +55,23 @@ public class GridDisplay : MonoBehaviour
     private int random;
     // ----------------------------------------------
 
+    /// <summary>
+    /// Method that runs at the start of the program.
+    /// </summary>
     private void Start()
     {
+        /// <summary>
+        /// Instantiates a list.
+        /// </summary>
+        /// <typeparam name="GameTile"></typeparam>
+        /// <returns></returns>
         generatedTiles = new List<GameTile>();
-        grid = new Grid(10, 5);
+
+        /// <summary>
+        /// Instantiates a grid with the randomly generated tile sizes.
+        /// </summary>
+        /// <returns></returns>
+        grid = new Grid(10, 5); // MUDAR AQUI PARA VARIAVEIS DEPOIS
 
         // NECESSARY CODE BECAUSE OF MISSING FILE READING FEATURE
         for (int i = 0; i < 50; i++)
@@ -58,11 +106,21 @@ public class GridDisplay : MonoBehaviour
         }
         // -----------------------------------------------
 
+        /// <summary>
+        /// Variable that stores the specified component.
+        /// </summary>
+        /// <typeparam name="GridLayoutGroup"></typeparam>
+        /// <returns></returns>
         gridLayout = GetComponent<GridLayoutGroup>();
 
+        // Creates the visual representation of the game tile grid.
         CreateVisualGrid(grid);
     }
 
+    /// <summary>
+    /// Creates the visual representation of the game tile grid.
+    /// </summary>
+    /// <param name="grid"></param>
     private void CreateVisualGrid(Grid grid)
     {
         // DEBUG CODE
@@ -72,51 +130,89 @@ public class GridDisplay : MonoBehaviour
         // int pNumber = 0;
         // int wNumber = 0;
 
+        // Instantiates a vector2 - Need help explaining this part
         Vector2 newCellSize;
+
+        // Calculates bla bla bla
         newCellSize.y = MAX_CELL_SIZE / grid.Y;
         newCellSize.x = newCellSize.y;
 
-        Debug.Log(newCellSize);
+        // DEBUG CODE
+        // Debug.Log(newCellSize);
 
+        // Updates the component's cell size to match the calculated cell size.
         gridLayout.cellSize = newCellSize;
+
+        // Updates the components column count to match the grid's X dimentions.
         gridLayout.constraintCount = grid.X;
 
+        // Goes through each game tile in the list.
         foreach (GameTile tile in generatedTiles)
         {
+            // Checks the Type of each tile.
             switch (tile.Type)
             {
+                // If the current game tile type is Desert.
                 case TileType.Desert:
-                    Debug.Log("Desert");
+
+                    // Instantiates a Desert Cell game object as a child of the
+                    // current game object.
                     Instantiate(desertCell, gameObject.transform);
-                    // dNumber++; -> DEBUG CODE
+
+                    // DEBUG CODE
+                    // Debug.Log("Desert");
+                    // dNumber++;
                     break;
 
+                // If the current game tile type is Hills.
                 case TileType.Hills:
-                    Debug.Log("Hills");
+
+                    // Instantiates a Hills Cell game object as a child of the
+                    // current game object.
                     Instantiate(hillsCell, gameObject.transform);
-                    // hNumber++; -> DEBUG CODE
+
+                    // DEBUG CODE
+                    // Debug.Log("Hills");
+                    // hNumber++;
                     break;
 
+                // If the current game tile type is Mountain.
                 case TileType.Mountain:
-                    Debug.Log("Mountain");
+
+                    // Instantiates a Mountain Cell game object as a child of 
+                    // the current game object.
                     Instantiate(mountainCell, gameObject.transform);
-                    // mNumber++; -> DEBUG CODE
+
+                    // DEBUG CODE
+                    // Debug.Log("Mountain");
+                    // mNumber++;
                     break;
 
+                // If the current game tile type is Plains.
                 case TileType.Plains:
-                    Debug.Log("Plains");
+
+                    // Instantiates a Plains Cell game object as a child of the
+                    // current game object.
                     Instantiate(plainsCell, gameObject.transform);
-                    // pNumber++; -> DEBUG CODE
+
+                    // DEBUG CODE
+                    // Debug.Log("Plains");
+                    // pNumber++;
                     break;
 
+                // If the current game tile type is Water.
                 case TileType.Water:
-                    Debug.Log("Water");
+
+                    // Instantiates a Water Cell game object as a child of the
+                    // current game object.
                     Instantiate(waterCell, gameObject.transform);
-                    // wNumber++; -> DEBUG CODE
+
+                    // DEBUG CODE
+                    // Debug.Log("Water");
+                    // wNumber++;
                     break;
             }
         }
-
         // DEBUG CODE
         // Debug.Log("Number of Desert Tiles:");
         // Debug.Log(dNumber);
