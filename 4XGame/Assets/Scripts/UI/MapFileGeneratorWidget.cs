@@ -43,6 +43,9 @@ public class MapFileGeneratorWidget : MonoBehaviour
         if (_nameInput.text != "")
             _name = _nameInput.text;
 
+        // If default name wasn't changed. Validate it.
+        else _name = MapFileNameValidator.Validate(_name);
+
         if (_sizeXInput.text != "")
             _sizeX = Int32.Parse(_sizeXInput.text);
 

@@ -52,7 +52,6 @@ public static class MapsBrowser
     {
         Generator m_generator;
         Map m_map;
-        int m_sameNameFileCount = 0;
 
         // If folder doesn't exist, create it.
         if (!Directory.Exists(_path)) Directory.CreateDirectory(_path);
@@ -60,6 +59,15 @@ public static class MapsBrowser
         // Create new generator and map.
         m_generator = new Generator(p_data.Terrains, p_data.Resources);
         m_map = m_generator.CreateMap(p_sizeX, p_sizeY);
+
+        // Create map file.
+        p_name += ".map4x";
+        m_generator.SaveMap(m_map, (_path + p_name));
+    }
+
+    public static string DupNameProtection(string p_name)
+    {
+        int m_sameNameFileCount = 0;
 
         p_name += ".map4x";
 
@@ -71,16 +79,12 @@ public static class MapsBrowser
 
             // If name already has a _N appended to it, remove it.
             if (m_sameNameFileCount > 1)
-            {
-                Debug.Log(1);
                 p_name = p_name.Substring(0, p_name.Length-2);
-            }
 
             // Add _N to the end of the name.
             p_name += ("_" + m_sameNameFileCount + ".map4x");
         }
 
-        // Create map file.
-        m_generator.SaveMap(m_map, (_path + p_name));
+        return Path.GetFileNameWithoutExtension(_path + p_name);
     }
 }
