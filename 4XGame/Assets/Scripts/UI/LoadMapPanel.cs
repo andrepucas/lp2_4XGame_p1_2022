@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.EventSystems;
 
 public class LoadMapPanel : MonoBehaviour
 {
@@ -7,10 +9,12 @@ public class LoadMapPanel : MonoBehaviour
     [SerializeField] private Transform _widgetsFolder;
     [SerializeField] private GameObject _mapFileWidget;
     [SerializeField] private GameObject _mapFileGeneratorWidget;
+    [Header("Buttons Data")]
+    [SerializeField] private TMP_Text _refreshTimeText;
 
     private void OnEnable() => MapFileGeneratorWidget.NewMapFile += CreateNewWidget;
     private void OnDisable() => MapFileGeneratorWidget.NewMapFile -= CreateNewWidget;
-    
+
     private void Start()
     {
         InstantiateMapFileWidgets();
@@ -42,6 +46,9 @@ public class LoadMapPanel : MonoBehaviour
         // Instantiate map file generator widget at the end of the list.
         Instantiate(_mapFileGeneratorWidget, Vector3.zero, 
             Quaternion.identity).transform.SetParent(_widgetsFolder, false);
+
+        // Update refreshed time.
+        DisplayCurrentTime();
     }
 
     private void CreateNewWidget(string p_name, int p_sizeX, int p_sizeY, 
@@ -49,5 +56,21 @@ public class LoadMapPanel : MonoBehaviour
     {
         MapsBrowser.GenerateNewMapFile(p_name, p_sizeX, p_sizeY, p_data);
         InstantiateMapFileWidgets();
+    }
+
+    private void DisplayCurrentTime()
+    {
+        string m_hour = System.DateTime.Now.Hour.ToString("D2");
+        string m_minute = System.DateTime.Now.Minute.ToString("D2");
+        string m_second = System.DateTime.Now.Second.ToString("D2");
+
+        _refreshTimeText.text = 
+            ("Last updated at " + m_hour + ":" + m_minute + ":" + m_second);
+    }
+
+    public void RefreshWidgets()
+    {
+        InstantiateMapFileWidgets();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 }
