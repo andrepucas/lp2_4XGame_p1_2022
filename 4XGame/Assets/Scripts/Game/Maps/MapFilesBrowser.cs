@@ -20,14 +20,16 @@ public static class MapFilesBrowser
         List<MapData> _mapsList = new List<MapData>();
         DirectoryInfo m_info = new DirectoryInfo(_path);
 
+        // Foreach existing file in folder.
         foreach(FileInfo file in m_info.GetFiles("*.map4x"))
         {
+            // Instantiate a new map data and add it to the list of maps.
             _mapsList.Add(new MapData(
                 Path.GetFileNameWithoutExtension(file.FullName), 
-                0,
-                0));
+                File.ReadAllLines(file.FullName)));
         }
 
+        // Sort (alphabetically) and return the maps list.
         _mapsList.Sort();
         return _mapsList;
     }
