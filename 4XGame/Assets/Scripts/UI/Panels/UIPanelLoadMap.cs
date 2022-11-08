@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class LoadMapPanel : MonoBehaviour
+public class UIPanelLoadMap : MonoBehaviour
 {
     // Serialized
     [Header("Scroll Rect Widgets")]
@@ -29,10 +29,10 @@ public class LoadMapPanel : MonoBehaviour
             GameObject.Destroy(f_widget.gameObject);
 
         // If there are map files.
-        if (MapsBrowser.GetMapsList() != null)
+        if (MapFilesBrowser.GetMapsList() != null)
         {
             // Instantiate all of them as map file widgets.
-            foreach (MapData f_map in MapsBrowser.GetMapsList())
+            foreach (MapData f_map in MapFilesBrowser.GetMapsList())
             {
                 m_widget = Instantiate(_mapFileWidget, Vector3.zero, Quaternion.identity);
                 m_widget.transform.SetParent(_widgetsFolder, false);
@@ -54,7 +54,7 @@ public class LoadMapPanel : MonoBehaviour
     private void CreateNewWidget(string p_name, int p_sizeX, int p_sizeY, 
         MapFileGeneratorDataSO p_data)
     {
-        MapsBrowser.GenerateNewMapFile(p_name, p_sizeX, p_sizeY, p_data);
+        MapFilesBrowser.GenerateNewMapFile(p_name, p_sizeX, p_sizeY, p_data);
         InstantiateMapFileWidgets();
     }
 

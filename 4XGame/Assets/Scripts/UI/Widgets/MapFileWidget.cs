@@ -106,7 +106,7 @@ public class MapFileWidget : MonoBehaviour
         _nameInput.text = MapFileNameValidator.Validate(_nameInput.text);
 
         // Update File name and Map Data name.
-        MapsBrowser.RenameMapFile(_mapData.Name, _nameInput.text);
+        MapFilesBrowser.RenameMapFile(_mapData.Name, _nameInput.text);
         _mapData.Name = _nameInput.text;
 
         // Disable name input field after a short delay.
@@ -138,7 +138,7 @@ public class MapFileWidget : MonoBehaviour
     /// </summary>
     public void Delete()
     {
-        MapsBrowser.DeleteMapFile(_mapData.Name);
+        MapFilesBrowser.DeleteMapFile(_mapData.Name);
         Destroy(this.gameObject, .1f);
     }
 }

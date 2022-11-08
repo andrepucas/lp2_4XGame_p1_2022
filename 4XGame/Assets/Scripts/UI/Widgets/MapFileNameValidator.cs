@@ -12,7 +12,7 @@ public static class MapFileNameValidator
         p_fileName = ILLEGAL_CHARS.Replace(p_fileName, "_");
 
         // Avoids duplicate names.
-        p_fileName = MapsBrowser.DupNameProtection(p_fileName);
+        p_fileName = MapFilesBrowser.DupNameProtection(p_fileName);
 
         return p_fileName;
     }

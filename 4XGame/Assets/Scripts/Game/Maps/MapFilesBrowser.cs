@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using ImportedGenerator;
 
-public static class MapsBrowser
+public static class MapFilesBrowser
 {
     // Constants
     private const string FOLDER = "maps4xfiles";
@@ -37,14 +37,14 @@ public static class MapsBrowser
         p_oldName += ".map4x";
         p_newName += ".map4x";
 
-        System.IO.File.Move((_path + p_oldName), (_path + p_newName));
+        System.IO.File.Move(Path.Combine(_path, p_oldName), Path.Combine(_path, p_newName));
     }
 
     public static void DeleteMapFile(string p_fileName)
     {
         p_fileName += ".map4x";
 
-        System.IO.File.Delete(_path + p_fileName);
+        System.IO.File.Delete(Path.Combine(_path, p_fileName));
     }
 
     public static void GenerateNewMapFile(string p_name, int p_sizeX, 
@@ -62,7 +62,7 @@ public static class MapsBrowser
 
         // Create map file.
         p_name += ".map4x";
-        m_generator.SaveMap(m_map, (_path + p_name));
+        m_generator.SaveMap(m_map, Path.Combine(_path, p_name));
     }
 
     public static string DupNameProtection(string p_name)
@@ -72,10 +72,10 @@ public static class MapsBrowser
         p_name += ".map4x";
 
         // If file with this name already exists, append a "_N".
-        while (File.Exists(_path + p_name))
+        while (File.Exists(Path.Combine(_path, p_name)))
         {
             m_sameNameFileCount++;
-            p_name = Path.GetFileNameWithoutExtension(_path + p_name);
+            p_name = Path.GetFileNameWithoutExtension(Path.Combine(_path, p_name));
 
             // If name already has a _N appended to it, remove it.
             if (m_sameNameFileCount > 1)
@@ -85,6 +85,6 @@ public static class MapsBrowser
             p_name += ("_" + m_sameNameFileCount + ".map4x");
         }
 
-        return Path.GetFileNameWithoutExtension(_path + p_name);
+        return Path.GetFileNameWithoutExtension(Path.Combine(_path, p_name));
     }
 }
