@@ -1,8 +1,8 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.EventSystems;
+using TMPro;
 
-public class UIPanelLoadMap : MonoBehaviour
+public class UIPanelMapBrowser : UIPanel
 {
     // Serialized
     [Header("Scroll Rect Widgets")]
@@ -15,10 +15,15 @@ public class UIPanelLoadMap : MonoBehaviour
     private void OnEnable() => MapFileGeneratorWidget.NewMapFile += CreateNewWidget;
     private void OnDisable() => MapFileGeneratorWidget.NewMapFile -= CreateNewWidget;
 
-    private void Start()
+    public void SetupPanel()
     {
         InstantiateMapFileWidgets();
+        ClosePanel();
     }
+
+    public void OpenPanel(float p_transitionTime = 0) => base.Open(p_transitionTime);
+
+    public void ClosePanel(float p_transitionTime = 0) => base.Close(p_transitionTime);
 
     private void InstantiateMapFileWidgets()
     {
