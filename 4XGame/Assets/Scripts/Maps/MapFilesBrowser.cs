@@ -77,6 +77,7 @@ public static class MapFilesBrowser
         while (File.Exists(Path.Combine(_path, p_name)))
         {
             m_sameNameFileCount++;
+
             p_name = Path.GetFileNameWithoutExtension(Path.Combine(_path, p_name));
 
             // If name already has a _N appended to it, remove it.

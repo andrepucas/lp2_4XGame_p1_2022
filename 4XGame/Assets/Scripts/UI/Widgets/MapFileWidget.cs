@@ -24,6 +24,7 @@ public class MapFileWidget : MonoBehaviour
     private MapData _mapData;
     private ColorBlock _buttonColors;
     private int _editNameToggleIndex;
+    private string _nameBeforeEdit;
 
     public void Initialize(MapData p_mapData)
     {
@@ -88,6 +89,7 @@ public class MapFileWidget : MonoBehaviour
             }
             
             // Enable.
+            _nameBeforeEdit = _nameInput.text;
             _nameInput.interactable = true;
             _nameInput.Select();
         }
@@ -102,8 +104,9 @@ public class MapFileWidget : MonoBehaviour
     /// </summary>
     public void NameEdited()
     {
-        // Fail-proof new name by removing all illegal file characters.
-        _nameInput.text = MapFileNameValidator.Validate(_nameInput.text);
+        // Fail-proof new name (if different) by removing all illegal file characters.
+        if (_nameBeforeEdit != _nameInput.text)
+            _nameInput.text = MapFileNameValidator.Validate(_nameInput.text);
 
         // Update File name and Map Data name.
         MapFilesBrowser.RenameMapFile(_mapData.Name, _nameInput.text);
