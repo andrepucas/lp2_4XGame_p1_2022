@@ -3,11 +3,14 @@ using System.Collections;
 
 public class Controller : MonoBehaviour
 {
-    [SerializeField] private UserInterface _userInterface;
-    
+    private IUserInterface _userInterface;
+
     private void Awake()
     {
-        _userInterface.Setup();
+        // Can't create panels user interface with the new keyword, since it
+        // extends mono behaviour.
+        _userInterface = FindObjectOfType<PanelsUserInterface>();
+        _userInterface.Initialize();
     }
 
     private void OnEnable()

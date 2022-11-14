@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UserInterface : MonoBehaviour
+public class PanelsUserInterface : MonoBehaviour, IUserInterface
 {
     [Header("On Start")]
     [SerializeField][Range(0, 3)] private float _bgRevealTime;
@@ -14,7 +14,7 @@ public class UserInterface : MonoBehaviour
 
     private Color _bgColor;
 
-    public void Setup()
+    public void Initialize()
     {
         // Hide background.
         _bgColor = _background.color;
