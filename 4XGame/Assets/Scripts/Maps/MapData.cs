@@ -5,9 +5,8 @@ public class MapData : IComparable<MapData>
     public string Name {get; set;}
     public int Dimensions_X {get;}
     public int Dimension_Y {get;}
+    public string[] Data {get;}
     public GameTile[] GameTiles {get;}
-
-    private string[] _data;
 
     public MapData (string p_name, string[] p_data)
     {
@@ -15,7 +14,7 @@ public class MapData : IComparable<MapData>
         string[] m_dimensions = p_data[0].Split();
 
         Name = p_name;
-        _data = p_data;
+        Data = p_data;
 
         // X equals the first string of the first line.
         Dimensions_X = Convert.ToInt32(m_dimensions[0]);

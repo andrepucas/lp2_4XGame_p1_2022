@@ -21,12 +21,12 @@ public abstract class UIPanel : MonoBehaviour
 
     protected void Close(float p_transition)
     {
-        _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
 
         if (p_transition == 0)
         {
             _canvasGroup.alpha = 0;
+            _canvasGroup.interactable = false;
             gameObject.SetActive(false);
         }
 
@@ -36,6 +36,9 @@ public abstract class UIPanel : MonoBehaviour
     private IEnumerator RevealOverTime(float p_transition)
     {
         float m_elapsedTime = 0;
+
+        // Set as interactable right away, to display correct child UI colors.
+        _canvasGroup.interactable = true;
 
         while (_canvasGroup.alpha < 1)
         {
@@ -47,7 +50,6 @@ public abstract class UIPanel : MonoBehaviour
         }
 
         _canvasGroup.alpha = 1;
-        _canvasGroup.interactable = true;
         _canvasGroup.blocksRaycasts = true;
     }
 
@@ -66,6 +68,7 @@ public abstract class UIPanel : MonoBehaviour
         }
 
         _canvasGroup.alpha = 0;
+        _canvasGroup.interactable = false;
         gameObject.SetActive(false);
     }
 }

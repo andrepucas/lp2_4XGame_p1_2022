@@ -49,11 +49,12 @@ public static class MapFilesBrowser
         System.IO.File.Delete(Path.Combine(_path, p_fileName));
     }
 
-    public static void GenerateNewMapFile(string p_name, int p_sizeX, 
+    public static string GenerateNewMapFile(string p_name, int p_sizeX, 
         int p_sizeY, MapFileGeneratorDataSO p_data)
     {
         Generator m_generator;
         Map m_map;
+        string m_fileName = p_name + ".map4x";
 
         // If folder doesn't exist, create it.
         if (!Directory.Exists(_path)) Directory.CreateDirectory(_path);
@@ -63,8 +64,9 @@ public static class MapFilesBrowser
         m_map = m_generator.CreateMap(p_sizeX, p_sizeY);
 
         // Create map file.
-        p_name += ".map4x";
-        m_generator.SaveMap(m_map, Path.Combine(_path, p_name));
+        m_generator.SaveMap(m_map, Path.Combine(_path, m_fileName));
+
+        return p_name;
     }
 
     public static string DupNameProtection(string p_name)

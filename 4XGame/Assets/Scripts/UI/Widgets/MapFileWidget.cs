@@ -1,7 +1,9 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
-using System.Collections;
 
 /// <summary>
 /// Responsible for each file widget that can be found in the map files
@@ -9,27 +11,33 @@ using System.Collections;
 /// </summary>
 public class MapFileWidget : MonoBehaviour
 {
+    public static event Action<MapFileWidget> Selected;
+    public static event Action Deleted;
+
     // Readonly
     private readonly Color32 NORMAL_COLOR = new Color32(255, 50, 100, 255);
     private readonly Color32 SELECTED_COLOR = new Color32(255, 200, 100, 255);
 
     // Serialized
     [Header("Components")]
+    [SerializeField] private Button _widgetButton;
     [SerializeField] private TMP_InputField _nameInput;
     [SerializeField] private TMP_InputField _sizeXDisplay;
     [SerializeField] private TMP_InputField _sizeYDisplay;
     [SerializeField] private Button _editNameButton;
 
+    // Properties
+    public MapData MapData {get; private set;}
+
     // Variables
-    private MapData _mapData;
     private ColorBlock _buttonColors;
     private int _editNameToggleIndex;
     private string _nameBeforeEdit;
 
     public void Initialize(MapData p_mapData)
     {
-        _mapData = p_mapData;
-        _nameInput.text = _mapData.Name;
+        MapData = p_mapData;
+        _nameInput.text = MapData.Name;
         _sizeXDisplay.text = p_mapData.Dimensions_X.ToString();
         _sizeYDisplay.text = p_mapData.Dimension_Y.ToString();
     }
@@ -68,6 +76,18 @@ public class MapFileWidget : MonoBehaviour
         _editNameButton.colors = _buttonColors;
     }
 
+    public void Select()
+    {
+        _widgetButton.interactable = false;
+
+        if (Selected != null) Selected(this);
+    }
+
+    public void DeSelect()
+    {
+        _widgetButton.interactable = true;
+    }
+
     /// <summary>
     /// Called on click of the edit name button. 
     /// Disables and enables the name input field.
@@ -85,9 +105,10 @@ public class MapFileWidget : MonoBehaviour
                 // Increment again, since it was just incremented on NameEdited()
                 // but the user is disabling edit mode by pressing this button again.
                 _editNameToggleIndex++;
+                EventSystem.current.SetSelectedGameObject(null);
                 return;
             }
-            
+
             // Enable.
             _nameBeforeEdit = _nameInput.text;
             _nameInput.interactable = true;
@@ -109,8 +130,8 @@ public class MapFileWidget : MonoBehaviour
             _nameInput.text = MapFileNameValidator.Validate(_nameInput.text);
 
         // Update File name and Map Data name.
-        MapFilesBrowser.RenameMapFile(_mapData.Name, _nameInput.text);
-        _mapData.Name = _nameInput.text;
+        MapFilesBrowser.RenameMapFile(MapData.Name, _nameInput.text);
+        MapData.Name = _nameInput.text;
 
         // Disable name input field after a short delay.
         _editNameToggleIndex++;
@@ -141,7 +162,18 @@ public class MapFileWidget : MonoBehaviour
     /// </summary>
     public void Delete()
     {
-        MapFilesBrowser.DeleteMapFile(_mapData.Name);
+        MapFilesBrowser.DeleteMapFile(MapData.Name);
+        Deleted();
         Destroy(this.gameObject, .1f);
+    }
+
+    public override int GetHashCode() => MapData.Name.GetHashCode();
+
+    public override bool Equals(object p_obj)
+    {
+        MapFileWidget m_other = p_obj as MapFileWidget;
+
+        if (m_other == null) return false;
+        return MapData.Name == m_other.MapData.Name;
     }
 }
