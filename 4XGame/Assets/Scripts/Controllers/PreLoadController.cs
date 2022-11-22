@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Controller : MonoBehaviour
+public class PreLoadController : MonoBehaviour
 {
     private IUserInterface _userInterface;
 

@@ -1,8 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
-using System.Linq;
 
 public class UIPanelMapBrowser : UIPanel
 {
@@ -13,6 +13,8 @@ public class UIPanelMapBrowser : UIPanel
     [SerializeField] private GameObject _mapFileGeneratorWidget;
     [Header("Buttons Data")]
     [SerializeField] private TMP_Text _refreshTimeText;
+    [SerializeField] private RectTransform _loadButtonSize;
+    [SerializeField] private TMP_Text _loadButtonText;
 
     // Variables
     private List<MapFileWidget> _widgetsList;
@@ -103,6 +105,8 @@ public class UIPanelMapBrowser : UIPanel
             _lastWidgetSelected.DeSelect();
 
         _lastWidgetSelected = p_selectedWidget;
+
+        StartCoroutine(UpdateLoadButton(_lastWidgetSelected.MapData.Name));
     }
 
     private void PreSelectWidget()
@@ -144,6 +148,19 @@ public class UIPanelMapBrowser : UIPanel
 
         _refreshTimeText.text = 
             ("Last updated at " + m_hour + ":" + m_minute + ":" + m_second);
+    }
+
+    private IEnumerator UpdateLoadButton(string p_mapName)
+    {
+        Vector2 m_loadButtonSize = _loadButtonSize.sizeDelta;
+
+        _loadButtonText.text = "LOAD " + p_mapName.ToUpper();
+
+        // Wait for the text bounds to adjust, with the content size fitter component.
+        yield return new WaitForEndOfFrame();
+
+        m_loadButtonSize.x = _loadButtonText.textBounds.size.x + 15;
+        _loadButtonSize.sizeDelta = m_loadButtonSize;
     }
 
     public void RefreshWidgets()
