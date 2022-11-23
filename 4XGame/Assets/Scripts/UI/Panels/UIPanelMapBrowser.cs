@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ using TMPro;
 
 public class UIPanelMapBrowser : UIPanel
 {
+    // Events
+    public static event Action<MapData> OnSendMapData;
+
     // Serialized
     [Header("Scroll Rect Widgets")]
     [SerializeField] private Transform _widgetsFolder;
@@ -22,15 +26,15 @@ public class UIPanelMapBrowser : UIPanel
 
     private void OnEnable()
     {
-        MapFileWidget.Selected += UpdateLastSelected;
-        MapFileWidget.Deleted += () => InstantiateMapFileWidgets();
-        MapFileGeneratorWidget.NewMapFile += CreateNewWidget;
+        MapFileWidget.OnSelected += UpdateLastSelected;
+        MapFileWidget.OnDeleted += () => InstantiateMapFileWidgets();
+        MapFileGeneratorWidget.OnNewMapFile += CreateNewWidget;
     }
     private void OnDisable()
     {
-        MapFileWidget.Selected -= UpdateLastSelected;
-        MapFileWidget.Deleted -= () => InstantiateMapFileWidgets();
-        MapFileGeneratorWidget.NewMapFile -= CreateNewWidget;
+        MapFileWidget.OnSelected -= UpdateLastSelected;
+        MapFileWidget.OnDeleted -= () => InstantiateMapFileWidgets();
+        MapFileGeneratorWidget.OnNewMapFile -= CreateNewWidget;
     }
 
     public void SetupPanel()
@@ -167,5 +171,11 @@ public class UIPanelMapBrowser : UIPanel
     {
         InstantiateMapFileWidgets();
         EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    public void SendMapData()
+    {
+        MapData m_mapDataToLoad = _lastWidgetSelected.MapData;
+        OnSendMapData?.Invoke(m_mapDataToLoad);
     }
 }

@@ -11,5 +11,4 @@ public class MapFileGeneratorDataSO : ScriptableObject
     // Read-only Properties
     public string[] Terrains => _terrains;
     public string[] Resources => _resources;
-    
 }

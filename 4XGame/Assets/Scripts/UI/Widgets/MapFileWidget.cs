@@ -11,8 +11,9 @@ using TMPro;
 /// </summary>
 public class MapFileWidget : MonoBehaviour
 {
-    public static event Action<MapFileWidget> Selected;
-    public static event Action Deleted;
+    // Events
+    public static event Action<MapFileWidget> OnSelected;
+    public static event Action OnDeleted;
 
     // Readonly
     private readonly Color32 NORMAL_COLOR = new Color32(255, 50, 100, 255);
@@ -80,7 +81,7 @@ public class MapFileWidget : MonoBehaviour
     {
         _widgetButton.interactable = false;
 
-        if (Selected != null) Selected(this);
+        OnSelected?.Invoke(this);
     }
 
     public void DeSelect()
@@ -163,7 +164,7 @@ public class MapFileWidget : MonoBehaviour
     public void Delete()
     {
         MapFilesBrowser.DeleteMapFile(MapData.Name);
-        Deleted();
+        OnDeleted?.Invoke();
         Destroy(this.gameObject, .1f);
     }
 

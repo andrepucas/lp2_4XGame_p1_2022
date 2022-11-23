@@ -5,7 +5,7 @@ using TMPro;
 
 public class UIPanelPreStart : UIPanel
 {
-    public static event Action PromptRevealed;
+    public static event Action OnPromptRevealed;
     
     [SerializeField] private TMP_Text _prompt;
     [SerializeField][Range(0, 1)] private float _fadeTime;
@@ -32,7 +32,7 @@ public class UIPanelPreStart : UIPanel
 
         yield return new WaitForSecondsRealtime(p_revealTime);
 
-        PromptRevealed();
+        OnPromptRevealed?.Invoke();
 
         while (_prompt.alpha < 1)
         {

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class MapFileGeneratorWidget : MonoBehaviour
 {
     // Events
-    public static Action<string, int, int, MapFileGeneratorDataSO> NewMapFile;
+    public static Action<string, int, int, MapFileGeneratorDataSO> OnNewMapFile;
 
     // Serialized
     [Header("Name")]
@@ -52,7 +52,7 @@ public class MapFileGeneratorWidget : MonoBehaviour
         if (_sizeYInput.text != "")
             _sizeY = Int32.Parse(_sizeYInput.text);
 
-        NewMapFile(_name, _sizeX, _sizeY, _generateData);
+        OnNewMapFile?.Invoke(_name, _sizeX, _sizeY, _generateData);
 
         EventSystem.current.SetSelectedGameObject(null);
     }

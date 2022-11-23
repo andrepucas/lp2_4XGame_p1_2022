@@ -39,8 +39,8 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
                 _mapBrowser.OpenPanel(_panelTransitionTime);
                 break;
 
-            case UIStates.GAME:
-                _mapBrowser.ClosePanel();
+            case UIStates.LOAD_GAME:
+                _mapBrowser.ClosePanel(_panelTransitionTime);
                 break;
         }
     }
