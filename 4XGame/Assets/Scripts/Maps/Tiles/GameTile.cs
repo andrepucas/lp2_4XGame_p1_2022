@@ -32,5 +32,5 @@ public abstract class GameTile
     public abstract IEnumerable<Resource> Resources { get; }
 
     public abstract void AddResource(Resource resource);
-    public abstract void CreateResources();
+
 }
