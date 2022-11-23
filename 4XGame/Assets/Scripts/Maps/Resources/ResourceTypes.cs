@@ -8,5 +8,6 @@ public enum ResourceTypes
     FossilFuel,
     Metals,
     Plants,
-    Pollution
+    Pollution,
+    Luxury,
 }

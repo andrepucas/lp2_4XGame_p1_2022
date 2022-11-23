@@ -9,7 +9,7 @@ public class PollutionResource : Resource
     /// resource.
     /// </summary>
     /// <value>Name of the resource.</value>
-    public override string Name {get;}
+    public override ResourceTypes Name {get;}
     
     /// <summary>
     /// Read only self implemented property that stores the monetary value of
@@ -27,7 +27,7 @@ public class PollutionResource : Resource
 
     public PollutionResource()
     {
-        this.Name = "Pollution";
+        this.Name = ResourceTypes.Pollution;
         this.Coin = -3;
         this.Food = -3;
     }

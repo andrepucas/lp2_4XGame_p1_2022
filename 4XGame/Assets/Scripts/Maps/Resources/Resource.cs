@@ -9,7 +9,7 @@ public abstract class Resource
     /// resource.
     /// </summary>
     /// <value>Name of the resource.</value>
-    public abstract string Name {get;}
+    public abstract ResourceTypes Name {get;}
     
     /// <summary>
     /// Read only self implemented property that stores the monetary value of
