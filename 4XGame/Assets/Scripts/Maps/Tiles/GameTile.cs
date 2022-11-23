@@ -13,14 +13,14 @@ public abstract class GameTile
     /// each game tile.
     /// </summary>
     /// <value>Monetary value of the game tile.</value>
-    public abstract int Coin { get; }
+    public abstract int Coin { get; protected set;}
 
     /// <summary>
     /// Read only self implemented property that stores the food production 
     /// value of each game tile.
     /// </summary>
     /// <value>Food Production of the game tile.</value>
-    public abstract int Food { get; }
+    public abstract int Food { get; protected set;}
 
     /// <summary>
     /// Read only self implemented propriety that stores the tile type of each

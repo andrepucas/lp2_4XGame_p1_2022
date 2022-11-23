@@ -13,21 +13,21 @@ public class WaterTile : GameTile
     /// monetary value of each water tile.
     /// </summary>
     /// <value>Monetary value of the game tile.</value>
-    public override int Coin { get; }
+    public override int Coin { get; protected set; }
 
     /// <summary>
     /// Read only self implemented property that sets and stores the base
     /// food production value of each water tile.
     /// </summary>
     /// <value>Food Production of the game tile.</value>
-    public override int Food { get; }
+    public override int Food { get; protected set; }
 
     /// <summary>
     /// Read only self implemented propriety that stores the tile type of each
     /// water tile.
     /// </summary>
     /// <value>Tile type of the game tile.</value>
-    public override TileType Type => TileType.Water;
+    public override TileType Type { get; }
 
     /// <summary>
     /// Overrides IEnumerable<Resource> and stores it in resourceList.
@@ -48,6 +48,8 @@ public class WaterTile : GameTile
     public override void AddResource(Resource resource)
     {
         resourceList.Add(resource);
+        this.Coin += resource.Coin;
+        this.Food += resource.Food;
     }
 
     /// <summary>
@@ -61,22 +63,12 @@ public class WaterTile : GameTile
     /// Total food production value of the tile's resources.</param>
     public WaterTile()
     {
-        // Integers that stores total monetary and food production values of
-        // resources.
-        int totalResourceCoin = 0;
-        int totalResourceFood = 0;
-
-        // Goes through each of the tile's resources.
-        foreach (Resource resource in resourceList)
-        {
-            // Sums resources total monetary and food production values.
-            totalResourceCoin += resource.Coin;
-            totalResourceFood += resource.Food;
-        }
+        // Saves the tile's type.
+        this.Type = TileType.Water;
 
         // Saves tile's total monetary and food production values.
-        this.Coin = 0 + totalResourceCoin;
-        this.Food = 1 + totalResourceFood;
+        this.Coin = 0;
+        this.Food = 1;
     }
 
     /// <summary>
