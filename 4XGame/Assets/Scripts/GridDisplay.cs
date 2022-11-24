@@ -138,6 +138,9 @@ public class GridDisplay : MonoBehaviour
         newCellSize.y = MAX_Y_SIZE / grid.Y;
         newCellSize.x = MAX_X_SIZE / grid.X;
 
+        if (newCellSize.y < newCellSize.x) newCellSize.x = newCellSize.y;
+        else newCellSize.y = newCellSize.x;
+
         // DEBUG CODE
         // Debug.Log(newCellSize);
 
