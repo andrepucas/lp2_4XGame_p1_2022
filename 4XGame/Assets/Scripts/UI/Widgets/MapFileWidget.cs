@@ -40,7 +40,7 @@ public class MapFileWidget : MonoBehaviour
         MapData = p_mapData;
         _nameInput.text = MapData.Name;
         _sizeXDisplay.text = p_mapData.Dimensions_X.ToString();
-        _sizeYDisplay.text = p_mapData.Dimension_Y.ToString();
+        _sizeYDisplay.text = p_mapData.Dimensions_Y.ToString();
     }
 
     private void Start()

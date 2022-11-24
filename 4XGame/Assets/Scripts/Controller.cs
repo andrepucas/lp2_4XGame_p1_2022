@@ -3,8 +3,11 @@ using System.Collections;
 
 public class Controller : MonoBehaviour
 {
+    [SerializeField] private MapDisplay _mapDisplay;
+
     private IUserInterface _userInterface;
     private MapData _selectedMap;
+    private GameStates _currentState;
 
     private void Awake()
     {
@@ -12,18 +15,21 @@ public class Controller : MonoBehaviour
         // extends mono behaviour.
         _userInterface = FindObjectOfType<PanelsUserInterface>();
         _userInterface.Initialize();
+        _mapDisplay.Initialize();
     }
 
     private void OnEnable()
     {
         UIPanelPreStart.OnPromptRevealed += () => StartCoroutine(WaitForPreStartKey());
         UIPanelMapBrowser.OnSendMapData += SaveMap;
+        _mapDisplay.OnMapGenerated += () => ChangeGameState(GameStates.DISPLAY_MAP);
     }
 
     private void OnDisable()
     {
         UIPanelPreStart.OnPromptRevealed -= () => StopCoroutine(WaitForPreStartKey());
         UIPanelMapBrowser.OnSendMapData -= SaveMap;
+        _mapDisplay.OnMapGenerated -= () => ChangeGameState(GameStates.DISPLAY_MAP);
     }
 
     private void Start()
@@ -31,9 +37,19 @@ public class Controller : MonoBehaviour
         ChangeGameState(GameStates.PRE_START);
     }
 
+    private void Update()
+    {
+        if (_currentState == GameStates.DISPLAY_MAP)
+        {
+            // Handle map pan and zoom.
+        }
+    }
+
     private void ChangeGameState(GameStates p_gameState)
     {
-        switch (p_gameState)
+        _currentState = p_gameState;
+        
+        switch (_currentState)
         {
             case GameStates.PRE_START:
 
@@ -45,19 +61,24 @@ public class Controller : MonoBehaviour
                 _userInterface.ChangeUIState(UIStates.MAP_BROWSER);
                 break;
 
-            case GameStates.LOAD_GAME:
+            case GameStates.LOAD_MAP:
 
-                _userInterface.ChangeUIState(UIStates.LOAD_GAME);
+                _mapDisplay.transform.localPosition = Vector3.zero;
+                _mapDisplay.transform.localScale = Vector3.one;
+
+                _userInterface.ChangeUIState(UIStates.LOAD_MAP);
                 _selectedMap.LoadGameTilesInfo();
+                _mapDisplay.GenerateMap(_selectedMap);
 
                 foreach (GameTile f_tile in _selectedMap.GameTiles)
                     Debug.Log(f_tile);
 
                 break;
 
-            // case GameStates.GAMEPLAY:
-                // something;
-                // break;
+            case GameStates.DISPLAY_MAP:
+
+                _userInterface.ChangeUIState(UIStates.DISPLAY_MAP);
+                break;
 
             // case GameStates.PAUSE:
                 // something;
@@ -75,6 +96,6 @@ public class Controller : MonoBehaviour
     private void SaveMap(MapData p_map)
     {
         _selectedMap = p_map;
-        ChangeGameState(GameStates.LOAD_GAME);
+        ChangeGameState(GameStates.LOAD_MAP);
     }
 }

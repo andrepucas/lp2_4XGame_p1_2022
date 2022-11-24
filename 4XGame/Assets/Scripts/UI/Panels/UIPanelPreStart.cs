@@ -12,6 +12,8 @@ public class UIPanelPreStart : UIPanel
 
     public void SetupPanel()
     {
+        ClosePanel();
+
         _prompt.alpha = 0;
     }
 

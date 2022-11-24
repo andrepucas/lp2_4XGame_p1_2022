@@ -4,7 +4,7 @@ public class MapData : IComparable<MapData>
 {
     public string Name {get; set;}
     public int Dimensions_X {get;}
-    public int Dimension_Y {get;}
+    public int Dimensions_Y {get;}
     public string[] Data {get;}
     public GameTile[] GameTiles {get; private set;}
 
@@ -20,9 +20,9 @@ public class MapData : IComparable<MapData>
         Dimensions_X = Convert.ToInt32(m_dimensions[0]);
 
         // Y equals the second string of the first line.
-        Dimension_Y = Convert.ToInt32(m_dimensions[1]);
+        Dimensions_Y = Convert.ToInt32(m_dimensions[1]);
 
-        GameTiles = new GameTile[Dimensions_X * Dimension_Y];
+        GameTiles = new GameTile[Dimensions_X * Dimensions_Y];
     }
 
     public void LoadGameTilesInfo()

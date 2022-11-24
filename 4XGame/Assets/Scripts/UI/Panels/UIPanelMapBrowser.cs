@@ -39,10 +39,10 @@ public class UIPanelMapBrowser : UIPanel
 
     public void SetupPanel()
     {
+        ClosePanel();
+
         _widgetsList = new List<MapFileWidget>();
         _lastWidgetSelected = null;
-
-        ClosePanel();
     }
 
     public void OpenPanel(float p_transitionTime = 0)
