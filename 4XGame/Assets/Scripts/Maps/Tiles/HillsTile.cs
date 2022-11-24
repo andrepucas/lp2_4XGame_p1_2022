@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// <c>Hills Tile</c> Class.
@@ -8,6 +6,9 @@ using UnityEngine;
 /// </summary>
 public class HillsTile : GameTile
 {
+    private const int BASE_COIN = 1;
+    private const int BASE_FOOD = 1;
+    
     /// <summary>
     /// Read only self implemented property that sets and stores the base
     /// monetary value of each hills tile.
@@ -42,17 +43,6 @@ public class HillsTile : GameTile
     private List<Resource> resourceList = new List<Resource>();
 
     /// <summary>
-    /// Adds resource to resourceList.
-    /// </summary>
-    /// <param name="resource"></param>
-    public override void AddResource(Resource resource)
-    {
-        resourceList.Add(resource);
-        this.Coin += resource.Coin;
-        this.Food += resource.Food;
-    }
-
-    /// <summary>
     /// Constructor method, instantiates a new Hills Tile.
     /// </summary>
     /// <param name="Coin">Hills Tile's monetary value.</param>
@@ -64,11 +54,22 @@ public class HillsTile : GameTile
     public HillsTile()
     {
         // Saves the tile's type.
-        this.Type = TileType.Hills;
+        Type = TileType.Hills;
 
         // Saves tile's monetary and food production values.
-        this.Coin = 1;
-        this.Food = 1;
+        Coin = BASE_COIN;
+        Food = BASE_FOOD;
+    }
+
+    /// <summary>
+    /// Adds resource to resourceList.
+    /// </summary>
+    /// <param name="resource"></param>
+    public override void AddResource(Resource resource)
+    {
+        resourceList.Add(resource);
+        Coin += resource.Coin;
+        Food += resource.Food;
     }
 
     /// <summary>
@@ -78,20 +79,6 @@ public class HillsTile : GameTile
     /// <returns>A string with all of the tile's info</returns>
     public override string ToString()
     {
-        // Shows resource introduction sentence.
-        Debug.Log("---RESOURCES---");
-
-        // Goes through each resource.
-        foreach (Resource resource in resourceList)
-        {
-            // Shows relevant resource information.
-            Debug.Log($"Type: {resource.GetType()} / Coin: {resource.Coin} / Food: {resource.Food}");
-        }
-
-        // Shows game tile introduction sentence.
-        Debug.Log("---GAME TILE---");
-
-        // Shows general tile information.
-        return $"Type: {this.GetType()} / Coin: {this.Coin} / Food: {this.Food}";
+        return $"{Type.ToString().ToUpper()} TILE [C: {BASE_COIN}, F: {BASE_FOOD}] " + base.ToString();
     }
 }

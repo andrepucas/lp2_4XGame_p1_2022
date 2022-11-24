@@ -9,7 +9,7 @@ public class LuxuryResource : Resource
     /// resource.
     /// </summary>
     /// <value>Name of the resource.</value>
-    public override ResourceTypes Name {get;}
+    public override ResourceTypes Type {get;}
     
     /// <summary>
     /// Read only self implemented property that stores the monetary value of
@@ -27,7 +27,7 @@ public class LuxuryResource : Resource
 
     public LuxuryResource()
     {
-        this.Name = ResourceTypes.Luxury;
+        this.Type = ResourceTypes.Luxury;
         this.Coin = 4;
         this.Food = -1;
     }

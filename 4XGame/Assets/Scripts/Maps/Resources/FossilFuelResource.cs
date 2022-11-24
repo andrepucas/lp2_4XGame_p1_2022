@@ -9,7 +9,7 @@ public class FossilFuelResource : Resource
     /// resource.
     /// </summary>
     /// <value>Name of the resource.</value>
-    public override ResourceTypes Name {get;}
+    public override ResourceTypes Type {get;}
     
     /// <summary>
     /// Read only self implemented property that stores the monetary value of
@@ -27,7 +27,7 @@ public class FossilFuelResource : Resource
 
     public FossilFuelResource()
     {
-        this.Name = ResourceTypes.FossilFuel;
+        this.Type = ResourceTypes.FossilFuel;
         this.Coin = 5;
         this.Food = -3;
     }

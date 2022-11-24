@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 /// <summary>
 /// <c>Game Tile</c> Class.
@@ -33,4 +31,24 @@ public abstract class GameTile
 
     public abstract void AddResource(Resource resource);
 
+    /// <summary>
+    /// Shows all of the tile's important information.
+    /// </summary>
+    /// <remarks>Specially useful for debugging.</remarks>
+    /// <returns>A string with all of the tile's info</returns>
+    public override string ToString()
+    {
+        string m_info = "";
+
+        // Goes through each resource.
+        foreach (Resource resource in Resources)
+        {
+            // Shows relevant resource information.
+            m_info += $" + {resource.Type.ToString().ToUpper()} RESOURCE [C: {resource.Coin}, F: {resource.Food}]";
+        }
+
+        m_info += $" => [C: {Coin}, F: {Food}]";
+
+        return m_info;
+    }
 }

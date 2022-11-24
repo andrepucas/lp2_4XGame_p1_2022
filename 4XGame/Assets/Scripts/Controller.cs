@@ -50,18 +50,8 @@ public class Controller : MonoBehaviour
                 _userInterface.ChangeUIState(UIStates.LOAD_GAME);
                 _selectedMap.LoadGameTilesInfo();
 
-                // THIS DEBUG ONLY WORKS WHEN CREATE RESOURCES IS DISABLED IN ALL GAME TILES //
-                // int m_count = 0;
-                
-                // foreach (GameTile f_tile in _selectedMap.GameTiles)
-                // {
-                //     Debug.Log("// GAME TILE " + m_count + ": " + f_tile.Type.ToString() + " //");
-
-                //     foreach (Resource f_resource in f_tile.Resources)
-                //         Debug.Log("\tR: " + f_resource.Name);
-
-                //     m_count++;
-                // }
+                foreach (GameTile f_tile in _selectedMap.GameTiles)
+                    Debug.Log(f_tile);
 
                 break;
 
