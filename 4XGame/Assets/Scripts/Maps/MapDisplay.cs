@@ -50,9 +50,18 @@ public class MapDisplay : MonoBehaviour
     private GridLayoutGroup _gridLayout;
 
     /// <summary>
+    /// Reference to self rect transform.
+    /// </summary>
+    public RectTransform RectTransform {get; private set;}
+
+    /// <summary>
     /// Called by controller on Awake, gets grid layout reference.
     /// </summary>
-    public void Initialize() => _gridLayout = GetComponent<GridLayoutGroup>();
+    public void Initialize()
+    {
+        _gridLayout = GetComponent<GridLayoutGroup>();
+        RectTransform = GetComponent<RectTransform>();
+    }
 
     /// <summary>
     /// Generates and instantiates the game map.
