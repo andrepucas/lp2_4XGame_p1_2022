@@ -8,7 +8,8 @@ public class GridDisplay : MonoBehaviour
     /// <summary>
     /// Variable that stores the max cell size.
     /// </summary>
-    private const float MAX_CELL_SIZE = 700f;
+    private const float MAX_Y_SIZE = 15f;
+    private const float MAX_X_SIZE = 30f;
 
     /// <summary>
     /// Reference to the grid where all the tiles will be visualized. 
@@ -74,7 +75,7 @@ public class GridDisplay : MonoBehaviour
         grid = new Grid(10, 5); // MUDAR AQUI PARA VARIAVEIS DEPOIS
 
         // NECESSARY CODE BECAUSE OF MISSING FILE READING FEATURE
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < (grid.X * grid.Y); i++)
         {
             random = Random.Range(1, 6);
 
@@ -134,8 +135,8 @@ public class GridDisplay : MonoBehaviour
         Vector2 newCellSize;
 
         // Calculates bla bla bla
-        newCellSize.y = MAX_CELL_SIZE / grid.Y;
-        newCellSize.x = newCellSize.y;
+        newCellSize.y = MAX_Y_SIZE / grid.Y;
+        newCellSize.x = MAX_X_SIZE / grid.X;
 
         // DEBUG CODE
         // Debug.Log(newCellSize);
