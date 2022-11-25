@@ -64,7 +64,7 @@ public class UIPanelMapBrowser : UIPanel
         _widgetsList.Clear();
 
         // If there are map files.
-        if (MapFilesBrowser.GetMapsList() != null)
+        if (MapFilesBrowser.GetMapsList().Count > 0)
         {
             MapFileWidget m_fileWidget;
 
@@ -79,12 +79,12 @@ public class UIPanelMapBrowser : UIPanel
                 m_fileWidget.Initialize(f_map);
                 _widgetsList.Add(m_fileWidget);
             }
+
+            if (p_newWidgetName == "") PreSelectWidget();
+            else PreSelectWidget(p_newWidgetName);
         }
 
         else Debug.Log("No map files.");
-
-        if (p_newWidgetName == "") PreSelectWidget();
-        else PreSelectWidget(p_newWidgetName);
 
         // Instantiate map file generator widget at the end of the list.
         Instantiate(_mapFileGeneratorWidget, Vector3.zero, 
