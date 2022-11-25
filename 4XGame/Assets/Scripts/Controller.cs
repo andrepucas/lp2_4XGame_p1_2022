@@ -3,9 +3,6 @@ using System.Collections;
 
 public class Controller : MonoBehaviour
 {
-    private const float PAN_SPEED = 0.1f;
-    private const float SCREEN_DEADZONE = 0.95f;
-
     [SerializeField] private MapDisplay _mapDisplay;
 
     private IUserInterface _userInterface;
@@ -46,25 +43,31 @@ public class Controller : MonoBehaviour
     {
         if (_currentState == GameStates.DISPLAY_MAP)
         {
-            // Move map left.
+            if (!Input.anyKey) return;
+
+            // Try to move map left.
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-                if (_mapDisplay.RectTransform.localPosition.x < _screenWidth * SCREEN_DEADZONE)
-                    _mapDisplay.RectTransform.localPosition += Vector3.right * PAN_SPEED;
+                _mapDisplay.TryMove(Vector2.left);
 
-            // Move map right.
+            // Try to move map right.
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-                if (_mapDisplay.RectTransform.localPosition.x > -_screenWidth * SCREEN_DEADZONE)
-                    _mapDisplay.RectTransform.localPosition += Vector3.left * PAN_SPEED;
+                _mapDisplay.TryMove(Vector2.right);
 
-            // Move map up.
+            // Try to move map up.
             if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-                if (_mapDisplay.RectTransform.localPosition.y > -_screenHeight * SCREEN_DEADZONE)
-                    _mapDisplay.RectTransform.localPosition += Vector3.down * PAN_SPEED;
+                _mapDisplay.TryMove(Vector2.up);
 
-            // Move map down.
+            // Try to move map down.
             if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-                if (_mapDisplay.RectTransform.localPosition.y < _screenHeight * SCREEN_DEADZONE)
-                    _mapDisplay.RectTransform.localPosition += Vector3.up * PAN_SPEED;
+                _mapDisplay.TryMove(Vector2.down);
+
+            // Try to zoom in.
+            if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Plus))
+                _mapDisplay.TryZoom(1);
+
+            // Try to zoom out.
+            else if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.Minus))
+                _mapDisplay.TryZoom(-1);
         }
     }
 

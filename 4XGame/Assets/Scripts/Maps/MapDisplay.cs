@@ -19,6 +19,11 @@ public class MapDisplay : MonoBehaviour
     /// </summary>
     private const float MAX_X_SIZE = 30f;
 
+    private const float PAN_SPEED = 0.01f;
+    private const float ZOOM_SPEED = 0.01f;
+    private const float MIN_ZOOM = 1;
+    private const float MAX_ZOOM = 10;
+
     /// <summary>
     /// Variable that stores the game object that represents a desert cell.
     /// </summary>
@@ -52,7 +57,10 @@ public class MapDisplay : MonoBehaviour
     /// <summary>
     /// Reference to self rect transform.
     /// </summary>
-    public RectTransform RectTransform {get; private set;}
+    private RectTransform _rectTransform;
+
+    private float _xPivotLimit;
+    private float _yPivotLimit;
 
     /// <summary>
     /// Called by controller on Awake, gets grid layout reference.
@@ -60,7 +68,7 @@ public class MapDisplay : MonoBehaviour
     public void Initialize()
     {
         _gridLayout = GetComponent<GridLayoutGroup>();
-        RectTransform = GetComponent<RectTransform>();
+        _rectTransform = GetComponent<RectTransform>();
     }
 
     /// <summary>
@@ -70,6 +78,9 @@ public class MapDisplay : MonoBehaviour
     public void GenerateMap(MapData p_map)
     {
         Vector2 m_newCellSize;
+
+        _xPivotLimit = 1 / (float)(p_map.Dimensions_X * 2);
+        _yPivotLimit = 1 / (float)(p_map.Dimensions_Y * 2);
 
         // Calculate cell size based on the map dimensions, 
         // using the max X and Y cell sizes as references.
@@ -126,5 +137,99 @@ public class MapDisplay : MonoBehaviour
 
         // Send out event that map was generated (to controller).
         OnMapGenerated?.Invoke();
+    }
+
+    public void TryMove(Vector2 p_direction)
+    {
+        if (p_direction == Vector2.down)
+        {
+            if (_rectTransform.pivot.y >= _yPivotLimit)
+            {
+                // Move map using it's pivot.
+                _rectTransform.pivot += Vector2.down * PAN_SPEED;
+                _rectTransform.localPosition = Vector3.zero;
+
+                // Rectify pivot if it goes over the limit.
+                if (_rectTransform.pivot.y < _yPivotLimit)
+                {
+                    Vector2 m_pivot = _rectTransform.pivot;
+                    m_pivot.y = _yPivotLimit;
+                    _rectTransform.pivot = m_pivot;
+                }
+            }
+        }
+
+        else if (p_direction == Vector2.up)
+        {
+            if (_rectTransform.pivot.y <= (1 - _yPivotLimit))
+            {
+                // Move map using it's pivot.
+                _rectTransform.pivot += Vector2.up * PAN_SPEED;
+                _rectTransform.localPosition = Vector3.zero;
+
+                // Rectify pivot if it goes over the limit.
+                if (_rectTransform.pivot.y > (1 - _yPivotLimit))
+                {
+                    Vector2 m_pivot = _rectTransform.pivot;
+                    m_pivot.y = (1 - _yPivotLimit);
+                    _rectTransform.pivot = m_pivot;
+                }
+            }
+        }
+
+        else if (p_direction == Vector2.left)
+        {
+            if (_rectTransform.pivot.y >= _xPivotLimit)
+            {
+                // Move map using it's pivot.
+                _rectTransform.pivot += Vector2.left * PAN_SPEED;
+                _rectTransform.localPosition = Vector3.zero;
+
+                // Rectify pivot if it goes over the limit.
+                if (_rectTransform.pivot.x < _xPivotLimit)
+                {
+                    Vector2 m_pivot = _rectTransform.pivot;
+                    m_pivot.x = _xPivotLimit;
+                    _rectTransform.pivot = m_pivot;
+                }
+            }
+        }
+
+        else if (p_direction == Vector2.right)
+        {
+            if (_rectTransform.pivot.y <= (1 - _xPivotLimit))
+            {
+                // Move map using it's pivot.
+                _rectTransform.pivot += Vector2.right * PAN_SPEED;
+                _rectTransform.localPosition = Vector3.zero;
+
+                // Rectify pivot if it goes over the limit.
+                if (_rectTransform.pivot.x > (1 - _xPivotLimit))
+                {
+                    Vector2 m_pivot = _rectTransform.pivot;
+                    m_pivot.x = (1 - _xPivotLimit);
+                    _rectTransform.pivot = m_pivot;
+                }
+            }
+
+            // COMMENTED IN CASE WE NEED TO GO BACK TO MOVING THROUGH LOCAL POS
+            // if ((_rectTransform.localPosition.x + ((_rectTransform.rect.width *
+            //     _rectTransform.localScale.x - _gridLayout.cellSize.x) / 2)) > 0)
+            // {
+            //     _rectTransform.localPosition += 
+            //         Vector3.right * _rectTransform.localScale.x * PAN_SPEED;
+            // }
+        }
+    }
+
+    public void TryZoom(int p_direction)
+    {
+        // Zoom in.
+        if (p_direction > 0 && _rectTransform.localScale.x < MAX_ZOOM)
+            _rectTransform.localScale += _rectTransform.localScale * ZOOM_SPEED;
+
+        // Zoom out.
+        else if (p_direction < 0 && _rectTransform.localScale.x > MIN_ZOOM)
+            _rectTransform.localScale += _rectTransform.localScale * -ZOOM_SPEED;
     }
 }
