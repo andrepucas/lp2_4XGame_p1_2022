@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GridCell : MonoBehaviour
+public class MapCell : MonoBehaviour
 {
-    private GameTile _tile;
+    // Serialized
     [SerializeField] private GameObject _animalsSprite;
     [SerializeField] private GameObject _fossilFuelSprite;
     [SerializeField] private GameObject _luxurySprite;
@@ -12,9 +10,13 @@ public class GridCell : MonoBehaviour
     [SerializeField] private GameObject _plantsSprite;
     [SerializeField] private GameObject _pollutionSprite;
 
+    // Variables
+    private GameTile _tile;
+
     public void Initialize(GameTile p_tile)
     {
         _tile = p_tile;
+
         _animalsSprite.SetActive(false);
         _fossilFuelSprite.SetActive(false);
         _luxurySprite.SetActive(false);
@@ -30,39 +32,38 @@ public class GridCell : MonoBehaviour
         Debug.Log($"Coin: {_tile.Coin}, Food: {_tile.Food}");
     }
 
-    public void EnableResourceSprites(GameTile p_tile)
+    private void EnableResourceSprites(GameTile p_tile)
     {
         foreach (Resource resource in p_tile.Resources)
         {
-            switch (resource.Type)
+            switch (resource)
             {
-
-                case ResourceTypes.Animals:
+                case AnimalsResource:
 
                     _animalsSprite.SetActive(true);
                     break;
 
-                case ResourceTypes.FossilFuel:
+                case FossilFuelResource:
 
                     _fossilFuelSprite.SetActive(true);
                     break;
 
-                case ResourceTypes.Luxury:
+                case LuxuryResource:
 
                     _luxurySprite.SetActive(true);
                     break;
 
-                case ResourceTypes.Metals:
+                case MetalsResource:
 
                     _metalsSprite.SetActive(true);
                     break;
 
-                case ResourceTypes.Plants:
+                case PlantsResource:
 
                     _plantsSprite.SetActive(true);
                     break;
 
-                case ResourceTypes.Pollution:
+                case PollutionResource:
 
                     _pollutionSprite.SetActive(true);
                     break;

@@ -78,7 +78,7 @@ public class MapDisplay : MonoBehaviour
     public void GenerateMap(MapData p_map)
     {
         Vector2 m_newCellSize;
-        GridCell m_GridCell = null;
+        MapCell m_GridCell = null;
 
         _xPivotLimit = 1 / (float)(p_map.Dimensions_X * 2);
         _yPivotLimit = 1 / (float)(p_map.Dimensions_Y * 2);
@@ -107,31 +107,31 @@ public class MapDisplay : MonoBehaviour
                 case DesertTile:
 
                     // Instantiates a Desert Cell as a child of this game object.
-                    m_GridCell = Instantiate(_desertCell, transform).GetComponent<GridCell>();
+                    m_GridCell = Instantiate(_desertCell, transform).GetComponent<MapCell>();
                     break;
 
                 case HillsTile:
 
                     // Instantiates a Hills Cell as a child of this game object.
-                    m_GridCell = Instantiate(_hillsCell, transform).GetComponent<GridCell>();
+                    m_GridCell = Instantiate(_hillsCell, transform).GetComponent<MapCell>();
                     break;
 
                 case MountainTile:
 
                     // Instantiates a Mountain Cell as a child of this game object.
-                    m_GridCell = Instantiate(_mountainCell, transform).GetComponent<GridCell>();
+                    m_GridCell = Instantiate(_mountainCell, transform).GetComponent<MapCell>();
                     break;
 
                 case PlainsTile:
 
                     // Instantiates a Plains Cell as a child of this game object.
-                    m_GridCell = Instantiate(_plainsCell, transform).GetComponent<GridCell>();
+                    m_GridCell = Instantiate(_plainsCell, transform).GetComponent<MapCell>();
                     break;
 
                 case WaterTile:
 
                     // Instantiates a Water Cell as a child of this game object.
-                    m_GridCell = Instantiate(_waterCell, transform).GetComponent<GridCell>();
+                    m_GridCell = Instantiate(_waterCell, transform).GetComponent<MapCell>();
                     break;
             }
 
