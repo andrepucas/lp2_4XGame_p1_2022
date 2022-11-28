@@ -20,13 +20,6 @@ public abstract class GameTile
     /// <value>Food Production of the game tile.</value>
     public abstract int Food { get; protected set;}
 
-    /// <summary>
-    /// Read only self implemented propriety that stores the tile type of each
-    /// game tile.
-    /// </summary>
-    /// <value>Tile type of each game tile.</value>
-    public abstract TileType Type { get; }
-
     public abstract IEnumerable<Resource> Resources { get; }
 
     public abstract void AddResource(Resource resource);
@@ -44,7 +37,7 @@ public abstract class GameTile
         foreach (Resource resource in Resources)
         {
             // Shows relevant resource information.
-            m_info += $" + {resource.Type.ToString().ToUpper()} RESOURCE [C: {resource.Coin}, F: {resource.Food}]";
+            m_info += $" + {resource.GetType().Name} [C: {resource.Coin}, F: {resource.Food}]";
         }
 
         m_info += $" => [C: {Coin}, F: {Food}]";

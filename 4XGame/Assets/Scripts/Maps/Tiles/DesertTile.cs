@@ -24,13 +24,6 @@ public class DesertTile : GameTile
     public override int Food { get; protected set; }
 
     /// <summary>
-    /// Read only self implemented propriety that stores the tile type of each
-    /// desert tile.
-    /// </summary>
-    /// <value>Tile type of the game tile.</value>
-    public override TileType Type { get; }
-
-    /// <summary>
     /// Overrides IEnumerable<Resource> and stores it in resourceList.
     /// </summary>
     public override IEnumerable<Resource> Resources => resourceList;
@@ -47,16 +40,9 @@ public class DesertTile : GameTile
     /// </summary>
     /// <param name="Coin">Desert Tile's monetary value.</param>
     /// <param name="Food">Desert Tile's food production value.</param>
-    /// <param name="totalResourceCoin">
-    /// Total monetary value of the tile's resources.</param>
-    /// <param name="grid">
-    /// Total food production value of the tile's resources.</param>
     public DesertTile()
     {
-        // Saves the tile's type. 
-        Type = TileType.Desert;
-
-        // Saves tile's total monetary and food production values.
+        // Set base coin and food values.
         Coin = BASE_COIN;
         Food = BASE_FOOD;
     }
@@ -79,6 +65,6 @@ public class DesertTile : GameTile
     /// <returns>A string with all of the tile's info</returns>
     public override string ToString()
     {
-        return $"{Type.ToString().ToUpper()} TILE [C: {BASE_COIN}, F: {BASE_FOOD}] " + base.ToString();
+        return $"{GetType().Name} TILE [C: {BASE_COIN}, F: {BASE_FOOD}] " + base.ToString();
     }
 }

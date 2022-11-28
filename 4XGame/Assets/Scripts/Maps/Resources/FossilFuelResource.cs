@@ -1,16 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class FossilFuelResource : Resource
 {
-    /// <summary>
-    /// Read only self implemented property that stores the name of this 
-    /// resource.
-    /// </summary>
-    /// <value>Name of the resource.</value>
-    public override ResourceTypes Type {get;}
-    
     /// <summary>
     /// Read only self implemented property that stores the monetary value of
     /// this resource.
@@ -27,7 +16,6 @@ public class FossilFuelResource : Resource
 
     public FossilFuelResource()
     {
-        this.Type = ResourceTypes.FossilFuel;
         this.Coin = 5;
         this.Food = -3;
     }

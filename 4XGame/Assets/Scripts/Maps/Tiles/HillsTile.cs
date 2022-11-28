@@ -24,13 +24,6 @@ public class HillsTile : GameTile
     public override int Food { get; protected set; }
 
     /// <summary>
-    /// Read only self implemented propriety that stores the tile type of each
-    /// hills tile.
-    /// </summary>
-    /// <value>Tile type of the game tile.</value>
-    public override TileType Type { get; }
-
-    /// <summary>
     /// Overrides IEnumerable<Resource> and stores it in resourceList.
     /// </summary>
     public override IEnumerable<Resource> Resources => resourceList;
@@ -53,9 +46,6 @@ public class HillsTile : GameTile
     /// Total food production value of the tile's resources.</param>
     public HillsTile()
     {
-        // Saves the tile's type.
-        Type = TileType.Hills;
-
         // Saves tile's monetary and food production values.
         Coin = BASE_COIN;
         Food = BASE_FOOD;
@@ -79,6 +69,6 @@ public class HillsTile : GameTile
     /// <returns>A string with all of the tile's info</returns>
     public override string ToString()
     {
-        return $"{Type.ToString().ToUpper()} TILE [C: {BASE_COIN}, F: {BASE_FOOD}] " + base.ToString();
+        return $"{GetType().Name} TILE [C: {BASE_COIN}, F: {BASE_FOOD}] " + base.ToString();
     }
 }

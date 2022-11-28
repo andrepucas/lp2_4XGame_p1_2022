@@ -78,7 +78,7 @@ public class MapDisplay : MonoBehaviour
     public void GenerateMap(MapData p_map)
     {
         Vector2 m_newCellSize;
-        GridCell m_GridCell;
+        GridCell m_GridCell = null;
 
         _xPivotLimit = 1 / (float)(p_map.Dimensions_X * 2);
         _yPivotLimit = 1 / (float)(p_map.Dimensions_Y * 2);
@@ -102,43 +102,40 @@ public class MapDisplay : MonoBehaviour
         foreach (GameTile tile in p_map.GameTiles)
         {
             // Check the Type of each tile.
-            switch (tile.Type)
+            switch (tile)
             {
-                case TileType.Desert:
+                case DesertTile:
 
                     // Instantiates a Desert Cell as a child of this game object.
                     m_GridCell = Instantiate(_desertCell, transform).GetComponent<GridCell>();
-                    m_GridCell.Initialize(tile);
                     break;
 
-                case TileType.Hills:
+                case HillsTile:
 
                     // Instantiates a Hills Cell as a child of this game object.
                     m_GridCell = Instantiate(_hillsCell, transform).GetComponent<GridCell>();
-                    m_GridCell.Initialize(tile);
                     break;
 
-                case TileType.Mountain:
+                case MountainTile:
 
                     // Instantiates a Mountain Cell as a child of this game object.
                     m_GridCell = Instantiate(_mountainCell, transform).GetComponent<GridCell>();
-                    m_GridCell.Initialize(tile);
                     break;
 
-                case TileType.Plains:
+                case PlainsTile:
 
                     // Instantiates a Plains Cell as a child of this game object.
                     m_GridCell = Instantiate(_plainsCell, transform).GetComponent<GridCell>();
-                    m_GridCell.Initialize(tile);
                     break;
 
-                case TileType.Water:
+                case WaterTile:
 
                     // Instantiates a Water Cell as a child of this game object.
                     m_GridCell = Instantiate(_waterCell, transform).GetComponent<GridCell>();
-                    m_GridCell.Initialize(tile);
                     break;
             }
+
+            m_GridCell.Initialize(tile);
         }
 
         // Send out event that map was generated (to controller).
