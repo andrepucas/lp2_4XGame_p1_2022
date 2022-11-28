@@ -24,6 +24,7 @@ public class Controller : MonoBehaviour
     {
         UIPanelPreStart.OnPromptRevealed += () => StartCoroutine(WaitForPreStartKey());
         UIPanelMapBrowser.OnSendMapData += SaveMap;
+        UIPanelGameplay.OnRestart += () => ChangeGameState(GameStates.PRE_START);
         _mapDisplay.OnMapGenerated += () => ChangeGameState(GameStates.DISPLAY_MAP);
     }
 
@@ -31,6 +32,7 @@ public class Controller : MonoBehaviour
     {
         UIPanelPreStart.OnPromptRevealed -= () => StopCoroutine(WaitForPreStartKey());
         UIPanelMapBrowser.OnSendMapData -= SaveMap;
+        UIPanelGameplay.OnRestart -= () => ChangeGameState(GameStates.PRE_START);
         _mapDisplay.OnMapGenerated -= () => ChangeGameState(GameStates.DISPLAY_MAP);
     }
 

@@ -11,6 +11,7 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
     [SerializeField][Range(0, 1)] private float _panelTransitionTime;
     [SerializeField] private UIPanelPreStart _preStart;
     [SerializeField] private UIPanelMapBrowser _mapBrowser;
+    [SerializeField] private UIPanelGameplay _gameplay;
     [SerializeField] private UIPanelMapDisplay _mapDisplay;
 
     private Color _bgColor;
@@ -21,10 +22,13 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
         _bgColor = _background.color;
         _bgColor.a = 0;
         _background.color = _bgColor;
+    }
 
-        // Setup all panels.
+    private void SetupAllPanels()
+    {
         _preStart.SetupPanel();
         _mapBrowser.SetupPanel();
+        _gameplay.SetupPanel();
         _mapDisplay.SetupPanel();
     }
 
@@ -34,6 +38,7 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
         {
             case UIStates.PRE_START:
 
+                SetupAllPanels();
                 StartCoroutine(StartDelayAndReveal());
                 break;
 
@@ -50,6 +55,7 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
 
             case UIStates.DISPLAY_MAP:
 
+                _gameplay.OpenPanel(_panelTransitionTime);
                 _mapDisplay.OpenPanel(_panelTransitionTime);
                 break;
         }

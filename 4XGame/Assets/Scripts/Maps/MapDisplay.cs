@@ -80,8 +80,12 @@ public class MapDisplay : MonoBehaviour
         Vector2 m_newCellSize;
         MapCell m_GridCell = null;
 
+        // Define pivot limits based on map dimensions.
         _xPivotLimit = 1 / (float)(p_map.Dimensions_X * 2);
         _yPivotLimit = 1 / (float)(p_map.Dimensions_Y * 2);
+
+        // Center pivot.
+        _rectTransform.pivot = new Vector2(0.5f, 0.5f);
 
         // Calculate cell size based on the map dimensions, 
         // using the max X and Y cell sizes as references.
