@@ -27,27 +27,27 @@ public class MapDisplay : MonoBehaviour
     /// <summary>
     /// Variable that stores the game object that represents a desert cell.
     /// </summary>
-    [SerializeField] private Button _desertCell;
+    [SerializeField] private GameObject _desertCell;
 
     /// <summary>
     /// Variable that stores the game object that represents a hills cell.
     /// </summary>
-    [SerializeField] private Button _hillsCell;
+    [SerializeField] private GameObject _hillsCell;
 
     /// <summary>
     /// Variable that stores the game object that represents a mountain cell.
     /// </summary>
-    [SerializeField] private Button _mountainCell;
+    [SerializeField] private GameObject _mountainCell;
 
     /// <summary>
     /// Variable that stores the game object that represents a plains cell.
     /// </summary>
-    [SerializeField] private Button _plainsCell;
+    [SerializeField] private GameObject _plainsCell;
 
     /// <summary>
     /// Variable that stores the game object that represents a water cell.
     /// </summary>
-    [SerializeField] private Button _waterCell;
+    [SerializeField] private GameObject _waterCell;
 
     /// <summary>
     /// Reference to grid layout group component in the current object.
@@ -78,6 +78,7 @@ public class MapDisplay : MonoBehaviour
     public void GenerateMap(MapData p_map)
     {
         Vector2 m_newCellSize;
+        GridCell m_GridCell;
 
         _xPivotLimit = 1 / (float)(p_map.Dimensions_X * 2);
         _yPivotLimit = 1 / (float)(p_map.Dimensions_Y * 2);
@@ -106,31 +107,36 @@ public class MapDisplay : MonoBehaviour
                 case TileType.Desert:
 
                     // Instantiates a Desert Cell as a child of this game object.
-                    Instantiate(_desertCell, transform);
+                    m_GridCell = Instantiate(_desertCell, transform).GetComponent<GridCell>();
+                    m_GridCell.Initialize(tile);
                     break;
 
                 case TileType.Hills:
 
                     // Instantiates a Hills Cell as a child of this game object.
-                    Instantiate(_hillsCell, gameObject.transform);
+                    m_GridCell = Instantiate(_hillsCell, transform).GetComponent<GridCell>();
+                    m_GridCell.Initialize(tile);
                     break;
 
                 case TileType.Mountain:
 
                     // Instantiates a Mountain Cell as a child of this game object.
-                    Instantiate(_mountainCell, gameObject.transform);
+                    m_GridCell = Instantiate(_mountainCell, transform).GetComponent<GridCell>();
+                    m_GridCell.Initialize(tile);
                     break;
 
                 case TileType.Plains:
 
-                    // Instantiates a Desert Cell as a child of this game object.
-                    Instantiate(_plainsCell, gameObject.transform);
+                    // Instantiates a Plains Cell as a child of this game object.
+                    m_GridCell = Instantiate(_plainsCell, transform).GetComponent<GridCell>();
+                    m_GridCell.Initialize(tile);
                     break;
 
                 case TileType.Water:
 
-                    // Instantiates a Desert Cell as a child of this game object.
-                    Instantiate(_waterCell, gameObject.transform);
+                    // Instantiates a Water Cell as a child of this game object.
+                    m_GridCell = Instantiate(_waterCell, transform).GetComponent<GridCell>();
+                    m_GridCell.Initialize(tile);
                     break;
             }
         }
