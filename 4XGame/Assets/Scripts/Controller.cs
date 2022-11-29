@@ -10,6 +10,7 @@ public class Controller : MonoBehaviour
     private GameStates _currentState;
     private float _screenWidth;
     private float _screenHeight;
+    private bool _isMapDisplayed;
 
     private void Awake()
     {
@@ -25,7 +26,8 @@ public class Controller : MonoBehaviour
         UIPanelPreStart.OnPromptRevealed += () => StartCoroutine(WaitForPreStartKey());
         UIPanelMapBrowser.OnSendMapData += SaveMap;
         UIPanelGameplay.OnRestart += () => ChangeGameState(GameStates.PRE_START);
-        _mapDisplay.OnMapGenerated += () => ChangeGameState(GameStates.DISPLAY_MAP);
+        _mapDisplay.OnMapGenerated += () => ChangeGameState(GameStates.GAMEPLAY);
+        MapCell.OnInspect += () => ChangeGameState(GameStates.INSPECT);
     }
 
     private void OnDisable()
@@ -33,7 +35,8 @@ public class Controller : MonoBehaviour
         UIPanelPreStart.OnPromptRevealed -= () => StopCoroutine(WaitForPreStartKey());
         UIPanelMapBrowser.OnSendMapData -= SaveMap;
         UIPanelGameplay.OnRestart -= () => ChangeGameState(GameStates.PRE_START);
-        _mapDisplay.OnMapGenerated -= () => ChangeGameState(GameStates.DISPLAY_MAP);
+        _mapDisplay.OnMapGenerated -= () => ChangeGameState(GameStates.GAMEPLAY);
+        MapCell.OnInspect -= () => ChangeGameState(GameStates.INSPECT);
     }
 
     private void Start()
@@ -41,9 +44,66 @@ public class Controller : MonoBehaviour
         ChangeGameState(GameStates.PRE_START);
     }
 
+    private void ChangeGameState(GameStates p_gameState)
+    {
+        _currentState = p_gameState;
+        
+        switch (_currentState)
+        {
+            case GameStates.PRE_START:
+
+                _isMapDisplayed = false;
+                _userInterface.ChangeUIState(UIStates.PRE_START);
+
+                break;
+
+            case GameStates.MAP_BROWSER:
+
+                _userInterface.ChangeUIState(UIStates.MAP_BROWSER);
+
+                break;
+
+            case GameStates.LOAD_MAP:
+
+                _mapDisplay.transform.localPosition = Vector3.zero;
+                _mapDisplay.transform.localScale = Vector3.one;
+
+                _screenWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x;
+                _screenHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y;
+
+                _userInterface.ChangeUIState(UIStates.LOAD_MAP);
+                _selectedMap.LoadGameTilesInfo();
+                _mapDisplay.GenerateMap(_selectedMap);
+
+                foreach (GameTile f_tile in _selectedMap.GameTiles)
+                    Debug.Log(f_tile);
+
+                break;
+
+            case GameStates.GAMEPLAY:
+
+                if (!_isMapDisplayed)
+                {
+                    _userInterface.ChangeUIState(UIStates.DISPLAY_MAP);
+                    _isMapDisplayed = true;
+                }
+
+                else _userInterface.ChangeUIState(UIStates.RESUME);
+
+                break;
+
+            case GameStates.INSPECT:
+
+                _userInterface.ChangeUIState(UIStates.INSPECT);
+
+                break;
+        }
+    }
+
     private void FixedUpdate()
     {
-        if (_currentState == GameStates.DISPLAY_MAP)
+        // Input for Gameplay (when the Map is displayed and controllable).
+        if (_currentState == GameStates.GAMEPLAY)
         {
             if (!Input.anyKey) return;
 
@@ -73,47 +133,16 @@ public class Controller : MonoBehaviour
         }
     }
 
-    private void ChangeGameState(GameStates p_gameState)
+    private void Update()
     {
-        _currentState = p_gameState;
-        
-        switch (_currentState)
+        // Input for the inspect menu.
+        if (_currentState == GameStates.INSPECT)
         {
-            case GameStates.PRE_START:
-
-                _userInterface.ChangeUIState(UIStates.PRE_START);
-                break;
-
-            case GameStates.MAP_BROWSER:
-
-                _userInterface.ChangeUIState(UIStates.MAP_BROWSER);
-                break;
-
-            case GameStates.LOAD_MAP:
-
-                _mapDisplay.transform.localPosition = Vector3.zero;
-                _mapDisplay.transform.localScale = Vector3.one;
-
-                _screenWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x;
-                _screenHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y;
-
-                _userInterface.ChangeUIState(UIStates.LOAD_MAP);
-                _selectedMap.LoadGameTilesInfo();
-                _mapDisplay.GenerateMap(_selectedMap);
-
-                foreach (GameTile f_tile in _selectedMap.GameTiles)
-                    Debug.Log(f_tile);
-
-                break;
-
-            case GameStates.DISPLAY_MAP:
-
-                _userInterface.ChangeUIState(UIStates.DISPLAY_MAP);
-                break;
-
-            // case GameStates.PAUSE:
-                // something;
-                // break;
+            // Back out from inspect menu.
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0))
+            {
+                ChangeGameState(GameStates.GAMEPLAY);
+            }
         }
     }
 

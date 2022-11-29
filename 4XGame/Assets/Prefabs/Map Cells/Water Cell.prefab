@@ -532,12 +532,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f682bd51ab54749a2ffb02ff338273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animalsSprite: {fileID: 836416802890862777}
-  _fossilFuelSprite: {fileID: 6565043965861106589}
-  _luxurySprite: {fileID: 8252920308717917207}
-  _metalsSprite: {fileID: 1790205185998148538}
-  _plantsSprite: {fileID: 7288678792946034206}
-  _pollutionSprite: {fileID: 8597923803723460707}
+  _baseSprite: {fileID: 21300000, guid: ca0005a508a0601419b494d56dcf714d, type: 3}
+  _animalsObj: {fileID: 836416802890862777}
+  _fossilFuelObj: {fileID: 6565043965861106589}
+  _luxuryObj: {fileID: 8252920308717917207}
+  _metalsObj: {fileID: 1790205185998148538}
+  _plantsObj: {fileID: 7288678792946034206}
+  _pollutionObj: {fileID: 8597923803723460707}
 --- !u!1 &8597923803723460707
 GameObject:
   m_ObjectHideFlags: 0

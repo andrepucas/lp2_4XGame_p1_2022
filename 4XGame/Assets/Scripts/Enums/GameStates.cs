@@ -3,5 +3,6 @@ public enum GameStates
     PRE_START,
     MAP_BROWSER,
     LOAD_MAP,
-    DISPLAY_MAP
+    GAMEPLAY,
+    INSPECT,
 }
