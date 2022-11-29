@@ -78,7 +78,7 @@ public class MapDisplay : MonoBehaviour
     public void GenerateMap(MapData p_map)
     {
         Vector2 m_newCellSize;
-        MapCell m_GridCell = null;
+        MapCell m_GridCell;
 
         // Define pivot limits based on map dimensions.
         _xPivotLimit = 1 / (float)(p_map.Dimensions_X * 2);
@@ -136,6 +136,12 @@ public class MapDisplay : MonoBehaviour
 
                     // Instantiates a Water Cell as a child of this game object.
                     m_GridCell = Instantiate(_waterCell, transform).GetComponent<MapCell>();
+                    break;
+
+                default: 
+                
+                    Debug.LogWarning("Something went wrong generating the map.");
+                    m_GridCell = null;
                     break;
             }
 

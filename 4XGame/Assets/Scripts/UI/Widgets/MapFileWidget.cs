@@ -170,11 +170,6 @@ public class MapFileWidget : MonoBehaviour
 
     public override int GetHashCode() => MapData.Name.GetHashCode();
 
-    public override bool Equals(object p_obj)
-    {
-        MapFileWidget m_other = p_obj as MapFileWidget;
-
-        if (m_other == null) return false;
-        return MapData.Name == m_other.MapData.Name;
-    }
+    public override bool Equals(object p_obj) => 
+        (p_obj as MapFileWidget)?.MapData.Name == MapData.Name;
 }
