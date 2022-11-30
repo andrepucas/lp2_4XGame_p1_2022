@@ -192,7 +192,7 @@ public class MapDisplay : MonoBehaviour
 
         else if (p_direction == Vector2.up)
         {
-            if (_rectTransform.pivot.y < (1 - _yPivotLimit))
+            if (_rectTransform.pivot.y < (float)(1f - _yPivotLimit))
             {
                 // Move map using it's pivot.
                 _rectTransform.pivot += Vector2.up * PAN_SPEED * _yPivotLimit;
@@ -210,7 +210,7 @@ public class MapDisplay : MonoBehaviour
 
         else if (p_direction == Vector2.left)
         {
-            if (_rectTransform.pivot.y > _xPivotLimit)
+            if (_rectTransform.pivot.x > _xPivotLimit)
             {
                 // Move map using it's pivot.
                 _rectTransform.pivot += Vector2.left * PAN_SPEED * _xPivotLimit;
@@ -228,7 +228,7 @@ public class MapDisplay : MonoBehaviour
 
         else if (p_direction == Vector2.right)
         {
-            if (_rectTransform.pivot.y < (1 - _xPivotLimit))
+            if (_rectTransform.pivot.x < (float)(1 - _xPivotLimit))
             {
                 // Move map using it's pivot.
                 _rectTransform.pivot += Vector2.right * PAN_SPEED * _xPivotLimit;

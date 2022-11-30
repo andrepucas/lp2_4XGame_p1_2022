@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class UIPanelAnalytics : UIPanel
 {
@@ -39,10 +40,55 @@ public class UIPanelAnalytics : UIPanel
         _currentAnalytic = p_index;
         _data = p_mapData;
 
-        // Switch for current analytic.
-        // Do magics.
-        // _titleTxt.text = "TITLE"
-        // _answerTxt.text "something"
-        // depending on answer type, _answerTxt.fontSize = FONT_SIZE_NUM || FONT_SIZE_LIST
+        switch (p_index)
+        {
+            case 1:
+
+                _titleTxt.text = "1. No. of tiles without resources";
+                _answerTxt.fontSize = FONT_SIZE_NUM;
+
+                _answerTxt.text = "?";
+
+                break;
+
+            case 2:
+
+                _titleTxt.text = "2. Average Coin in Mountain tiles";
+                _answerTxt.fontSize = FONT_SIZE_NUM;
+
+                _answerTxt.text = "?";
+
+                break;
+
+            case 3:
+
+                _titleTxt.text = "3. All terrains, alphabetically";
+                _answerTxt.fontSize = FONT_SIZE_STRING;
+
+                // sorted list terrains
+                _answerTxt.text = "?";
+
+                break;
+
+            case 4:
+
+                _titleTxt.text = "4. Tile with least Coin";
+                _answerTxt.fontSize = FONT_SIZE_STRING;
+
+                // type, resources, coords of tile.
+                _answerTxt.text = "?";
+
+                break;
+
+            case 5:
+
+                _titleTxt.text = "5. No. of unique tiles";
+                _answerTxt.fontSize = FONT_SIZE_NUM;
+
+                // count of [tile + resources] diferentes
+                _answerTxt.text = "?";
+
+                break;
+        }
     }
 }

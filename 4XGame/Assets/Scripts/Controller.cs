@@ -134,7 +134,7 @@ public class Controller : MonoBehaviour
                 _mapDisplay.TryZoom(1);
 
             // Try to zoom out.
-            else if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.Minus))
+            if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.Minus))
                 _mapDisplay.TryZoom(-1);
         }
     }
