@@ -14,8 +14,10 @@ public class UIPanelAnalytics : UIPanel
     [Header("Text")]
     [SerializeField] private TMP_Text _titleTxt;
     [SerializeField] private TMP_Text _answerTxt;
+    [Header("Generation Data")]
+    [SerializeField] private MapFileGeneratorDataSO _generatorData;
 
-    private MapData _data;
+    private MapData _mapData;
     private int _currentAnalytic;
 
     public void SetupPanel()
@@ -38,7 +40,7 @@ public class UIPanelAnalytics : UIPanel
     public void UpdateData(int p_index, MapData p_mapData)
     {
         _currentAnalytic = p_index;
-        _data = p_mapData;
+        _mapData = p_mapData;
 
         switch (p_index)
         {

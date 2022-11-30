@@ -920,6 +920,7 @@ MonoBehaviour:
   _subPanelAnim: {fileID: 1954682474}
   _titleTxt: {fileID: 1705363753}
   _answerTxt: {fileID: 1976493998}
+  _generatorData: {fileID: 11400000, guid: 5a04c655dc88add4683f13fea197e109, type: 2}
 --- !u!1 &173561833
 GameObject:
   m_ObjectHideFlags: 0
