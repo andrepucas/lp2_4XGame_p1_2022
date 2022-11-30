@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Controller : MonoBehaviour
     private float _screenWidth;
     private float _screenHeight;
     private bool _isMapDisplayed;
+    private bool _isAnalytics;
 
     private void Awake()
     {
@@ -27,7 +29,7 @@ public class Controller : MonoBehaviour
         UIPanelMapBrowser.OnSendMapData += SaveMap;
         UIPanelGameplay.OnRestart += () => ChangeGameState(GameStates.PRE_START);
         _mapDisplay.OnMapGenerated += () => ChangeGameState(GameStates.GAMEPLAY);
-        MapCell.OnInspect += () => ChangeGameState(GameStates.INSPECT);
+        MapCell.OnInspect += () => ChangeGameState(GameStates.PAUSE);
     }
 
     private void OnDisable()
@@ -36,7 +38,7 @@ public class Controller : MonoBehaviour
         UIPanelMapBrowser.OnSendMapData -= SaveMap;
         UIPanelGameplay.OnRestart -= () => ChangeGameState(GameStates.PRE_START);
         _mapDisplay.OnMapGenerated -= () => ChangeGameState(GameStates.GAMEPLAY);
-        MapCell.OnInspect -= () => ChangeGameState(GameStates.INSPECT);
+        MapCell.OnInspect -= () => ChangeGameState(GameStates.PAUSE);
     }
 
     private void Start()
@@ -86,13 +88,21 @@ public class Controller : MonoBehaviour
                     _isMapDisplayed = true;
                 }
 
-                else _userInterface.ChangeUIState(UIStates.RESUME);
+                else if (_isAnalytics)
+                {
+                    _isAnalytics = false;
+                    _userInterface.ChangeUIState(UIStates.RESUME_FROM_ANALYTICS);
+                }
+
+                else _userInterface.ChangeUIState(UIStates.RESUME_FROM_INSPECTOR);
 
                 break;
 
-            case GameStates.INSPECT:
+            case GameStates.PAUSE:
 
-                _userInterface.ChangeUIState(UIStates.INSPECT);
+                if (_isAnalytics) _userInterface.ChangeUIState(UIStates.ANALYTICS);
+
+                else _userInterface.ChangeUIState(UIStates.INSPECTOR);
 
                 break;
         }
@@ -132,7 +142,7 @@ public class Controller : MonoBehaviour
     private void Update()
     {
         // Input for the inspect menu.
-        if (_currentState == GameStates.INSPECT)
+        if (_currentState == GameStates.PAUSE)
         {
             // Back out from inspect menu.
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0))
@@ -153,5 +163,14 @@ public class Controller : MonoBehaviour
         while (!Input.anyKey) yield return null;
 
         ChangeGameState(GameStates.MAP_BROWSER);
+    }
+
+    // LINQ BUTTONS
+    public void EnableAnalyticsButton(int p_index)
+    {
+        _isAnalytics = true;
+        ChangeGameState(GameStates.PAUSE);
+
+        _userInterface.UpdateAnalyticsData(p_index, _selectedMap);
     }
 }

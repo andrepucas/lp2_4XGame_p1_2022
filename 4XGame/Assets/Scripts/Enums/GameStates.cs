@@ -4,5 +4,5 @@ public enum GameStates
     MAP_BROWSER,
     LOAD_MAP,
     GAMEPLAY,
-    INSPECT,
+    PAUSE
 }

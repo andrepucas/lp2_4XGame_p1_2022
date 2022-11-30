@@ -14,6 +14,7 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
     [SerializeField] private UIPanelGameplay _gameplay;
     [SerializeField] private UIPanelMapDisplay _mapDisplay;
     [SerializeField] private UIPanelInspector _inspector;
+    [SerializeField] private UIPanelAnalytics _analytics;
 
     private Color _bgColor;
 
@@ -32,6 +33,7 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
         _gameplay.SetupPanel();
         _mapDisplay.SetupPanel();
         _inspector.SetupPanel();
+        _analytics.SetupPanel();
     }
 
     public void ChangeUIState(UIStates p_uiState)
@@ -65,21 +67,38 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
 
                 break;
 
-            case UIStates.INSPECT:
+            case UIStates.INSPECTOR:
 
                 _gameplay.ClosePanel();
                 _inspector.OpenPanel();
 
                 break;
 
-            case UIStates.RESUME:
+            case UIStates.ANALYTICS:
+
+                _gameplay.ClosePanel();
+                _analytics.OpenPanel();
+
+                break;
+
+            case UIStates.RESUME_FROM_INSPECTOR:
 
                 _inspector.ClosePanel(_panelTransitionTime);
                 _gameplay.OpenPanel(_panelTransitionTime);
 
                 break;
+
+            case UIStates.RESUME_FROM_ANALYTICS:
+
+                _analytics.ClosePanel(_panelTransitionTime);
+                _gameplay.OpenPanel(_panelTransitionTime);
+
+                break;
         }
     }
+
+    public void UpdateAnalyticsData(int p_index, MapData p_mapData)
+        => _analytics.UpdateData(p_index, p_mapData);
 
     private IEnumerator StartDelayAndReveal()
     {
