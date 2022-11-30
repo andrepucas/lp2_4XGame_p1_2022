@@ -65,18 +65,16 @@ public class Controller : MonoBehaviour
 
             case GameStates.LOAD_MAP:
 
+                _userInterface.ChangeUIState(UIStates.LOAD_MAP);
+
                 _mapDisplay.transform.localPosition = Vector3.zero;
                 _mapDisplay.transform.localScale = Vector3.one;
 
                 _screenWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x;
                 _screenHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y;
 
-                _userInterface.ChangeUIState(UIStates.LOAD_MAP);
                 _selectedMap.LoadGameTilesInfo();
                 _mapDisplay.GenerateMap(_selectedMap);
-
-                foreach (GameTile f_tile in _selectedMap.GameTiles)
-                    Debug.Log(f_tile);
 
                 break;
 

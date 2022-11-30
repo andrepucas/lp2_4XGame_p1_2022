@@ -74,7 +74,7 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
 
             case UIStates.RESUME:
 
-                _inspector.ClosePanel();
+                _inspector.ClosePanel(_panelTransitionTime);
                 _gameplay.OpenPanel(_panelTransitionTime);
 
                 break;

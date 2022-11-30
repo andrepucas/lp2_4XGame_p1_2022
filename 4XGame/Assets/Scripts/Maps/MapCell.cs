@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,8 +9,10 @@ public class MapCell : MonoBehaviour
     public static event Action<GameTile, Sprite, Sprite[]> OnSendData;
 
     // Serialized
-    [Header("Base Sprite")]
+    [Header("Sprites")]
+    [SerializeField] private Image _image;
     [SerializeField] private Sprite _baseSprite;
+    [SerializeField] private Sprite _hoveredSprite;
     [Header("Resources")]
     [SerializeField] private GameObject _animalsObj;
     [SerializeField] private GameObject _fossilFuelObj;
@@ -36,7 +37,18 @@ public class MapCell : MonoBehaviour
         _plantsObj.SetActive(false);
         _pollutionObj.SetActive(false);
 
+        OnPointerExit();
         EnableResourceSprites(_tile);
+    }
+
+    public void OnPointerEnter()
+    {
+        _image.sprite = _hoveredSprite;
+    }
+
+    public void OnPointerExit()
+    {
+        _image.sprite = _baseSprite;
     }
 
     public void OnClick()

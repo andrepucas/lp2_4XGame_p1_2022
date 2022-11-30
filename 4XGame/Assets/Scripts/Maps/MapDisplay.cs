@@ -78,7 +78,7 @@ public class MapDisplay : MonoBehaviour
     public void GenerateMap(MapData p_map)
     {
         Vector2 m_newCellSize;
-        MapCell m_GridCell;
+        MapCell m_mapCell;
 
         // Define pivot limits based on map dimensions.
         _xPivotLimit = 1 / (float)(p_map.Dimensions_X * 2);
@@ -111,41 +111,41 @@ public class MapDisplay : MonoBehaviour
                 case DesertTile:
 
                     // Instantiates a Desert Cell as a child of this game object.
-                    m_GridCell = Instantiate(_desertCell, transform).GetComponent<MapCell>();
+                    m_mapCell = Instantiate(_desertCell, transform).GetComponent<MapCell>();
                     break;
 
                 case HillsTile:
 
                     // Instantiates a Hills Cell as a child of this game object.
-                    m_GridCell = Instantiate(_hillsCell, transform).GetComponent<MapCell>();
+                    m_mapCell = Instantiate(_hillsCell, transform).GetComponent<MapCell>();
                     break;
 
                 case MountainTile:
 
                     // Instantiates a Mountain Cell as a child of this game object.
-                    m_GridCell = Instantiate(_mountainCell, transform).GetComponent<MapCell>();
+                    m_mapCell = Instantiate(_mountainCell, transform).GetComponent<MapCell>();
                     break;
 
                 case PlainsTile:
 
                     // Instantiates a Plains Cell as a child of this game object.
-                    m_GridCell = Instantiate(_plainsCell, transform).GetComponent<MapCell>();
+                    m_mapCell = Instantiate(_plainsCell, transform).GetComponent<MapCell>();
                     break;
 
                 case WaterTile:
 
                     // Instantiates a Water Cell as a child of this game object.
-                    m_GridCell = Instantiate(_waterCell, transform).GetComponent<MapCell>();
+                    m_mapCell = Instantiate(_waterCell, transform).GetComponent<MapCell>();
                     break;
 
                 default: 
                 
                     Debug.LogWarning("Something went wrong generating the map.");
-                    m_GridCell = null;
+                    m_mapCell = null;
                     break;
             }
 
-            m_GridCell.Initialize(tile);
+            m_mapCell.Initialize(tile);
         }
 
         // Send out event that map was generated (to controller).
