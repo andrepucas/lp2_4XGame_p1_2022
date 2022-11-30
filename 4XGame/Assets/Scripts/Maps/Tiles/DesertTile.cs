@@ -6,9 +6,9 @@ using System.Collections.Generic;
 /// </summary>
 public class DesertTile : GameTile
 {
-    private const int BASE_COIN = 0;
-    private const int BASE_FOOD = 0;
-    
+    public override int BaseCoin => 0;
+    public override int BaseFood => 0;
+
     /// <summary>
     /// Read only self implemented property that sets and stores the base
     /// monetary value of each desert tile.
@@ -26,7 +26,7 @@ public class DesertTile : GameTile
     /// <summary>
     /// Overrides IEnumerable<Resource> and stores it in resourceList.
     /// </summary>
-    public override IEnumerable<Resource> Resources => resourceList;
+    public override ICollection<Resource> Resources => resourceList;
 
     /// <summary>
     /// Creates a list of the Resource type.
@@ -43,8 +43,8 @@ public class DesertTile : GameTile
     public DesertTile()
     {
         // Set base coin and food values.
-        Coin = BASE_COIN;
-        Food = BASE_FOOD;
+        Coin = BaseCoin;
+        Food = BaseFood;
     }
 
     /// <summary>
@@ -65,6 +65,6 @@ public class DesertTile : GameTile
     /// <returns>A string with all of the tile's info</returns>
     public override string ToString()
     {
-        return $"{GetType().Name} TILE [C: {BASE_COIN}, F: {BASE_FOOD}] " + base.ToString();
+        return $"{GetType().Name} TILE [C: {BaseCoin}, F: {BaseFood}] " + base.ToString();
     }
 }

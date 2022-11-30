@@ -5,18 +5,12 @@ public class FossilFuelResource : Resource
     /// this resource.
     /// </summary>
     /// <value>Monetary value of the resource.</value>
-    public override int Coin {get;}
+    public override int Coin => 5;
 
     /// <summary>
     /// Read only self implemented property that stores the food production 
     /// value of this resource.
     /// </summary>
     /// <value>Food Production of the resource.</value>
-    public override int Food {get;}
-
-    public FossilFuelResource()
-    {
-        this.Coin = 5;
-        this.Food = -3;
-    }
+    public override int Food => -3;
 }

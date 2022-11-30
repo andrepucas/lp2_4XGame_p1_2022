@@ -6,8 +6,8 @@ using System.Collections.Generic;
 /// </summary>
 public class PlainsTile : GameTile
 {
-    private const int BASE_COIN = 0;
-    private const int BASE_FOOD = 2;
+    public override int BaseCoin => 0;
+    public override int BaseFood => 2;
 
     /// <summary>
     /// Read only self implemented property that sets and stores the base
@@ -26,7 +26,7 @@ public class PlainsTile : GameTile
     /// <summary>
     /// Overrides IEnumerable<Resource> and stores it in resourceList.
     /// </summary>
-    public override IEnumerable<Resource> Resources => resourceList;
+    public override ICollection<Resource> Resources => resourceList;
 
     /// <summary>
     /// Creates a list of the Resource type.
@@ -47,8 +47,8 @@ public class PlainsTile : GameTile
     public PlainsTile()
     {
         // Saves tile's total monetary and food production values.
-        Coin = BASE_COIN;
-        Food = BASE_FOOD;
+        Coin = BaseCoin;
+        Food = BaseFood;
     }
 
     /// <summary>
@@ -69,6 +69,6 @@ public class PlainsTile : GameTile
     /// <returns>A string with all of the tile's info</returns>
     public override string ToString()
     {
-        return $"{GetType().Name} TILE [C: {BASE_COIN}, F: {BASE_FOOD}] " + base.ToString();
+        return $"{GetType().Name} TILE [C: {BaseCoin}, F: {BaseFood}] " + base.ToString();
     }
 }

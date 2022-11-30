@@ -5,18 +5,12 @@ public class LuxuryResource : Resource
     /// this resource.
     /// </summary>
     /// <value>Monetary value of the resource.</value>
-    public override int Coin {get;}
+    public override int Coin => 4;
 
     /// <summary>
     /// Read only self implemented property that stores the food production 
     /// value of this resource.
     /// </summary>
     /// <value>Food Production of the resource.</value>
-    public override int Food {get;}
-
-    public LuxuryResource()
-    {
-        this.Coin = 4;
-        this.Food = -1;
-    }
+    public override int Food => -1;
 }

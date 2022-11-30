@@ -6,6 +6,9 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class GameTile
 {
+    public abstract int BaseCoin {get;}
+    public abstract int BaseFood {get;}
+
     /// <summary>
     /// Read only self implemented property that stores the monetary value of
     /// each game tile.
@@ -20,7 +23,7 @@ public abstract class GameTile
     /// <value>Food Production of the game tile.</value>
     public abstract int Food { get; protected set;}
 
-    public abstract IEnumerable<Resource> Resources { get; }
+    public abstract ICollection<Resource> Resources { get; }
 
     public abstract void AddResource(Resource resource);
 
