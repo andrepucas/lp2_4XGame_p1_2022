@@ -19,10 +19,10 @@ public class MapDisplay : MonoBehaviour
     /// </summary>
     private const float MAX_X_SIZE = 30f;
 
-    private const float PAN_SPEED = 0.01f;
+    private const float PAN_SPEED = 0.2f;
     private const float ZOOM_SPEED = 0.01f;
     private const float MIN_ZOOM = 1;
-    private const float MAX_ZOOM = 10;
+    private const float MAX_ZOOM_PER_CELL = 5;
 
     /// <summary>
     /// Variable that stores the game object that represents a desert cell.
@@ -54,6 +54,8 @@ public class MapDisplay : MonoBehaviour
     /// </summary>
     private GridLayoutGroup _gridLayout;
 
+    private ContentSizeFitter _contentSizeFitter;
+
     /// <summary>
     /// Reference to self rect transform.
     /// </summary>
@@ -61,6 +63,7 @@ public class MapDisplay : MonoBehaviour
 
     private float _xPivotLimit;
     private float _yPivotLimit;
+    private float _cellSize;
 
     /// <summary>
     /// Called by controller on Awake, gets grid layout reference.
@@ -68,6 +71,7 @@ public class MapDisplay : MonoBehaviour
     public void Initialize()
     {
         _gridLayout = GetComponent<GridLayoutGroup>();
+        _contentSizeFitter = GetComponent<ContentSizeFitter>();
         _rectTransform = GetComponent<RectTransform>();
     }
 
@@ -79,6 +83,9 @@ public class MapDisplay : MonoBehaviour
     {
         Vector2 m_newCellSize;
         MapCell m_mapCell;
+
+        _contentSizeFitter.enabled = true;
+        _gridLayout.enabled = true;
 
         // Define pivot limits based on map dimensions.
         _xPivotLimit = 1 / (float)(p_map.Dimensions_X * 2);
@@ -95,6 +102,8 @@ public class MapDisplay : MonoBehaviour
         // Set both the X and Y to the lowest value out of the 2, making a square.
         if (m_newCellSize.y < m_newCellSize.x) m_newCellSize.x = m_newCellSize.y;
         else m_newCellSize.y = m_newCellSize.x;
+
+        _cellSize = m_newCellSize.x;
 
         // Resize grid layout group default cell size.
         _gridLayout.cellSize = m_newCellSize;
@@ -150,16 +159,25 @@ public class MapDisplay : MonoBehaviour
 
         // Send out event that map was generated (to controller).
         OnMapGenerated?.Invoke();
+
+        Invoke("DisableLayouts", 1);
+    }
+
+    private void DisableLayouts()
+    {
+        // Boosts performance by cutting off automatic component calls.
+        _contentSizeFitter.enabled = false;
+        _gridLayout.enabled = false;
     }
 
     public void TryMove(Vector2 p_direction)
     {
         if (p_direction == Vector2.down)
         {
-            if (_rectTransform.pivot.y >= _yPivotLimit)
+            if (_rectTransform.pivot.y > _yPivotLimit)
             {
                 // Move map using it's pivot.
-                _rectTransform.pivot += Vector2.down * PAN_SPEED;
+                _rectTransform.pivot += Vector2.down * PAN_SPEED * _yPivotLimit;
                 _rectTransform.localPosition = Vector3.zero;
 
                 // Rectify pivot if it goes over the limit.
@@ -174,10 +192,10 @@ public class MapDisplay : MonoBehaviour
 
         else if (p_direction == Vector2.up)
         {
-            if (_rectTransform.pivot.y <= (1 - _yPivotLimit))
+            if (_rectTransform.pivot.y < (1 - _yPivotLimit))
             {
                 // Move map using it's pivot.
-                _rectTransform.pivot += Vector2.up * PAN_SPEED;
+                _rectTransform.pivot += Vector2.up * PAN_SPEED * _yPivotLimit;
                 _rectTransform.localPosition = Vector3.zero;
 
                 // Rectify pivot if it goes over the limit.
@@ -192,10 +210,10 @@ public class MapDisplay : MonoBehaviour
 
         else if (p_direction == Vector2.left)
         {
-            if (_rectTransform.pivot.y >= _xPivotLimit)
+            if (_rectTransform.pivot.y > _xPivotLimit)
             {
                 // Move map using it's pivot.
-                _rectTransform.pivot += Vector2.left * PAN_SPEED;
+                _rectTransform.pivot += Vector2.left * PAN_SPEED * _xPivotLimit;
                 _rectTransform.localPosition = Vector3.zero;
 
                 // Rectify pivot if it goes over the limit.
@@ -210,10 +228,10 @@ public class MapDisplay : MonoBehaviour
 
         else if (p_direction == Vector2.right)
         {
-            if (_rectTransform.pivot.y <= (1 - _xPivotLimit))
+            if (_rectTransform.pivot.y < (1 - _xPivotLimit))
             {
                 // Move map using it's pivot.
-                _rectTransform.pivot += Vector2.right * PAN_SPEED;
+                _rectTransform.pivot += Vector2.right * PAN_SPEED * _xPivotLimit;
                 _rectTransform.localPosition = Vector3.zero;
 
                 // Rectify pivot if it goes over the limit.
@@ -225,10 +243,11 @@ public class MapDisplay : MonoBehaviour
                 }
             }
 
-            // COMMENTED IN CASE WE NEED TO GO BACK TO MOVING THROUGH LOCAL POS
-            // if ((_rectTransform.localPosition.x + ((_rectTransform.rect.width *
-            //     _rectTransform.localScale.x - _gridLayout.cellSize.x) / 2)) > 0)
+            // // COMMENTED IN CASE WE NEED TO GO BACK TO MOVING THROUGH LOCAL POS
+            // if (_rectTransform.localPosition.x * _rectTransform.localScale.x - (_rectTransform.rect.width/2) < 0)
             // {
+            //     Debug.Log(_rectTransform.localPosition.x * _rectTransform.localScale.x - (_rectTransform.rect.width/2));
+                
             //     _rectTransform.localPosition += 
             //         Vector3.right * _rectTransform.localScale.x * PAN_SPEED;
             // }
@@ -238,7 +257,7 @@ public class MapDisplay : MonoBehaviour
     public void TryZoom(int p_direction)
     {
         // Zoom in.
-        if (p_direction > 0 && _rectTransform.localScale.x < MAX_ZOOM)
+        if (p_direction > 0 && _rectTransform.localScale.x < MAX_ZOOM_PER_CELL / _cellSize)
             _rectTransform.localScale += _rectTransform.localScale * ZOOM_SPEED;
 
         // Zoom out.

@@ -14,47 +14,33 @@ public class MapCell : MonoBehaviour
     [SerializeField] private Sprite _baseSprite;
     [SerializeField] private Sprite _hoveredSprite;
     [Header("Resources")]
-    [SerializeField] private GameObject _animalsObj;
-    [SerializeField] private GameObject _fossilFuelObj;
-    [SerializeField] private GameObject _luxuryObj;
-    [SerializeField] private GameObject _metalsObj;
-    [SerializeField] private GameObject _plantsObj;
-    [SerializeField] private GameObject _pollutionObj;
+    [SerializeField] private GameObject[] _resourceObjs;
+    [SerializeField] private Image[] _resourceImages;
 
     // Variables
     private GameTile _tile;
-    private Sprite[] _resourceSprites;
+    private Sprite[] _activeResourceSprites;
 
     public void Initialize(GameTile p_tile)
     {
-        _resourceSprites = new Sprite[6];
+        _activeResourceSprites = new Sprite[6];
         _tile = p_tile;
 
-        _animalsObj.SetActive(false);
-        _fossilFuelObj.SetActive(false);
-        _luxuryObj.SetActive(false);
-        _metalsObj.SetActive(false);
-        _plantsObj.SetActive(false);
-        _pollutionObj.SetActive(false);
+        for (int i = 0; i < _resourceObjs.Length; i++)
+            _resourceObjs[i].SetActive(false);
 
         OnPointerExit();
         EnableResourceSprites(_tile);
     }
 
-    public void OnPointerEnter()
-    {
-        _image.sprite = _hoveredSprite;
-    }
+    public void OnPointerEnter() => _image.sprite = _hoveredSprite;
 
-    public void OnPointerExit()
-    {
-        _image.sprite = _baseSprite;
-    }
+    public void OnPointerExit() => _image.sprite = _baseSprite;
 
     public void OnClick()
     {
         OnInspect?.Invoke();
-        OnSendData?.Invoke(_tile, _baseSprite, _resourceSprites);
+        OnSendData?.Invoke(_tile, _baseSprite, _activeResourceSprites);
     }
 
     private void EnableResourceSprites(GameTile p_tile)
@@ -65,38 +51,38 @@ public class MapCell : MonoBehaviour
             {
                 case AnimalsResource:
 
-                    _animalsObj.SetActive(true);
-                    _resourceSprites[0] = _animalsObj.GetComponent<Image>().sprite;
+                    _resourceObjs[0].SetActive(true);
+                    _activeResourceSprites[0] = _resourceImages[0].sprite;
                     break;
 
                 case FossilFuelResource:
 
-                    _fossilFuelObj.SetActive(true);
-                    _resourceSprites[1] = _fossilFuelObj.GetComponent<Image>().sprite;
+                    _resourceObjs[1].SetActive(true);
+                    _activeResourceSprites[1] = _resourceImages[1].sprite;
                     break;
 
                 case LuxuryResource:
 
-                    _luxuryObj.SetActive(true);
-                    _resourceSprites[2] = _luxuryObj.GetComponent<Image>().sprite;
+                    _resourceObjs[2].SetActive(true);
+                    _activeResourceSprites[2] = _resourceImages[2].sprite;
                     break;
 
                 case MetalsResource:
 
-                    _metalsObj.SetActive(true);
-                    _resourceSprites[3] = _metalsObj.GetComponent<Image>().sprite;
+                    _resourceObjs[3].SetActive(true);
+                    _activeResourceSprites[3] = _resourceImages[3].sprite;
                     break;
 
                 case PlantsResource:
 
-                    _plantsObj.SetActive(true);
-                    _resourceSprites[4] = _plantsObj.GetComponent<Image>().sprite;
+                    _resourceObjs[4].SetActive(true);
+                    _activeResourceSprites[4] = _resourceImages[4].sprite;
                     break;
 
                 case PollutionResource:
 
-                    _pollutionObj.SetActive(true);
-                    _resourceSprites[5] = _pollutionObj.GetComponent<Image>().sprite;
+                    _resourceObjs[5].SetActive(true);
+                    _activeResourceSprites[5] = _resourceImages[5].sprite;
                     break;
             }
         }

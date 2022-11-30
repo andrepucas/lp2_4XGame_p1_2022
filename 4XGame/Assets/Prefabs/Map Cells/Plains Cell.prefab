@@ -464,12 +464,20 @@ MonoBehaviour:
   _image: {fileID: 6456579360000203886}
   _baseSprite: {fileID: 21300000, guid: 293e82030fd824a4686c548756969240, type: 3}
   _hoveredSprite: {fileID: 21300000, guid: e4552bb937267534186284345769a9cc, type: 3}
-  _animalsObj: {fileID: 7339495848444724449}
-  _fossilFuelObj: {fileID: 2458831163403214008}
-  _luxuryObj: {fileID: 5192695097107157093}
-  _metalsObj: {fileID: 5859602901584602173}
-  _plantsObj: {fileID: 8460003460778739510}
-  _pollutionObj: {fileID: 3626785406204893732}
+  _resourceObjs:
+  - {fileID: 7339495848444724449}
+  - {fileID: 2458831163403214008}
+  - {fileID: 5192695097107157093}
+  - {fileID: 5859602901584602173}
+  - {fileID: 8460003460778739510}
+  - {fileID: 3626785406204893732}
+  _resourceImages:
+  - {fileID: 348276960558657579}
+  - {fileID: 7004713320597633397}
+  - {fileID: 8688761638929399730}
+  - {fileID: 272085186859939667}
+  - {fileID: 494282455949251696}
+  - {fileID: 5240882837132907166}
 --- !u!1 &7339495848444724449
 GameObject:
   m_ObjectHideFlags: 0

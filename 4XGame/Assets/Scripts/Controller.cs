@@ -103,8 +103,6 @@ public class Controller : MonoBehaviour
         // Input for Gameplay (when the Map is displayed and controllable).
         if (_currentState == GameStates.GAMEPLAY)
         {
-            if (!Input.anyKey) return;
-
             // Try to move map left.
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
                 _mapDisplay.TryMove(Vector2.left);
@@ -144,16 +142,16 @@ public class Controller : MonoBehaviour
         }
     }
 
+    private void SaveMap(MapData p_map)
+    {
+        _selectedMap = p_map;
+        ChangeGameState(GameStates.LOAD_MAP);
+    }
+
     private IEnumerator WaitForPreStartKey()
     {
         while (!Input.anyKey) yield return null;
 
         ChangeGameState(GameStates.MAP_BROWSER);
-    }
-
-    private void SaveMap(MapData p_map)
-    {
-        _selectedMap = p_map;
-        ChangeGameState(GameStates.LOAD_MAP);
     }
 }
