@@ -1,6 +1,8 @@
 public class MetalsResource : Resource
 {
-    /// <summary>
+    public override string Name => "Metals";
+
+    /// <summary>/// <summary>
     /// Read only self implemented property that stores the monetary value of
     /// this resource.
     /// </summary>

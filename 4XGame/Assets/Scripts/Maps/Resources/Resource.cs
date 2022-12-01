@@ -1,5 +1,7 @@
 public abstract class Resource
 {
+    public abstract string Name {get;}
+
     /// <summary>
     /// Read only self implemented property that stores the monetary value of
     /// each resource.

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public class MapData : IComparable<MapData>
 {
@@ -6,7 +7,7 @@ public class MapData : IComparable<MapData>
     public int Dimensions_X {get;}
     public int Dimensions_Y {get;}
     public string[] Data {get;}
-    public GameTile[] GameTiles {get; private set;}
+    public List<GameTile> GameTiles {get; private set;}
 
     public MapData (string p_name, string[] p_data)
     {
@@ -22,7 +23,7 @@ public class MapData : IComparable<MapData>
         // Y equals the second string of the first line.
         Dimensions_Y = Convert.ToInt32(m_dimensions[1]);
 
-        GameTiles = new GameTile[Dimensions_X * Dimensions_Y];
+        GameTiles = new List<GameTile>(Dimensions_X * Dimensions_Y);
     }
 
     public void LoadGameTilesInfo()
@@ -50,23 +51,23 @@ public class MapData : IComparable<MapData>
             switch (m_lineStrings[0])
             {
                 case "desert":
-                    GameTiles[i - 1] = new DesertTile();
+                    GameTiles.Insert(i - 1, new DesertTile());
                     break;
 
                 case "hills":
-                    GameTiles[i - 1] = new HillsTile();
+                    GameTiles.Insert(i - 1, new HillsTile());
                     break;
 
                 case "mountain":
-                    GameTiles[i - 1] = new MountainTile();
+                    GameTiles.Insert(i - 1, new MountainTile());
                     break;
 
                 case "plains":
-                    GameTiles[i - 1] = new PlainsTile();
+                    GameTiles.Insert(i - 1, new PlainsTile());
                     break;
 
                 case "water":
-                    GameTiles[i - 1] = new WaterTile();
+                    GameTiles.Insert(i - 1, new WaterTile());
                     break;
             }
 

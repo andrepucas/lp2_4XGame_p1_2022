@@ -6,6 +6,8 @@ using System.Collections.Generic;
 /// </summary>
 public class MountainTile : GameTile
 {
+    public override string Name => "Mountain";
+
     public override int BaseCoin => 1;
     public override int BaseFood => 0;
 

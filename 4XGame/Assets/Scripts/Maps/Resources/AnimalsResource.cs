@@ -1,6 +1,8 @@
 public class AnimalsResource : Resource
 {
-    /// <summary>
+    public override string Name => "Animals";
+
+    /// <summary>/// <summary>
     /// Read only self implemented property that stores the monetary value of
     /// this resource.
     /// </summary>

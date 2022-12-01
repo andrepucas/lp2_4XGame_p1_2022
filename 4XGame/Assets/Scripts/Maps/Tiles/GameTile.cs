@@ -6,6 +6,8 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class GameTile
 {
+    public abstract string Name {get;}
+
     public abstract int BaseCoin {get;}
     public abstract int BaseFood {get;}
 
