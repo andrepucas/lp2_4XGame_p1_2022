@@ -1,28 +1,44 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// <c>Controller</c> Class.
+/// Manages game states and input.
+/// </summary>
 public class Controller : MonoBehaviour
 {
+    // Reference to the map display, for generating and controlling the map.
     [SerializeField] private MapDisplay _mapDisplay;
 
+    // Reference to the general User Interface.
     private IUserInterface _userInterface;
-    private MapData _selectedMap;
-    private GameStates _currentState;
-    private float _screenWidth;
-    private float _screenHeight;
-    private bool _isMapDisplayed;
-    private bool _isAnalytics;
 
+    // Reference to map data that is currently selected.
+    private MapData _selectedMap;
+
+    // Reference to the current Game State.
+    private GameStates _currentState;
+
+    // Control variables for managing game states.
+    private bool _isMapDisplayed;
+    private bool _inAnalytics;
+
+    /// <summary>
+    /// Unity method, program starts here.
+    /// </summary>
     private void Awake()
     {
-        // Can't create panels user interface with the new keyword, since it
-        // extends mono behaviour.
+        // Saves specific user interface for this program (UI panels).
         _userInterface = FindObjectOfType<PanelsUserInterface>();
+
+        // Initializes user interface and map display.
         _userInterface.Initialize();
         _mapDisplay.Initialize();
     }
 
+    /// <summary>
+    /// Unity method, on enable, subscribes to events.
+    /// </summary>
     private void OnEnable()
     {
         UIPanelPreStart.OnPromptRevealed += () => StartCoroutine(WaitForPreStartKey());
@@ -32,6 +48,9 @@ public class Controller : MonoBehaviour
         MapCell.OnInspect += () => ChangeGameState(GameStates.PAUSE);
     }
 
+    /// <summary>
+    /// Unity method, on disable, unsubscribes from events.
+    /// </summary>
     private void OnDisable()
     {
         UIPanelPreStart.OnPromptRevealed -= () => StopCoroutine(WaitForPreStartKey());
@@ -41,136 +60,187 @@ public class Controller : MonoBehaviour
         MapCell.OnInspect -= () => ChangeGameState(GameStates.PAUSE);
     }
 
+    /// <summary>
+    /// Unity method, called after Awake() and OnEnable().
+    /// </summary>
     private void Start()
     {
+        // Sets starting game state as PRE-START.
         ChangeGameState(GameStates.PRE_START);
     }
 
+    /// <summary>
+    /// Unity method, called on a fixed interval of time.
+    /// </summary>
+    private void FixedUpdate()
+    {
+        // Input for Gameplay game state (when the Map is displayed and controllable).
+        if (_currentState == GameStates.GAMEPLAY)
+        {
+            // Tries to move map left.
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                _mapDisplay.TryMove(Vector2.left);
+
+            // Tries to move map right.
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                _mapDisplay.TryMove(Vector2.right);
+
+            // Tries to move map up.
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+                _mapDisplay.TryMove(Vector2.up);
+
+            // Tries to move map down.
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+                _mapDisplay.TryMove(Vector2.down);
+
+            // Tries to zoom in.
+            if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Plus))
+                _mapDisplay.TryZoom(1);
+
+            // Tries to zoom out.
+            if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.Minus))
+                _mapDisplay.TryZoom(-1);
+        }
+    }
+
+    /// <summary>
+    /// Unity method, called every frame.
+    /// </summary>
+    private void Update()
+    {
+        // Input for Pause game state (either in inspector or analytics mode).
+        if (_currentState == GameStates.PAUSE)
+        {
+            // Backs out from pause game state.
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0))
+                ChangeGameState(GameStates.GAMEPLAY);
+        }
+    }
+
+    /// <summary>
+    /// Handles game state changes.
+    /// </summary>
+    /// <param name="p_gameState">New game state.</param>
     private void ChangeGameState(GameStates p_gameState)
     {
+        // Saves as current game state.
         _currentState = p_gameState;
-        
+
+        // Checks current state.
         switch (_currentState)
         {
             case GameStates.PRE_START:
 
+                // Updates map displayed control variable.
                 _isMapDisplayed = false;
+
+                // Sets UI state to pre-start.
                 _userInterface.ChangeUIState(UIStates.PRE_START);
 
                 break;
 
             case GameStates.MAP_BROWSER:
 
+                // Sets UI state to map-browser.
                 _userInterface.ChangeUIState(UIStates.MAP_BROWSER);
 
                 break;
 
             case GameStates.LOAD_MAP:
 
+                // Sets UI state to load-map.
                 _userInterface.ChangeUIState(UIStates.LOAD_MAP);
 
+                // Centers map display.
                 _mapDisplay.transform.localPosition = Vector3.zero;
                 _mapDisplay.transform.localScale = Vector3.one;
 
-                _screenWidth = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0)).x;
-                _screenHeight = Camera.main.ScreenToWorldPoint(new Vector3(0, Screen.height)).y;
+                // Loads tiles' data inside the selected map.
+                _selectedMap.LoadGameTilesData();
 
-                _selectedMap.LoadGameTilesInfo();
+                // Generates it with the loaded data.
                 _mapDisplay.GenerateMap(_selectedMap);
 
                 break;
 
             case GameStates.GAMEPLAY:
 
+                // If map isn't being displayed.
                 if (!_isMapDisplayed)
                 {
-                    _userInterface.ChangeUIState(UIStates.DISPLAY_MAP);
+                    // Updates map displayed control variable.
                     _isMapDisplayed = true;
+
+                    // Sets UI state to display map.
+                    _userInterface.ChangeUIState(UIStates.DISPLAY_MAP);
                 }
 
-                else if (_isAnalytics)
+                // If currently viewing Analytics data.
+                else if (_inAnalytics)
                 {
-                    _isAnalytics = false;
+                    // Updates analytics control variable.
+                    _inAnalytics = false;
+
+                    // Sets UI state to resume from analytics.
                     _userInterface.ChangeUIState(UIStates.RESUME_FROM_ANALYTICS);
                 }
 
+                // Otherwise, Sets UI state to resume from inspector.
                 else _userInterface.ChangeUIState(UIStates.RESUME_FROM_INSPECTOR);
 
                 break;
 
             case GameStates.PAUSE:
 
-                if (_isAnalytics) _userInterface.ChangeUIState(UIStates.ANALYTICS);
+                // If in analytics, sets UI state to analytics.
+                if (_inAnalytics) _userInterface.ChangeUIState(UIStates.ANALYTICS);
 
+                // Else, sets UI state to inspector.
                 else _userInterface.ChangeUIState(UIStates.INSPECTOR);
 
                 break;
         }
     }
 
-    private void FixedUpdate()
-    {
-        // Input for Gameplay (when the Map is displayed and controllable).
-        if (_currentState == GameStates.GAMEPLAY)
-        {
-            // Try to move map left.
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-                _mapDisplay.TryMove(Vector2.left);
-
-            // Try to move map right.
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-                _mapDisplay.TryMove(Vector2.right);
-
-            // Try to move map up.
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-                _mapDisplay.TryMove(Vector2.up);
-
-            // Try to move map down.
-            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-                _mapDisplay.TryMove(Vector2.down);
-
-            // Try to zoom in.
-            if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Plus))
-                _mapDisplay.TryZoom(1);
-
-            // Try to zoom out.
-            if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.Minus))
-                _mapDisplay.TryZoom(-1);
-        }
-    }
-
-    private void Update()
-    {
-        // Input for the inspect menu.
-        if (_currentState == GameStates.PAUSE)
-        {
-            // Back out from inspect menu.
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0))
-            {
-                ChangeGameState(GameStates.GAMEPLAY);
-            }
-        }
-    }
-
-    private void SaveMap(MapData p_map)
-    {
-        _selectedMap = p_map;
-        ChangeGameState(GameStates.LOAD_MAP);
-    }
-
+    /// <summary>
+    /// Sets game state to Map Browser when a key is pressed.
+    /// </summary>
+    /// <returns>null while user doesn't press a key.</returns>
     private IEnumerator WaitForPreStartKey()
     {
+        // Waits for any input.
         while (!Input.anyKey) yield return null;
 
+        // Sets game state to Map Browser.
         ChangeGameState(GameStates.MAP_BROWSER);
     }
 
-    // LINQ BUTTONS
-    public void EnableAnalyticsButton(int p_index)
+    /// <summary>
+    /// Updates selected map variable and sets the game state to Load Map.
+    /// </summary>
+    /// <param name="p_map">Map Data to be saved.</param>
+    private void SaveMap(MapData p_map)
     {
-        _isAnalytics = true;
+        // Saves parameter map data as selected map.
+        _selectedMap = p_map;
+
+        // Sets game state to Load Map.
+        ChangeGameState(GameStates.LOAD_MAP);
+    }
+
+    /// <summary>
+    /// Sets game state to Pause and sends out Analytics data.
+    /// </summary>
+    /// <param name="p_index">Button number clicked.</param>
+    public void EnableAnalyticsOfButton(int p_index)
+    {
+        // Updates analytics control variable.
+        _inAnalytics = true;
+
+        // Sets game state to Pause.
         ChangeGameState(GameStates.PAUSE);
 
+        // Sends out analytics data do user interface.
         _userInterface.UpdateAnalyticsData(p_index, _selectedMap);
     }
 }

@@ -26,7 +26,7 @@ public class MapData : IComparable<MapData>
         GameTiles = new List<GameTile>(Dimensions_X * Dimensions_Y);
     }
 
-    public void LoadGameTilesInfo()
+    public void LoadGameTilesData()
     {
         int m_commentIndex;
         string m_line;
