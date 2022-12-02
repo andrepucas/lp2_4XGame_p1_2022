@@ -37,7 +37,7 @@ public class MapFileWidget : MonoBehaviour
     private readonly Color32 SELECTED_COLOR = new Color32(255, 200, 100, 255);
 
     // Serialized variables.
-    [Header("Components")]
+    [Header("COMPONENTS")]
     [Tooltip("Button component that surround the entire widget.")]
     [SerializeField] private Button _widgetButton;
     [Tooltip("Input field component for the map name.")]

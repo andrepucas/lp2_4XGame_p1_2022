@@ -16,14 +16,14 @@ public class UIPanelMapBrowser : UIPanel
     public static event Action<MapData> OnLoad;
 
     // Serialized variables.
-    [Header("Scroll Rect Widgets")]
+    [Header("SCROLL WIDGETS")]
     [Tooltip("Parent game object for all widgets.")]
     [SerializeField] private Transform _widgetsFolder;
     [Tooltip("Map File Widget Prefab.")]
     [SerializeField] private GameObject _mapFileWidget;
     [Tooltip("Map File Generator Widget Prefab.")]
     [SerializeField] private GameObject _mapFileGeneratorWidget;
-    [Header("Buttons Data")]
+    [Header("BUTTONS DATA")]
     [Tooltip("Refresh time text component.")]
     [SerializeField] private TMP_Text _refreshTimeText;
     [Tooltip("Load button rect transform component.")]

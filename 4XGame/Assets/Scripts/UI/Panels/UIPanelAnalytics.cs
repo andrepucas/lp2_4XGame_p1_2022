@@ -30,10 +30,10 @@ public class UIPanelAnalytics : UIPanel
     private const float FONT_SIZE_STRING = 50f;
 
     // Serialized variables.
-    [Header("Animator")]
+    [Header("ANIMATOR")]
     [Tooltip("Animator component of info sub-panel.")]
     [SerializeField] private Animator _subPanelAnim;
-    [Header("Text")]
+    [Header("TEXT DISPLAY")]
     [Tooltip("Text component of sub-panel data title.")]
     [SerializeField] private TMP_Text _titleTxt;
     [Tooltip("Text component of sub-panel data answer.")]

@@ -18,20 +18,20 @@ public class MapFileGeneratorWidget : MonoBehaviour
     public static event Action<string> OnNewMapFile;
 
     // Serialized variables.
-    [Header("Map Generation Data")]
+    [Header("MAP GENERATION DATA")]
     [Tooltip("Scriptable object with terrains and resources used for map generation.")]
     [SerializeField] private MapFileGeneratorDataSO _generateData;
-    [Header("Name")]
+    [Header("NAME INPUT")]
     [Tooltip("Input field component for the map name.")]
     [SerializeField] private TMP_InputField _nameInput;
     [Tooltip("Placeholder text displayed by the name input field.")]
     [SerializeField] private TMP_Text _placeholderName;
-    [Header("X")]
+    [Header("X DIMENSIONS INPUT")]
     [Tooltip("Input field component for the map X dimensions.")]
     [SerializeField] private TMP_InputField _sizeXInput;
     [Tooltip("Placeholder text displayed by the X dimensions input field.")]
     [SerializeField] private TMP_Text _placeholderSizeX;
-    [Header("Y")]
+    [Header("Y DIMENSIONS INPUT")]
     [Tooltip("Input field component for the map Y dimensions.")]
     [SerializeField] private TMP_InputField _sizeYInput;
     [Tooltip("Placeholder text displayed by the Y dimensions input field.")]

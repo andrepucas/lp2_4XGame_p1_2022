@@ -18,36 +18,36 @@ public class UIPanelInspector : UIPanel
     private const string CLOSE_TRIGGER = "Close";
 
     // Serialized variables.
-    [Header("Animator")]
+    [Header("ANIMATOR")]
     [Tooltip("Animator component of info sub-panel.")]
     [SerializeField] private Animator _subPanelAnim;
-    [Header("Sprites Data")]
+    [Header("IMAGES DISPLAY")]
     [Tooltip("Image component of tile terrain.")]
     [SerializeField] private Image _tileImage;
     [Tooltip("Image components of tile resources.")]
     [SerializeField] private Image[] _resourcesImages;
-    [Header("General Data")]
+    [Header("GENERAL DISPLAY")]
     [Tooltip("Text component of tile name.")]
     [SerializeField] private TMP_Text _tileNameTxt;
     [Tooltip("Text component of tile resources count.")]
     [SerializeField] private TMP_Text _tileResourcesCountTxt;
     [Tooltip("Game objects of toggeable resources names.")]
     [SerializeField] private GameObject[] _resourcesNamesObjs;
-    [Header("Coin Data")]
+    [Header("COIN DISPLAY")]
     [Tooltip("Text component of tile base coin.")]
     [SerializeField] private TMP_Text _tileBaseCoinTxt;
     [Tooltip("Text component of tile total coin.")]
     [SerializeField] private TMP_Text _tileTotalCoinTxt;
     [Tooltip("Game objects of toggeable resources coin values.")]
     [SerializeField] private GameObject[] _resourcesCoinObjs;
-    [Header("Food Data")]
+    [Header("FOOD DISPLAY")]
     [Tooltip("Text component of tile base food.")]
     [SerializeField] private TMP_Text _tileBaseFoodTxt;
     [Tooltip("Text component of tile total food.")]
     [SerializeField] private TMP_Text _tileTotalFoodTxt;
     [Tooltip("Game objects of toggeable resources food values.")]
     [SerializeField] private GameObject[] _resourcesFoodObjs;
-    [Header("Empty Grid Spaces")]
+    [Header("EMPTY GRID SPACES")]
     [Tooltip("Game objects of toggeable empty spaces.")]
     [SerializeField] private GameObject[] _emptySpaces;
 

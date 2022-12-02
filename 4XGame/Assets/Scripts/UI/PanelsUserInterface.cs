@@ -8,12 +8,12 @@ using UnityEngine.UI;
 public class PanelsUserInterface : MonoBehaviour, IUserInterface
 {
     // Serialized variables.
-    [Header("On Start")]
+    [Header("ON START")]
     [Tooltip("Time (s) for the background to be revealed.")]
     [SerializeField][Range(0, 3)] private float _bgRevealTime;
     [Tooltip("Background image reference.")]
     [SerializeField] private Image _background;
-    [Header("Panels")]
+    [Header("PANELS")]
     [Tooltip("Time (s) for panel in and out fades.")]
     [SerializeField][Range(0, 1)] private float _panelTransitionTime;
     [Tooltip("Pre start panel.")]
@@ -157,7 +157,7 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
             yield return null;
         }
 
-        // Reveals Pre Start panel.
-        _preStart.OpenPanel(_panelTransitionTime);
+        // Reveals Pre Start panel, with the same timing as the background reveal.
+        _preStart.OpenPanel(_bgRevealTime);
     }
 }

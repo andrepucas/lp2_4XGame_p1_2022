@@ -14,7 +14,8 @@ public class UIPanelPreStart : UIPanel
     public static event Action OnPromptRevealed;
 
     // Serialized variables.
-    [Tooltip("\"Press any key\" prompt")]
+    [Header("INPUT PROMPT")]
+    [Tooltip("\"Press any key\" prompt.")]
     [SerializeField] private TMP_Text _prompt;
     [Tooltip("Prompt fade in time (s).")]
     [SerializeField][Range(0, 1)] private float _fadeTime;
