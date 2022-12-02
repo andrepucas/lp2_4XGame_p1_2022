@@ -12,8 +12,9 @@ namespace ImportedGenerator
     {
         private const int maxBitsForTerrain = 4; // i.e. max of 16 terrain types
         private const int bitsInByte = 8;
-        private const double probResource = 0.3;
+        private const double probResource = 0.5; // Increased original value = 0.3
         private const double centerPointsDensity = 0.1;
+        private const int centerPointsRatio = 10;
         private readonly int terrainMask;
         private readonly Random random;
         private readonly IDictionary<int, string> terrains;
@@ -98,7 +99,15 @@ namespace ImportedGenerator
 
             Map map = new Map(rows, cols);
 
-            int numCenterPoints = (int)(rows * cols * centerPointsDensity);
+            int totalTiles = rows * cols;
+
+            //int numCenterPoints = (int)(totalTiles * centerPointsDensity);
+            
+            int numCenterPoints = (totalTiles > 50)
+                ? (int)(totalTiles * centerPointsDensity) 
+                : (int)(totalTiles * centerPointsDensity * (100/totalTiles));
+
+            //if (numCenterPoints < 1) return CreateRandomMap(rows, cols);
 
             IList<(int, int)> centerPoints;
 
