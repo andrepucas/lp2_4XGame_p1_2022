@@ -1,3 +1,6 @@
+/// <summary>
+/// All possible game states.
+/// </summary>
 public enum GameStates
 {
     PRE_START,

@@ -1,3 +1,6 @@
+/// <summary>
+/// All possible UI states.
+/// </summary>
 public enum UIStates
 {
     PRE_START,
