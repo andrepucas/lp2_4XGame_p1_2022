@@ -6,7 +6,7 @@ using System;
 public class UIPanelGameplay : UIPanel
 {
     /// <summary>
-    /// Raised when the the back to menu button is pressed.
+    /// Event raised when the the back to menu button is pressed.
     /// </summary>
     public static event Action OnRestart;
 

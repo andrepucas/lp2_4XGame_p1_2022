@@ -52,7 +52,7 @@ public class Controller : MonoBehaviour
         UIPanelMapBrowser.OnLoad += SaveMap;
         UIPanelGameplay.OnRestart += () => ChangeGameState(GameStates.PRE_START);
         _mapDisplay.OnMapGenerated += () => ChangeGameState(GameStates.GAMEPLAY);
-        MapCell.OnInspect += () => ChangeGameState(GameStates.PAUSE);
+        MapCell.OnInspectView += () => ChangeGameState(GameStates.PAUSE);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class Controller : MonoBehaviour
         UIPanelMapBrowser.OnLoad -= SaveMap;
         UIPanelGameplay.OnRestart -= () => ChangeGameState(GameStates.PRE_START);
         _mapDisplay.OnMapGenerated -= () => ChangeGameState(GameStates.GAMEPLAY);
-        MapCell.OnInspect -= () => ChangeGameState(GameStates.PAUSE);
+        MapCell.OnInspectView -= () => ChangeGameState(GameStates.PAUSE);
     }
 
     /// <summary>

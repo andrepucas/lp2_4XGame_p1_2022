@@ -12,8 +12,7 @@ using UnityEngine.EventSystems;
 public class MapFileGeneratorWidget : MonoBehaviour
 {
     /// <summary>
-    /// Event that is raised when a map file is generated. 
-    /// Includes the file name.
+    /// Event raised when a map file is generated. Includes the file name.
     /// </summary>
     public static event Action<string> OnNewMapFile;
 

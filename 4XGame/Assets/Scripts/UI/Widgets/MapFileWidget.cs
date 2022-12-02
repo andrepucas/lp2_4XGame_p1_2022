@@ -14,13 +14,13 @@ using TMPro;
 public class MapFileWidget : MonoBehaviour
 {
     /// <summary>
-    /// Event that is raised when anything in this widget is selected.
+    /// Event raised when anything in this widget is selected.
     /// Includes a self reference.
     /// </summary>
     public static event Action<MapFileWidget> OnSelected;
 
     /// <summary>
-    /// Event that is raised when this widget is deleted.
+    /// Event raised when this widget is deleted.
     /// </summary>
     public static event Action OnDeleted;
 

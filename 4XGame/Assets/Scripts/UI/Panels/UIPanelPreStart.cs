@@ -9,7 +9,7 @@ using TMPro;
 public class UIPanelPreStart : UIPanel
 {
     /// <summary>
-    /// Raised when the input prompt is revealed.
+    /// Event raised when the input prompt is revealed.
     /// </summary>
     public static event Action OnPromptRevealed;
 

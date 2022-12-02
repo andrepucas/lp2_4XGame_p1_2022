@@ -54,12 +54,12 @@ public class UIPanelInspector : UIPanel
     /// <summary>
     /// Unity method, on enable, subscribes to events.
     /// </summary>
-    private void OnEnable() => MapCell.OnSendData += DisplayData;
+    private void OnEnable() => MapCell.OnInspectData += DisplayData;
 
     /// <summary>
     /// Unity method, on disable, unsubscribes to events.
     /// </summary>
-    private void OnDisable() => MapCell.OnSendData -= DisplayData;
+    private void OnDisable() => MapCell.OnInspectData -= DisplayData;
 
     /// <summary>
     /// Sets up panel.

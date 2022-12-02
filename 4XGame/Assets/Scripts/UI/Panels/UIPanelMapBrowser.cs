@@ -11,7 +11,7 @@ using TMPro;
 public class UIPanelMapBrowser : UIPanel
 {
     /// <summary>
-    /// Raised when the load button is pressed. Includes map data.
+    /// Event raised when the load button is pressed. Includes map data.
     /// </summary>
     public static event Action<MapData> OnLoad;
 
