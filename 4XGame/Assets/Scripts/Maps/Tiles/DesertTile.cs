@@ -2,27 +2,40 @@ using System.Collections.Generic;
 
 /// <summary>
 /// <c>Desert Tile</c> Class.
-/// Contains all info about each individual desert tile.
+/// Contains all info about a desert tile.
 /// </summary>
 public class DesertTile : GameTile
 {
+    /// <summary>
+    /// Read only self implemented property that stores the name of the tile.
+    /// </summary>
+    /// <value>Desert.</value>
     public override string Name => "Desert";
 
+    /// <summary>
+    /// Read only self implemented property that stores the base coin value of 
+    /// this game tile.
+    /// </summary>
+    /// <value>0.</value>
     public override int BaseCoin => 0;
+
+    /// <summary>
+    /// Read only self implemented property that stores the base food value of 
+    /// this game tile.
+    /// </summary>
+    /// <value>0.</value>
     public override int BaseFood => 0;
 
     /// <summary>
-    /// Read only self implemented property that sets and stores the base
-    /// monetary value of each desert tile.
+    /// Property that stores the total coin value of this game tile.
     /// </summary>
-    /// <value>Monetary value of the game tile.</value>
+    /// <value>Total Coin value of the game tile.</value>
     public override int Coin { get; protected set; }
 
     /// <summary>
-    /// Read only self implemented property that sets and stores the base
-    /// food production value of each desert tile.
+    /// Property that stores the total food value of this game tile.
     /// </summary>
-    /// <value>Food Production of the game tile.</value>
+    /// <value>Total Food of the game tile.</value>
     public override int Food { get; protected set; }
 
     /// <summary>
@@ -33,29 +46,32 @@ public class DesertTile : GameTile
     /// <summary>
     /// Creates a list of the Resource type.
     /// </summary>
-    /// <typeparam name="Resource"></typeparam>
+    /// <typeparam name="Resource">Resources present in game tiles.</typeparam>
     /// <returns>Stores resources in current tile.</returns>
     private List<Resource> resourceList = new List<Resource>();
 
     /// <summary>
-    /// Constructor method, instantiates a new Desert Tile.
+    /// Constructor method. Initializes a properties' values.
     /// </summary>
-    /// <param name="Coin">Desert Tile's monetary value.</param>
-    /// <param name="Food">Desert Tile's food production value.</param>
+    /// <param name="Coin">Desert Tile's total coin value.</param>
+    /// <param name="Food">Desert Tile's total food value.</param>
     public DesertTile()
     {
-        // Set base coin and food values.
+        // Sets base coin and food values.
         Coin = BaseCoin;
         Food = BaseFood;
     }
 
     /// <summary>
-    /// Adds resource to resourceList.
+    /// Adds a resource to tile resourceList.
     /// </summary>
-    /// <param name="resource"></param>
+    /// <param name="resource">Resource to add to tile.</param>
     public override void AddResource(Resource resource)
     {
+        // Adds resource to List.
         resourceList.Add(resource);
+
+        // Adds individual resource values to the tile's total values.
         Coin += resource.Coin;
         Food += resource.Food;
     }
@@ -67,6 +83,7 @@ public class DesertTile : GameTile
     /// <returns>A string with all of the tile's info</returns>
     public override string ToString()
     {
+        // Returns the tile's important information.
         return $"{GetType().Name} TILE [C: {BaseCoin}, F: {BaseFood}] " + base.ToString();
     }
 }

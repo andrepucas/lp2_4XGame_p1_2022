@@ -6,27 +6,51 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class GameTile
 {
-    public abstract string Name {get;}
-
-    public abstract int BaseCoin {get;}
-    public abstract int BaseFood {get;}
+    /// <summary>
+    /// Read only self implemented property that stores the name of the tile.
+    /// </summary>
+    /// <value>Name of the tile.</value>
+    public abstract string Name { get; }
 
     /// <summary>
-    /// Read only self implemented property that stores the monetary value of
-    /// each game tile.
+    /// Read only self implemented property that stores the base coin value of 
+    /// this game tile.
     /// </summary>
-    /// <value>Monetary value of the game tile.</value>
-    public abstract int Coin { get; protected set;}
+    /// <value>Base Coin of the game tile.</value>
+    public abstract int BaseCoin { get; }
 
     /// <summary>
-    /// Read only self implemented property that stores the food production 
-    /// value of each game tile.
+    /// Read only self implemented property that stores the base food value of 
+    /// this game tile.
     /// </summary>
-    /// <value>Food Production of the game tile.</value>
-    public abstract int Food { get; protected set;}
+    /// <value>Base Food of the game tile.</value>
+    public abstract int BaseFood { get; }
 
+    /// <summary>
+    /// Self implemented property that stores the total coin value of this game
+    /// tile.
+    /// </summary>
+    /// <value>Total Coin value of the game tile.</value>
+    public abstract int Coin { get; protected set; }
+
+    /// <summary>
+    /// Self implemented property that stores the total food value of this game 
+    /// tile.
+    /// </summary>
+    /// <value>Total Food of the game tile.</value>
+    public abstract int Food { get; protected set; }
+
+    /// <summary>
+    /// Read only self implemented property that stores all the current resources
+    /// of this game tile.
+    /// </summary>
+    /// <value>Current resources of the game tile.</value>
     public abstract ICollection<Resource> Resources { get; }
 
+    /// <summary>
+    /// Adds a resource to tile resource ICollection.
+    /// </summary>
+    /// <param name="resource">Resource to add to tile.</param>
     public abstract void AddResource(Resource resource);
 
     /// <summary>
@@ -36,17 +60,20 @@ public abstract class GameTile
     /// <returns>A string with all of the tile's info</returns>
     public override string ToString()
     {
+        // Temporary empty string.
         string m_info = "";
 
         // Goes through each resource.
         foreach (Resource resource in Resources)
         {
-            // Shows relevant resource information.
+            // Stores relevant resource information in temporary string.
             m_info += $" + {resource.GetType().Name} [C: {resource.Coin}, F: {resource.Food}]";
         }
 
+        // Stores current total Coin and Food values in temporary string.
         m_info += $" => [C: {Coin}, F: {Food}]";
 
+        // Return said string.
         return m_info;
     }
 }
