@@ -1,27 +1,37 @@
 using System;
 
+/// <summary>
+/// Panel displayed in Gameplay UI state. Mostly contains HUD.
+/// </summary>
 public class UIPanelGameplay : UIPanel
 {
-    // Events.
+    /// <summary>
+    /// Raised when the the back to menu button is pressed.
+    /// </summary>
     public static event Action OnRestart;
-    
-    public void SetupPanel()
-    {
-        ClosePanel();
-    }
 
-    public void OpenPanel(float p_transitionTime = 0)
-    {
-        base.Open(p_transitionTime);
-    }
+    /// <summary>
+    /// Sets up panel.
+    /// </summary>
+    public void SetupPanel() => ClosePanel();
 
-    public void ClosePanel(float p_transitionTime = 0)
-    {
-        base.Close(p_transitionTime);
-    }
+    /// <summary>
+    /// Reveals panel.
+    /// </summary>
+    /// <param name="p_transitionTime">Reveal time (s).</param>
+    public void OpenPanel(float p_transitionTime = 0) => base.Open(p_transitionTime);
 
-    public void BackToMenu()
-    {
-        OnRestart?.Invoke();
-    }
+    /// <summary>
+    /// Hides panel.
+    /// </summary>
+    /// <param name="p_transitionTime">Hiding time (s).</param>
+    public void ClosePanel(float p_transitionTime = 0) => base.Close(p_transitionTime);
+
+    /// <summary>
+    /// Raises OnRestart event.
+    /// </summary>
+    /// <remarks>
+    /// Called by the 'BACK TO MENU' Unity button, in this panel.
+    /// </remarks>
+    public void OnBackToMenuButton() => OnRestart?.Invoke();
 }

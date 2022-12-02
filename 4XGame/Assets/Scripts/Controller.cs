@@ -1,22 +1,29 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// <c>Controller</c> Class.
 /// Manages game states and input.
 /// </summary>
 public class Controller : MonoBehaviour
 {
-    // Reference to the map display, for generating and controlling the map.
+    /// <summary>
+    /// Event raised when a analytics button is pressed. 
+    /// Included its index and map data.
+    /// </summary>
+    public static event Action<int, MapData> OnAnalytics;
+
+    // Serialized variables.
+    [Tooltip("Reference to map display component.")]
     [SerializeField] private MapDisplay _mapDisplay;
 
-    // Reference to the general User Interface.
+    // Reference to the generic User Interface.
     private IUserInterface _userInterface;
 
-    // Reference to map data that is currently selected.
+    // Reference to the map data currently selected.
     private MapData _selectedMap;
 
-    // Reference to the current Game State.
+    // Reference to the current Game State enum.
     private GameStates _currentState;
 
     // Control variables for managing game states.
@@ -42,7 +49,7 @@ public class Controller : MonoBehaviour
     private void OnEnable()
     {
         UIPanelPreStart.OnPromptRevealed += () => StartCoroutine(WaitForPreStartKey());
-        UIPanelMapBrowser.OnSendMapData += SaveMap;
+        UIPanelMapBrowser.OnLoad += SaveMap;
         UIPanelGameplay.OnRestart += () => ChangeGameState(GameStates.PRE_START);
         _mapDisplay.OnMapGenerated += () => ChangeGameState(GameStates.GAMEPLAY);
         MapCell.OnInspect += () => ChangeGameState(GameStates.PAUSE);
@@ -54,7 +61,7 @@ public class Controller : MonoBehaviour
     private void OnDisable()
     {
         UIPanelPreStart.OnPromptRevealed -= () => StopCoroutine(WaitForPreStartKey());
-        UIPanelMapBrowser.OnSendMapData -= SaveMap;
+        UIPanelMapBrowser.OnLoad -= SaveMap;
         UIPanelGameplay.OnRestart -= () => ChangeGameState(GameStates.PRE_START);
         _mapDisplay.OnMapGenerated -= () => ChangeGameState(GameStates.GAMEPLAY);
         MapCell.OnInspect -= () => ChangeGameState(GameStates.PAUSE);
@@ -232,7 +239,11 @@ public class Controller : MonoBehaviour
     /// Sets game state to Pause and sends out Analytics data.
     /// </summary>
     /// <param name="p_index">Button number clicked.</param>
-    public void EnableAnalyticsOfButton(int p_index)
+    /// <remarks>
+    /// Called by the '1', '2', '3', '4' and '5' Unity buttons, 
+    /// in the gameplay panel.
+    /// </remarks>
+    public void OnAnalyticsButton(int p_index)
     {
         // Updates analytics control variable.
         _inAnalytics = true;
@@ -240,7 +251,7 @@ public class Controller : MonoBehaviour
         // Sets game state to Pause.
         ChangeGameState(GameStates.PAUSE);
 
-        // Sends out analytics data do user interface.
-        _userInterface.UpdateAnalyticsData(p_index, _selectedMap);
+        // Raises event that controller has enabled analytics.
+        OnAnalytics(p_index, _selectedMap);
     }
 }

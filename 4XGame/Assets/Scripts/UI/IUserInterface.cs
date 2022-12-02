@@ -1,8 +1,16 @@
+/// <summary>
+/// Generic UI interface. 
+/// </summary>
 public interface IUserInterface
 {
+    /// <summary>
+    /// Initializes the UI with whatever it needs, called on controller Awake.
+    /// </summary>
     public void Initialize();
-    
-    public void ChangeUIState(UIStates p_uiState);
 
-    public void UpdateAnalyticsData(int p_index, MapData p_mapData);
+    /// <summary>
+    /// Handles UI state changes.
+    /// </summary>
+    /// <param name="p_uiState">New UI state.</param>
+    public void ChangeUIState(UIStates p_uiState);
 }

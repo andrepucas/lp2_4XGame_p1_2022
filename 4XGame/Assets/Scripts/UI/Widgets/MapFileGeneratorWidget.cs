@@ -3,57 +3,97 @@ using TMPro;
 using System;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// Responsible for getting the input necessary to generate a new map file.
+/// </summary>
+/// <remarks>
+/// Displayed at the bottom of a scrollable list in Maps Browser.
+/// </remarks>
 public class MapFileGeneratorWidget : MonoBehaviour
 {
-    // Events
-    public static Action<string, int, int, MapFileGeneratorDataSO> OnNewMapFile;
+    /// <summary>
+    /// Event that is raised when a map file is generated. 
+    /// Includes the file name.
+    /// </summary>
+    public static event Action<string> OnNewMapFile;
 
-    // Serialized
+    // Serialized variables.
+    [Header("Map Generation Data")]
+    [Tooltip("Scriptable object with terrains and resources used for map generation.")]
+    [SerializeField] private MapFileGeneratorDataSO _generateData;
     [Header("Name")]
+    [Tooltip("Input field component for the map name.")]
     [SerializeField] private TMP_InputField _nameInput;
+    [Tooltip("Placeholder text displayed by the name input field.")]
     [SerializeField] private TMP_Text _placeholderName;
     [Header("X")]
+    [Tooltip("Input field component for the map X dimensions.")]
     [SerializeField] private TMP_InputField _sizeXInput;
+    [Tooltip("Placeholder text displayed by the X dimensions input field.")]
     [SerializeField] private TMP_Text _placeholderSizeX;
     [Header("Y")]
+    [Tooltip("Input field component for the map Y dimensions.")]
     [SerializeField] private TMP_InputField _sizeYInput;
+    [Tooltip("Placeholder text displayed by the Y dimensions input field.")]
     [SerializeField] private TMP_Text _placeholderSizeY;
 
-    [Header("Map Generation Data")]
-    [SerializeField] private MapFileGeneratorDataSO _generateData;
-
-    // Variables
+    // String that holds the name for the generated map.
     private string _name;
+
+    // Integer that holds the X dimensions for the generated map.
     private int _sizeX;
+
+    // Integer that holds the Y dimensions for the generated map.
     private int _sizeY;
 
+    /// <summary>
+    /// Unity method, called on game start. Sets up default values.
+    /// </summary>
     private void Start()
     {
-        // Assign default values.
+        // Saves the placeholders' text as default generation values.
         _name = _placeholderName.text;
         _sizeX = Int32.Parse(_placeholderSizeX.text);
         _sizeY = Int32.Parse(_placeholderSizeY.text);
     }
 
-    public void NameEdited() =>
+    /// <summary>
+    /// Validates the player's input name.
+    /// </summary>
+    /// <remarks>
+    /// Called by the name input field, on end edit. 
+    /// This happens when the player clicks away, escape or enter.
+    /// </remarks>
+    public void OnNameEdited() =>
         _nameInput.text = MapFileNameValidator.Validate(_nameInput.text);
 
-    public void AddMapFile()
+    /// <summary>
+    /// Gathers all the player's input and generates a new map file.
+    /// </summary>
+    /// <remarks>
+    /// Called by the '+' Unity button, in this game object.
+    /// </remarks>
+    public void OnAddButton()
     {
-        if (_nameInput.text != "")
-            _name = _nameInput.text;
+        // If player specified a name for the map file. Saves it.
+        if (_nameInput.text != "") _name = _nameInput.text;
 
-        // If default name wasn't changed. Validate it.
+        // If default name wasn't changed. Validates it.
         else _name = MapFileNameValidator.Validate(_name);
 
-        if (_sizeXInput.text != "")
-            _sizeX = Int32.Parse(_sizeXInput.text);
+        // If player specified a value for the map X dimensions. Saves it.
+        if (_sizeXInput.text != "") _sizeX = Int32.Parse(_sizeXInput.text);
 
-        if (_sizeYInput.text != "")
-            _sizeY = Int32.Parse(_sizeYInput.text);
+        // If player specified a value for the map Y dimensions. Saves it.
+        if (_sizeYInput.text != "") _sizeY = Int32.Parse(_sizeYInput.text);
 
-        OnNewMapFile?.Invoke(_name, _sizeX, _sizeY, _generateData);
+        // Generates the new map file.
+        MapFilesBrowser.GenerateNewMapFile(_name, _sizeX, _sizeY, _generateData);
 
+        // Raises event that a new map has been generated, with its name.
+        OnNewMapFile?.Invoke(_name);
+
+        // De-select anything that might be selected.
         EventSystem.current.SetSelectedGameObject(null);
     }
 }

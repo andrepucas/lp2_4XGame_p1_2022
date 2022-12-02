@@ -1,7 +1,13 @@
 using UnityEngine;
 
+/// <summary>
+/// Panel displayed on Map Display UI state.
+/// </summary>
 public class UIPanelMapDisplay : UIPanel
 {
+    /// <summary>
+    /// Sets up panel.
+    /// </summary>
     public void SetupPanel()
     {
         ClosePanel();
@@ -11,13 +17,17 @@ public class UIPanelMapDisplay : UIPanel
             Destroy(f_child.gameObject);
     }
 
-    public void OpenPanel(float p_transitionTime = 0)
-    {
+    /// <summary>
+    /// Reveals panel.
+    /// </summary>
+    /// <param name="p_transitionTime">Reveal time (s).</param>
+    public void OpenPanel(float p_transitionTime = 0) =>
         base.Open(p_transitionTime);
-    }
 
-    public void ClosePanel(float p_transitionTime = 0)
-    {
+    /// <summary>
+    /// Hides panel.
+    /// </summary>
+    /// <param name="p_transitionTime">Hiding time (s).</param>
+    public void ClosePanel(float p_transitionTime = 0) =>
         base.Close(p_transitionTime);
-    }
 }

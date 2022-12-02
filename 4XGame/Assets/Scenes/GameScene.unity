@@ -1603,7 +1603,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 340072058}
         m_TargetAssemblyTypeName: Controller, Assembly-CSharp
-        m_MethodName: EnableAnalyticsButton
+        m_MethodName: OnAnalyticsButton
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2843,7 +2843,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 549203362}
         m_TargetAssemblyTypeName: UIPanelGameplay, Assembly-CSharp
-        m_MethodName: BackToMenu
+        m_MethodName: OnBackToMenuButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4138,8 +4138,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 828619967}
-        m_TargetAssemblyTypeName: LoadMapPanel, Assembly-CSharp
-        m_MethodName: RefreshWidgets
+        m_TargetAssemblyTypeName: UIPanelMapBrowser, Assembly-CSharp
+        m_MethodName: OnRefreshButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4523,7 +4523,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 340072058}
         m_TargetAssemblyTypeName: Controller, Assembly-CSharp
-        m_MethodName: EnableAnalyticsButton
+        m_MethodName: OnAnalyticsButton
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4643,7 +4643,7 @@ MonoBehaviour:
   _mapFileWidget: {fileID: 4629194048996933020, guid: 25bbf165c5bf96146b1a4e388421ab09, type: 3}
   _mapFileGeneratorWidget: {fileID: 7824544393726433326, guid: 2b12dc2bb27db3349bf410151f969fc4, type: 3}
   _refreshTimeText: {fileID: 981493507}
-  _loadButtonSize: {fileID: 1635503956}
+  _loadButtonRect: {fileID: 1635503956}
   _loadButtonText: {fileID: 327245804}
 --- !u!1 &834276797
 GameObject:
@@ -7210,7 +7210,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 340072058}
         m_TargetAssemblyTypeName: Controller, Assembly-CSharp
-        m_MethodName: EnableAnalyticsButton
+        m_MethodName: OnAnalyticsButton
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7344,7 +7344,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 340072058}
         m_TargetAssemblyTypeName: Controller, Assembly-CSharp
-        m_MethodName: EnableAnalyticsButton
+        m_MethodName: OnAnalyticsButton
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8796,7 +8796,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 828619967}
         m_TargetAssemblyTypeName: UIPanelMapBrowser, Assembly-CSharp
-        m_MethodName: SendMapData
+        m_MethodName: OnLoadButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9508,7 +9508,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 340072058}
         m_TargetAssemblyTypeName: Controller, Assembly-CSharp
-        m_MethodName: EnableAnalyticsButton
+        m_MethodName: OnAnalyticsButton
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

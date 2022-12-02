@@ -947,7 +947,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2129322794}
         m_TargetAssemblyTypeName: MapFileWidget, Assembly-CSharp
-        m_MethodName: NameEdited
+        m_MethodName: OnNameEdited
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1380,7 +1380,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2129322794}
         m_TargetAssemblyTypeName: MapFileWidget, Assembly-CSharp
-        m_MethodName: ToggleEditName
+        m_MethodName: OnEditNameButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1678,7 +1678,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2129322794}
         m_TargetAssemblyTypeName: MapFileWidget, Assembly-CSharp
-        m_MethodName: Delete
+        m_MethodName: OnDeleteButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
