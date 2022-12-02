@@ -101,7 +101,7 @@ public static class MapFilesBrowser
         m_generator = new Generator(p_data.Terrains, p_data.Resources);
 
         // Generates the new map.
-        m_map = m_generator.CreateMap(p_sizeX, p_sizeY);
+        m_map = m_generator.CreatePCGMap(p_sizeX, p_sizeY);
 
         // Creates map file.
         m_generator.SaveMap(m_map, Path.Combine(_path, m_fileName));

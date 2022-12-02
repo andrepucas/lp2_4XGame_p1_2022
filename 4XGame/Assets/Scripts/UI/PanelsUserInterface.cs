@@ -158,6 +158,6 @@ public class PanelsUserInterface : MonoBehaviour, IUserInterface
         }
 
         // Reveals Pre Start panel, with the same timing as the background reveal.
-        _preStart.OpenPanel(_bgRevealTime);
+        _preStart.OpenPanel(_panelTransitionTime);
     }
 }
