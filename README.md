@@ -1,6 +1,6 @@
 # 4X GAME
 
-In this phase, **4X Game** is a Unity 2020.3 LTS game that allows to generate,
+In this phase, **4X Game** is a Unity 2021.3 LTS game that allows to generate,
 manipulate and pick a `.map4x` file from the Desktop to be loaded and displayed
 as an interactive game map.
 
@@ -34,8 +34,8 @@ establishing its base **Coin** and **Food** values.
 
 There are **6 resource types**, also visibly distinct, but not only from
 each other. On some cases they will vary depending on the terrain they're on.
-One terrain can have up to 6 resources, each with  **Coin** and **Food** values,
-which stack.
+A terrain can have up to 6 resources, each having their own **Coin** and **Food**
+values, which stack.
 
 Below are the pre-defined **Coin** and **Food** values for each resource:
 
@@ -64,18 +64,22 @@ setting the `CurrentState` to `Pre Start`, which in turn makes the
 example, the `Inspector` and `Analytics` UI states, which are both `Pause` game
 states, have different internal behaviours.
 
-The `CurrentState` is updated through subscribed events, meaning other classes
-don't need a [`Controller`] reference.
+The `CurrentState` is updated following the Observer pattern, through subscribed
+events, meaning other classes don't need a [`Controller`] reference.
 
 ### User Interface
 
-The game's [`PanelsUserInterface`] (which implements [`IUserInterface`]) focuses on
-enabling and disabling single responsibility panels, visually reflecting the
-current game section.
+The game's [`PanelsUserInterface`], which implements the generic
+[`IUserInterface`] (in case we ever want to use some other UI format -
+**Interface Segregation Principle**) focuses on enabling and disabling single
+responsibility panels, visually reflecting the current game section, following
+the **Single Responsibility Principle**.
 
 In turn, each panel handles their respective game behaviours,
 and raises events when the `CurrentState` needs to be updated. All panels extend
 an abstract [`UI Panel`], which contains the opening and closing panel behaviours.
+This follows the **Open/Closed Principle**, due to the ease of creating new
+panels without having to modify the base code.
 
 ---
 
@@ -83,34 +87,50 @@ an abstract [`UI Panel`], which contains the opening and closing panel behaviour
 
 ![Pre-Start](Images/pre_start.png "Pre-start screen")
 
-In this [`panel`][PreStartPanel], an event is raised when the input prompt
+In the [`PreStartPanel`], an event is raised when the input prompt
 "Press any key to start" is revealed. This event is subscribed by the
-[`Controller`], which in turn starts a coroutine that will update the GameState
-to `MapBrowser` after any key is pressed.
+[`Controller`], which in turn starts a coroutine that will update the
+`CurrentState` to `MapBrowser` after any key is pressed.
 
 ### Map Browser
 
 ![Map Browser](Images/map_browser.png "Map Browser screen")
 
-The map browser panel displays all existing map files inside the Desktop's
+The [`MapBrowserPanel`] displays all existing map files inside the Desktop's
 'maps4xfiles' folder in a scrollable menu.*
 
-It starts by using the static MapFilesBrowser class to create a Map Data
-instance for each file, and return them. A MapData instance, at this initial
+It starts by using the static [`MapFilesBrowser`] class to create a [`MapData`]
+instance for each file, and return them. A [`MapData`] instance, at this initial
 stage, contains a string array with all the file lines, a name (that matches
 the file, without the extension), and the X and Y map dimensions, which are read
-right away from the first file line.
+right away, from the first file line.
 
-For each MapData returned, a MapFileWidget is instantiated, serving as its visual
-representation while referencing it, displaying the map's name and dimensions. The displayed name can be edited by the player, which internally updates the
-MapData and file's name as well. Because the file name is editable, cautions have to be taken to not allow for illegal path characters, verified by the static MapFileNameValidator, which replaces illegal characters for `_` using [Regex], or duplicate names, which is verified by the MapFilesBrowser and adds a `_N` to the duplicate file.
+For each [`MapData`] returned, a [`MapFileWidget`] is instantiated, serving as
+its visual representation, displaying the map's name and dimensions, while
+referencing it. The displayed name can be edited by the player, which
+internally also updates the [`MapData`] and file's name. Because the file name
+is editable, cautions have to be taken to not allow for illegal path characters,
+verified by the static [`MapFileNameValidator`], which replaces illegal
+characters for `_` using [Regex], or duplicate names, which is verified by the
+[`MapFilesBrowser`] and adds a `_N` to the duplicate file.
 
-After the MapFileWidgets are instantiated, a MapFileGeneratorWidget is instantiated at the end of the list, allowing direct map files creation, using [Nuno Fachada's Map Generator][Generator].
+```c#
+private static readonly Regex ILLEGAL_CHARS = new Regex("[#%&{}\\<>*?/$!'\":@+`|= ]");
+(...)
+p_fileName = ILLEGAL_CHARS.Replace(p_fileName, "_");
+```
 
-> Regarding the Map Generator's code, we've made only 2 small adjustments:
+After each [`MapFileWidget`] is instantiated, a [`MapFileGeneratorWidget`] is
+instantiated at the end of the list, allowing direct map files creation, using
+[Nuno Fachada's Map Generator][Generator].
+
+> Regarding the Map Generator's code, we've made 2 small adjustments to the
+> version we have implemented:
 >
-> + Increased the chance of generating resources from 0.3 to 0.5, to generate more diverse maps.
-> + Fixed a small bug that prevented small maps (with x * y > 10) from being generated and made slightly larger maps have only one or 2 terrains.
+> + Increased the chance of generating resources from 0.3 to 0.5, to generate
+> more diverse maps.
+> + Fixed a small bug that prevented very small maps (with x * y > 10) from being
+> generated and caused small maps to only have one or two terrains.
 >
 > ```c#
 > int totalTiles = rows * cols;
@@ -120,22 +140,39 @@ After the MapFileWidgets are instantiated, a MapFileGeneratorWidget is instantia
 >    : (int)(totalTiles * centerPointsDensity * (100/totalTiles));
 > ```
 
-When the Load Button is pressed, an event is raised with the selected map (yellow outline), causing the controller to change its GameState to LoadMap.
+When the Load Button is pressed, an event is raised with the selected map
+(yellow outline), causing the [`Controller`] to change its `CurrentState` to
+`LoadMap`.
 
-\* The scrollable menu was originally using the Unity UI Element Scroll Rect component, however due to a mouse scroll wheel bug, is now using UpgradedScrollRect, a custom extension.
+\* The scrollable menu was originally using the Unity's UI Element Scroll Rect
+component, however due to a mouse scroll wheel bug, it's now using a custom
+[`UpgradedScrollRect`] extension.
 
 #### Load Map
 
-Before being ready to display, the MapData has to convert its array of lines to GameTiles, a class that represents that map's position terrain, which may or not hold Resources.
+Before being ready to display, the [`MapData`] has to convert its array of lines
+into an abstract [`GameTile`] list, a class that represents a tile's terrain,
+which may or not have an abstract [`Resource`] list.
 
-This is done by iterating all lines, starting at the second (the first line held the map dimensions, which have already been handled, when MapData was instantiated). In each line, it starts by looking for a `#`, by trying to get its index. If its greater than 0, then that line has a comment that needs to be ignored, using a substring.
+> Using abstract game tiles and resources follows the **Dependency Inversion**
+> and **Open/Closed** principles, allowing new game tiles or resources to be
+> easily added without having to modify anything.
+
+The conversion is done by iterating all lines, starting at the second (the first
+line held the map dimensions, which have already been handled, when [`MapData`]
+was instantiated). In each line, it starts by looking for a `#`, by trying to
+get its index. If its greater than 0, then that line has a comment that needs
+to be ignored, using a substring.
 
 ```c#
 m_commentIndex = m_line.IndexOf("#");
 if (m_commentIndex >= 0) m_line = m_line.Substring(0, m_commentIndex);
 ```
 
-It then splits the line into an array of strings, each being a keyword. The first will always represent a Terrain, so it's compared with Terrain keywords and instantiates a GameTile accordingly, adding it to this Maps GameTiles List.
+The line is then split into an array of strings, each representing a keyword.
+The first will always be a Terrain, so it's compared with the Terrain names the
+game has and instantiates a [`GameTile`] accordingly, adding it to this
+[`MapData`]'s [`GameTile`] list.
 
 ```c#
 case "desert":
@@ -143,7 +180,9 @@ case "desert":
     break;
 ```
 
-If there are any other words in the string array, they are resources to add to the GameTile we just instantiated. Again, each keyword is compared with Resources keywords, and added accordingly.
+If there are any other words in the string array, each represents a [`Resource`]
+to add to the [`GameTile`] we just instantiated. Again, each keyword is compared
+with the Resource names in the game, and added accordingly.
 
 ```c#
 if (m_lineStrings.Length > 0)
@@ -161,9 +200,12 @@ if (m_lineStrings.Length > 0)
 
 ![Map Display](Images/map_display.png "Map Display screen")
 
-Now that MapData has a GameTiles list and is ready to be loaded, the controller sends it to MapDisplay, responsible for generating the map.
+Now that [`MapData`] has a [`GameTile`] list and is ready to be loaded, the
+[`Controller`] sends it to [`MapDisplay`], responsible for generating the map.
 
-The map is generated using the Grid Layout and Content Size Fitter components. The only adjustments needed is setting the Grid Layout's cell size and the column count constraint, both calculated with the map dimensions.
+The map is generated using the Grid Layout and Content Size Fitter components.
+The only adjustments needed is setting the Grid Layout's cell size and the
+column count constraint, both calculated with the map dimensions.
 
 ```c#
 m_newCellSize.y = MAX_Y_SIZE / p_map.Dimensions_Y;
@@ -179,35 +221,63 @@ _cellSize = m_newCellSize.x;
 _gridLayout.constraintCount = p_map.Dimensions_X;
 ```
 
-With the grid set, it then iterates every GameTile in the MapData's list and instantiates a MapCell prefab for each. A MapCell represents a game tile visually, only holding its terrain and resources sprites.
+With the grid prepared, [`MapDisplay`] then iterates every [`GameTile`] in the
+[`MapData`]'s list and instantiates a [`MapCell`] prefab for each. A [`MapCell`]
+represents a game tile visually, only holding its terrain and resources sprites.
 
-Once all are instantiated, MapDisplay raises an event that makes the controller tell the UserInterface that it can now enable the MapDisplayPanel, making the map visible, and disables the Grid Layout and Content Size Fitter components, boosting performance by reducing automatic component calls.
+Once all are instantiated, [`Map Display`] then raises an event that makes the
+[`Controller`] tell the [`PanelsUserInterface`] that it can now enable the
+[`MapDisplayPanel`], rendering the map visible, and disables the Grid Layout
+and Content Size Fitter components, boosting performance by reducing automatic
+component calls.
 
-In this state, the map can be moved and zoomed in/out, using the key binds shown on the bottom of the screen. The player's input is handled by the controller, who then passes the directional info to the MapDisplay that tries to move the map using the Rect Transform's pivot. Using the pivot to move is more performant heavy, but allows for centered zooming in and out when scaled.
+In this state, the map can be moved and zoomed in/out, using the key binds shown
+on the bottom of the screen. The player's input is handled by the [`Controller`],
+who then passes the directional info to the [`MapDisplay`] that tries to move
+the map using its Rect Transform's pivot.
 
-Each MapCell can also be hovered and clicked by the mouse, using Unity's Event Trigger component, updating its base sprite to look hovered and raising two events when clicked, one triggers the controller to display the inspector menu, the other send out the info needed to inspect.
+> Using the pivot to move is more performant heavy, but allows for centered
+> zooming in and out when the Rect Transform is scaled.
+
+Each [`MapCell`] can also be hovered and clicked by the mouse through Unity's
+Event Trigger component, updating its base sprite to look hovered and raising
+two events when clicked. One triggers the [`Controller`] to display the
+[`InspectorPanel`], while the other sends out the data needed to inspect.
 
 ### Inspector
 
 ![Inspector](Images/inspector.png "Inspector screen")
 
-This panel is responsible for displaying the selected map cell's properties. It does so by syncing its name, coin and food values, and terrain and resources sprites with the clicked tile's. Furthermore, it also enables text components accordingly to the shown resources, to add extra written info. This written info is equal for every tile, since the Coin and Food values of resources and terrains are constant. The only values that vary are the tile's sum.
+The [`InspectorPanel`] is responsible for displaying the clicked [`MapCell`]'s
+properties. It does so by syncing its name, coin and food values, plus the
+terrain and resources sprites with the clicked cell. Furthermore, it enables
+text components accordingly to the shown resources, to add extra written info.
+This written info is equal for every tile, since the Coin and Food values of
+resources and terrains are constant. The only values that vary are the
+[`GameTile`]'s totals.
 
-Merely a "show" type of panel, when the user presses escape or clicks away, the controller updates its state back to Gameplay.
+Merely a "show" type of panel, when the user presses `escape` or clicks away,
+the [`Controller`] updates its `CurrentState` to `Gameplay`.
 
 ### Analytics
 
 ![Analytics](Images/analytics.png "Analytics screen")
 
-The analytics panel is triggered by clicking any of the numbered buttons on the top of the screen. When clicked, an event on the button itself is raised, containing the button index, which makes the controller display this panel and displaying info according to the index.
+The [`AnalyticsPanel`] is triggered by clicking any of the numbered buttons on
+the top of the screen. When clicked, an event on the button itself is raised,
+containing the button index, which makes the [`Controller`] display this panel,
+that displays info according to the index.
 
-> The panel itself, originally wasn't supposed to show anything, but we've decided to implement the suggested LINQ template functionalities. As such, pressing each of the buttons will display:
+> The panel itself, originally wasn't supposed to show anything, but we've
+> decided to implement the suggested LINQ template functionalities. As such,
+> pressing each of the buttons will display:
 >
-> + Number of tiles without resources.
-> + Coin average in mountain tiles.
-> + List of existing terrains, alphabetically.
-> + The terrain, resources and coordinates of the tile with the least Coin value.
-> + Number of unique tiles.
+> `1.` Number of tiles without resources.  
+> `2.` Coin average in mountain tiles.  
+> `3.` List of existing terrains, alphabetically.  
+> `4.` The terrain, resources and coordinates of the tile with the least Coin
+> value.  
+> `5.` Number of unique tiles.
 
 ---
 
@@ -246,7 +316,21 @@ The analytics panel is triggered by clicking any of the numbered buttons on the 
 [`IUserInterface`]:4XGame/Assets/Scripts/UI/IUserInterface.cs
 [`PanelsUserInterface`]:4XGame/Assets/Scripts/UI/PanelsUserInterface.cs
 [`UI Panel`]:4XGame/Assets/Scripts/UI/Panels/UIPanel.cs
-[PreStartPanel]:4XGame/Assets/Scripts/UI/Panels/UIPanelPreStart.cs
+[`PreStartPanel`]:4XGame/Assets/Scripts/UI/Panels/UIPanelPreStart.cs
+[`MapBrowserPanel`]:4XGame/Assets/Scripts/UI/Panels/UIPanelMapBrowser.cs
+[`MapFilesBrowser`]:4XGame/Assets/Scripts/Maps/MapFilesBrowser.cs
+[`MapData`]:4XGame/Assets/Scripts/Maps/MapData.cs
+[`MapFileWidget`]:4XGame/Assets/Scripts/UI/Widgets/MapFileWidget.cs
+[`MapFileNameValidator`]:4XGame/Assets/Scripts/UI/Widgets/MapFileNameValidator.cs
+[`MapFileGeneratorWidget`]:4XGame/Assets/Scripts/UI/Widgets/MapFileGeneratorWidget.cs
+[`UpgradedScrollRect`]:4XGame/Assets/Scripts/Imported/UpgradedScrollRect.cs
+[`GameTile`]:4XGame/Assets/Scripts/Maps/Tiles/GameTile.cs
+[`Resource`]:4XGame/Assets/Scripts/Maps/Resources/Resource.cs
+[`MapDisplay`]:4XGame/Assets/Scripts/Maps/MapDisplay.cs
+[`MapCell`]:4XGame/Assets/Scripts/Maps/MapCell.cs
+[`MapDisplayPanel`]:4XGame/Assets/Scripts/UI/Panels/UIPanelMapDisplay.cs
+[`InspectorPanel`]:4XGame/Assets/Scripts/UI/Panels/UIPanelInspector.cs
+[`AnalyticsPanel`]:4XGame/Assets/Scripts/UI/Panels/UIPanelAnalytics.cs
 
 [Regex]:https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex?view=net-7.0
 [Generator]:https://github.com/VideojogosLusofona/lp2_2022_p1/tree/main/Generator
