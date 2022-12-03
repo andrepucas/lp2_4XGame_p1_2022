@@ -279,6 +279,9 @@ that displays info according to the index.
 > value.  
 > `5.` Number of unique tiles.
 
+Also a "show" type of panel, when the user presses `escape` or clicks away,
+the [`Controller`] updates its `CurrentState` to `Gameplay`.
+
 ---
 
 ### UML Diagram
