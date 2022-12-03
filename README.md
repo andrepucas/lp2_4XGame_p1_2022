@@ -107,6 +107,19 @@ MapData and file's name as well. Because the file name is editable, cautions hav
 
 After the MapFileWidgets are instantiated, a MapFileGeneratorWidget is instantiated at the end of the list, allowing direct map files creation, using [Nuno Fachada's Map Generator][Generator].
 
+> Regarding the Map Generator's code, we've made only 2 small adjustments:
+>
+> + Increased the chance of generating resources from 0.3 to 0.5, to generate more diverse maps.
+> + Fixed a small bug that prevented small maps (with x * y > 10) from being generated and made slightly larger maps have only one or 2 terrains.
+>
+> ```c#
+> int totalTiles = rows * cols;
+>
+> int numCenterPoints = (totalTiles > 50)
+>    ? (int)(totalTiles * centerPointsDensity) 
+>    : (int)(totalTiles * centerPointsDensity * (100/totalTiles));
+> ```
+
 When the Load Button is pressed, an event is raised with the selected map (yellow outline), causing the controller to change its GameState to LoadMap.
 
 \* The scrollable menu was originally using the Unity UI Element Scroll Rect component, however due to a mouse scroll wheel bug, is now using UpgradedScrollRect, a custom extension.
@@ -166,19 +179,35 @@ _cellSize = m_newCellSize.x;
 _gridLayout.constraintCount = p_map.Dimensions_X;
 ```
 
-With that set, it now iterates every GameTile in the MapData's list and instantiates a MapCell prefab for each. A MapCell represents a game tile visually, only holding its terrain and resources sprites.
+With the grid set, it then iterates every GameTile in the MapData's list and instantiates a MapCell prefab for each. A MapCell represents a game tile visually, only holding its terrain and resources sprites.
 
-Once all are instantiated, MapDisplay raises an event that makes the controller tell the UserInterface that it can now enable the MapDisplayPanel, making the map visible.
+Once all are instantiated, MapDisplay raises an event that makes the controller tell the UserInterface that it can now enable the MapDisplayPanel, making the map visible, and disables the Grid Layout and Content Size Fitter components, boosting performance by reducing automatic component calls.
 
-Each MapCell can be hovered and clicked by the mouse, using Unity's Event Trigger component, updating its base sprite to look hovered and raising an event when clicked that triggers the controller to display the inspector menu.
+In this state, the map can be moved and zoomed in/out, using the key binds shown on the bottom of the screen. The player's input is handled by the controller, who then passes the directional info to the MapDisplay that tries to move the map using the Rect Transform's pivot. Using the pivot to move is more performant heavy, but allows for centered zooming in and out when scaled.
+
+Each MapCell can also be hovered and clicked by the mouse, using Unity's Event Trigger component, updating its base sprite to look hovered and raising two events when clicked, one triggers the controller to display the inspector menu, the other send out the info needed to inspect.
 
 ### Inspector
 
 ![Inspector](Images/inspector.png "Inspector screen")
 
+This panel is responsible for displaying the selected map cell's properties. It does so by syncing its name, coin and food values, and terrain and resources sprites with the clicked tile's. Furthermore, it also enables text components accordingly to the shown resources, to add extra written info. This written info is equal for every tile, since the Coin and Food values of resources and terrains are constant. The only values that vary are the tile's sum.
+
+Merely a "show" type of panel, when the user presses escape or clicks away, the controller updates its state back to Gameplay.
+
 ### Analytics
 
-![Analytics](Images/map_analytics.png "Analytics screen")
+![Analytics](Images/analytics.png "Analytics screen")
+
+The analytics panel is triggered by clicking any of the numbered buttons on the top of the screen. When clicked, an event on the button itself is raised, containing the button index, which makes the controller display this panel and displaying info according to the index.
+
+> The panel itself, originally wasn't supposed to show anything, but we've decided to implement the suggested LINQ template functionalities. As such, pressing each of the buttons will display:
+>
+> + Number of tiles without resources.
+> + Coin average in mountain tiles.
+> + List of existing terrains, alphabetically.
+> + The terrain, resources and coordinates of the tile with the least Coin value.
+> + Number of unique tiles.
 
 ---
 
