@@ -4,6 +4,9 @@ In this phase, **4X Game** is a Unity 2021.3 LTS game that allows to generate,
 manipulate and pick a `.map4x` file from the Desktop to be loaded and displayed
 as an interactive game map.
 
+The next phase of this project, which contains moving units and turns, is being
+developed [here][4XGameP2Repo].
+
 [**`• CODE ARCHITECTURE •`**](#code-architecture) [**`• METADATA •`**](#metadata)
 
 ---
@@ -225,7 +228,7 @@ With the grid prepared, [`MapDisplay`] then iterates every [`GameTile`] in the
 [`MapData`]'s list and instantiates a [`MapCell`] prefab for each. A [`MapCell`]
 represents a game tile visually, only holding its terrain and resources sprites.
 
-Once all are instantiated, [`Map Display`] then raises an event that makes the
+Once all are instantiated, [`MapDisplay`] then raises an event that makes the
 [`Controller`] tell the [`PanelsUserInterface`] that it can now enable the
 [`MapDisplayPanel`], rendering the map visible, and disables the Grid Layout
 and Content Size Fitter components, boosting performance by reducing automatic
@@ -335,6 +338,7 @@ the [`Controller`] updates its `CurrentState` to `Gameplay`.
 [`InspectorPanel`]:4XGame/Assets/Scripts/UI/Panels/UIPanelInspector.cs
 [`AnalyticsPanel`]:4XGame/Assets/Scripts/UI/Panels/UIPanelAnalytics.cs
 
+[4XGameP2Repo]:https://github.com/andrepucas/lp2_4XGame_p2_2022
 [Regex]:https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex?view=net-7.0
 [Generator]:https://github.com/VideojogosLusofona/lp2_2022_p1/tree/main/Generator
 [Zombies vs Humanos - Nuno Fachada]:https://github.com/VideojogosLusofona/lp1_2018_p2_solucao
