@@ -1,4 +1,4 @@
-# 4X GAME
+# 4X GAME - PHASE 1
 
 In this phase, **4X Game** is a Unity 2021.3 LTS game that allows to generate,
 manipulate and pick a `.map4x` file from the Desktop to be loaded and displayed
@@ -293,6 +293,7 @@ the [`Controller`] updates its `CurrentState` to `Gameplay`.
 
 ## References
 
++ [4X Game (Phase 2) - Afonso Lage e André Santos][4XGameP2Repo]
 + [Regex Class - Microsoft Docs][Regex]
 + [4X Map Generator - Nuno Fachada][Generator]
 + [Zombies vs Humanos - Nuno Fachada]
@@ -314,7 +315,7 @@ the [`Controller`] updates its `CurrentState` to `Gameplay`.
 > Professor: [Nuno Fachada].  
 > [Bachelor in Videogames] at [Lusófona University].
 
-[**`• BACK TO TOP •`**](#4x-game)
+[**`• BACK TO TOP •`**](#4x-game---phase-1)
 
 [`Controller`]:4XGame/Assets/Scripts/Controller.cs
 [`GameStates`]:4XGame/Assets/Scripts/Enums/GameStates.cs
